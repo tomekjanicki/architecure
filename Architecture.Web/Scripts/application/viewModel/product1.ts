@@ -14,6 +14,7 @@
         public Price: number;
         public Date: Date;
         public Version: string;
+        public CanDelete: boolean;
         // reSharper restore InconsistentNaming
 
     }

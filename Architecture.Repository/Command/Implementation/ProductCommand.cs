@@ -15,13 +15,15 @@ namespace Architecture.Repository.Command.Implementation
         {
         }
 
+        private const string SelectProductQuery = @"SELECT ID, CODE, NAME, PRICE, VERSION, CASE WHEN ID < 20 THEN GETDATE() ELSE NULL END DATE, CASE WHEN O.PRODUCTID IS NULL THEN 1 ELSE 0 END CANDELETE FROM DBO.PRODUCTS P LEFT JOIN (SELECT DISTINCT PRODUCTID FROM DBO.ORDERSDETAILS) O ON P.ID = O.PRODUCTID {0} {1}";
+
         public Paged<FindProducts> FindProducts(string code, string name, PageAndSortCriteria pageAndSortCriteria)
         {
             var whereFragment = GetWhereFragment(code, name, null);
             var pagedFragment = GetPagedFragment(Page.FromPageAndSortCriteria(pageAndSortCriteria), GetTranslatedSort(pageAndSortCriteria.Sort));
             var countQuery = string.Format("SELECT COUNT(*) FROM DBO.PRODUCTS {0}", whereFragment.Item1);
             var count = QueryReturnsFirstOrDefault<int>(countQuery, whereFragment.Item2);
-            var dataQuery = string.Format(@"SELECT ID, CODE, NAME, PRICE, VERSION, CASE WHEN ID < 20 THEN GETDATE() ELSE NULL END DATE FROM DBO.PRODUCTS {0} {1}", whereFragment.Item1, pagedFragment.Item1);
+            var dataQuery = string.Format(SelectProductQuery, whereFragment.Item1, pagedFragment.Item1);
             whereFragment.Item2.AddDynamicParams(pagedFragment.Item2);
             var data = QueryReturnsEnumerable<FindProducts>(dataQuery, whereFragment.Item2);
             return new Paged<FindProducts>(count, data);
@@ -32,7 +34,7 @@ namespace Architecture.Repository.Command.Implementation
             var whereFragment = GetWhereFragment(code, name, "ID < 1000");
 
             var sortFragment = GetSort(GetTranslatedSort(sort));
-            var dataQuery = string.Format(@"SELECT ID, CODE, NAME, PRICE, VERSION FROM DBO.PRODUCTS {0} {1}", whereFragment.Item1, sortFragment);
+            var dataQuery = string.Format(SelectProductQuery, whereFragment.Item1, sortFragment);
             return QueryReturnsEnumerable<FindProducts>(dataQuery, whereFragment.Item2);
         }
 

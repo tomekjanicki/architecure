@@ -24,7 +24,9 @@
 </script>
 
 <script id="deleteProduct" type="text/html">
+    <!-- ko if: CanDelete -->
     <button data-bind="click: $parents[2].deleteOrder" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete product">Delete</button>
+    <!-- /ko -->        
 </script>
 
 @section scripts {
