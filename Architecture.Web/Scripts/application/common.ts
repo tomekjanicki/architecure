@@ -15,13 +15,21 @@ module Application.Common {
 
     export class Util {
 
-        public static initBlockUiForAjaxRequests = (): void => {
+        private static blockUi = (): void => {
             var msg = "<h1>Processing request... Please wait.</h1>";
             var opt: JQBlockUIOptions = {
                 message: msg,
                 css: { border: "none" }
             };
-            $(document).ajaxStart(() => $.blockUI(opt));
+            $.blockUI(opt);
+        }
+
+        public static initBlockUiForNonAjax = (): void => {
+            $(document).on("click", "a[data-blockui], input[data-blockui]", Util.blockUi);
+        }
+
+        public static initBlockUiForAjaxRequests = (): void => {
+            $(document).ajaxStart(() => Util.blockUi());
             $(document).ajaxStop(() => $.unblockUI());
         }
 
@@ -146,4 +154,5 @@ module Application.Common {
     }
 
     Application.Common.Util.initBlockUiForAjaxRequests();
+    Application.Common.Util.initBlockUiForNonAjax();
 }  

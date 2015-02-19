@@ -10,6 +10,7 @@ namespace Architecture.Web
         {
             filters.Add(new CustomHandleMvcErrorAttribute());
             filters.Add(new ResourceActionAuthorizeAttribute());
+            filters.Add(new SimulateDelayMvcFilterAttribute());
         }
     }
 }

@@ -106,7 +106,7 @@
             o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
             o.columns.push(new Application.GridView.Column("", "", "", "",
                 "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" " +
-                "title=\"Edit product\">Edit</a>", ""));
+                "title=\"Edit product\" data-blockui=\"\">Edit</a>", ""));
             o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
             o.errorHandlerCallback = (data: any) => window.alert(data.status);
             var vm = new IndexViewModel(o);

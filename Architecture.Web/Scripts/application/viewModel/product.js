@@ -96,7 +96,7 @@ var Application;
                     o.columns.push(new Application.GridView.Column("Name", "Name", "Name", "", "", ""));
                     o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", "", ""));
                     o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
-                    o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" " + "title=\"Edit product\">Edit</a>", ""));
+                    o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" " + "title=\"Edit product\" data-blockui=\"\">Edit</a>", ""));
                     o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
                     o.errorHandlerCallback = function (data) { return window.alert(data.status); };
                     var vm = new IndexViewModel(o);

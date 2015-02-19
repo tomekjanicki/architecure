@@ -178,6 +178,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Code\Attribute\SimulateDelayMvcFilterAttribute.cs" />
     <Compile Include="Code\Attribute\SimulateDelayWebApiFilterAttribute.cs" />
     <Compile Include="Code\Attribute\CustomHandleMvcErrorAttribute.cs" />
     <Compile Include="Code\Attribute\CustomHandleWebApiErrorAttribute.cs" />

@@ -16,13 +16,19 @@ var Application;
         var Util = (function () {
             function Util() {
             }
-            Util.initBlockUiForAjaxRequests = function () {
+            Util.blockUi = function () {
                 var msg = "<h1>Processing request... Please wait.</h1>";
                 var opt = {
                     message: msg,
                     css: { border: "none" }
                 };
-                $(document).ajaxStart(function () { return $.blockUI(opt); });
+                $.blockUI(opt);
+            };
+            Util.initBlockUiForNonAjax = function () {
+                $(document).on("click", "a[data-blockui], input[data-blockui]", Util.blockUi);
+            };
+            Util.initBlockUiForAjaxRequests = function () {
+                $(document).ajaxStart(function () { return Util.blockUi(); });
                 $(document).ajaxStop(function () { return $.unblockUI(); });
             };
             Util.formatString = function (s) {
@@ -125,6 +131,7 @@ var Application;
         })();
         Common.Command = Command;
         Application.Common.Util.initBlockUiForAjaxRequests();
+        Application.Common.Util.initBlockUiForNonAjax();
     })(Common = Application.Common || (Application.Common = {}));
 })(Application || (Application = {}));
 //# sourceMappingURL=common.js.map
