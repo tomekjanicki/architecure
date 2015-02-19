@@ -1,0 +1,16 @@
+﻿@using Architecture.Web.Code
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title - Test</title>
+    @Styles.Render(Const.ContentQunitString)
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    @Scripts.Render(ScriptHelper.GetLayoutCommonScripts(true))
+    @RenderSection("scripts", false)
+</body>
+</html>

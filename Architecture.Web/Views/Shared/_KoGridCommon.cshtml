@@ -1,0 +1,54 @@
+﻿<script type="text/html" id="criteriaWithGridTemplate">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <div class="row">
+                    <div class="col-xs-10" data-bind="text: filterCriteriaExpression">
+                    </div>
+                    <div class="col-xs-2">
+                        <button class="btn btn-default pull-right" data-bind="attr: { title: filterButtonTooltip }, click: toggleFilterPanel, text: filterButtonText" data-toggle="tooltip" data-placement="top"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" data-bind="visible: filterPanelVisible">
+            <div data-bind="template: { name: criteriaTemplate}"></div>
+            <br />
+            <div class="text-center">
+                <button class="btn btn-default" data-bind="click: setFilter" data-toggle="tooltip" data-placement="top" title="Set filter">Set</button>
+                <button class="btn btn-default" data-bind="click: clearFilter" data-toggle="tooltip" data-placement="top" title="Clear filter">Clear</button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr data-bind="foreach: headers">
+                    <th data-bind="css: {cursor_pointer: orderEnabled}, click: orderEnabled ? $parent.sortItems : null"><span data-bind="text: title"></span><i data-bind="css: style"></i></th>
+                </tr>
+            </thead>
+            <tbody data-bind="template: { name: 'dataRowTemplate', foreach: items, as: 'item' }"></tbody>
+        </table>
+        <div class="form-inline">
+            <button data-bind="click: goToFirstPage, enable: firstPageEnabled" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Go to first page"><i class="fa fa-angle-double-left"></i></button>
+            <button data-bind="click: goToPrevPage, enable: prevPageEnabled" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Go to previous page"><i class="fa fa fa-angle-left"></i></button>
+            &nbsp;Page <span data-bind="text: (currentPage() + 1)"></span> of <span data-bind="text: (pageCount() + 1)"></span>&nbsp;
+            <button data-bind="click: goToNextPage, enable: nextPageEnabled" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Go to next page"><i class="fa fa-angle-right"></i></button>
+            <button data-bind="click: goToLastPage, enable: lastPageEnabled" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Go to last page"><i class="fa fa-angle-double-right"></i></button>
+            &nbsp;# of rows in page <select data-bind="options: avaliablePageSizes, value: pageSize" class="form-control"></select>&nbsp;Total items: <span data-bind="text: itemCount"></span>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="dataRowTemplate">
+    <tr data-bind="foreach: $parent.headers">
+        <!-- ko if: htmlEncode -->
+        <td data-bind="text: $parents[1].getDisplayValue(item, key)"></td>
+        <!-- /ko -->        
+        <!-- ko if: !htmlEncode -->
+        <td data-bind="html: $parents[1].getDisplayValue(item, key)"></td>
+        <!-- /ko -->
+    </tr>
+</script>
+

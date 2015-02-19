@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_JsTestLayout.cshtml";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/application/viewmodel/product")
+    @Scripts.Render("~/bundles/application/test/view/product_index")
+    @Scripts.Render("~/bundles/application/viewmodel/order")
+    @Scripts.Render("~/bundles/application/test/view/order_create")
+}
+
+
+
+

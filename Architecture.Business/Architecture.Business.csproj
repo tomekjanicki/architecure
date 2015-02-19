@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3565191-FD48-40C9-BEB8-E0586E2C9C52}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Architecture.Business</RootNamespace>
+    <AssemblyName>Architecture.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Architecture.File\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Const.cs" />
+    <Compile Include="Exception\Base\BaseBusinessLogicException.cs" />
+    <Compile Include="Exception\ObjectNotFoundException.cs" />
+    <Compile Include="Exception\OptimisticConcurrencyException.cs" />
+    <Compile Include="Exception\UniqueConstraintViolationException.cs" />
+    <Compile Include="Facade\Implementation\BusinessLogicFacade.cs" />
+    <Compile Include="Manager\Implementation\UserManager.cs" />
+    <Compile Include="Facade\Interface\IBusinessLogicFacade.cs" />
+    <Compile Include="Manager\Interface\IUserManager.cs" />
+    <Compile Include="Mail\MailProducer.cs" />
+    <Compile Include="Manager\Implementation\Base\BaseManager.cs" />
+    <Compile Include="Manager\Implementation\CustomerManager.cs" />
+    <Compile Include="Manager\Implementation\MailManager.cs" />
+    <Compile Include="Manager\Implementation\OrderManager.cs" />
+    <Compile Include="Manager\Implementation\ProductManager.cs" />
+    <Compile Include="Manager\Interface\ICustomerManager.cs" />
+    <Compile Include="Manager\Interface\IMailManager.cs" />
+    <Compile Include="Manager\Interface\IOrderManager.cs" />
+    <Compile Include="Manager\Interface\IProductManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Manager\packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Architecture.Repository\Architecture.Repository.csproj">
+      <Project>{0B83053F-9EC8-44F3-993A-1DDF9F885271}</Project>
+      <Name>Architecture.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Architecture.Util\Architecture.Util.csproj">
+      <Project>{7B40F097-63A1-48C4-868D-7F667345040D}</Project>
+      <Name>Architecture.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Architecture.ViewModel\Architecture.ViewModel.csproj">
+      <Project>{D7BCAB1C-D459-4995-8113-6B9440090921}</Project>
+      <Name>Architecture.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
