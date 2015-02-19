@@ -15,7 +15,7 @@ namespace Architecture.Web.Controllers.Api
         }
 
         public Paged<FindProducts> GetProducts(string code, string name, int pageSize, int skip, string sort)
-        {
+        {            
             return BusinessLogicFacade.ProductManager.FindProducts(code, name, new PageAndSortCriteria(pageSize, skip, sort));
         }
 

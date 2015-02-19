@@ -39,7 +39,7 @@
 
         public showConfirmation = (item: Index): void => {
             this.confirmingItem = item;
-            this.confirmationVisible(true);            
+            this.confirmationVisible(true);
         }
 
         private codeLocal: string = "";
@@ -79,7 +79,7 @@
             this.refresh();
             this.confirmationVisible(false);
         }
-            
+
         public deleteOrder = (): void => {
             var p = new Delete();
             p.Id = this.confirmingItem.Id;

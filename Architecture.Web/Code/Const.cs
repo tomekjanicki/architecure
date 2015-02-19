@@ -9,6 +9,7 @@
 
         public const string BundlesJqueryString = BundlesString + "/jquery";
         public const string BundlesKnockoutString = BundlesString + "/knockout";
+        public const string BundlesBlockUiString = BundlesString + "/blockUI";
         public const string BundlesKnockstrapString = BundlesString + "/knockstrap";
         public const string BundlesQunitString = BundlesString + "/qunit";
         public const string BundlesBootstapString = BundlesString + "/bootstrap";

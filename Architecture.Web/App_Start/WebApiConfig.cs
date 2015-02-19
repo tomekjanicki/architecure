@@ -13,7 +13,8 @@ namespace Architecture.Web
             config.Routes.MapHttpRoute(Const.DefaultApiNameString, Const.DefaultApiRouteTemplateString, new { id = RouteParameter.Optional });
             config.Services.Clear(typeof(IBodyModelValidator));
             config.Filters.Add(new CustomHandleWebApiErrorAttribute());
-            config.Filters.Add(new WebApiResourceActionAuthorizeAttribute());            
+            config.Filters.Add(new WebApiResourceActionAuthorizeAttribute()); 
+            config.Filters.Add(new SimulateDelayWebApiFilterAttribute());
         }
     }
 }

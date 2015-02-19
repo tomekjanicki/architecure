@@ -20,6 +20,7 @@ namespace Architecture.Web
         {
             bundles.Add(new ScriptBundle(Const.BundlesJqueryString).Include("~/Scripts/jquery-{version}.js"));
             bundles.Add(new ScriptBundle(Const.BundlesKnockoutString).Include("~/Scripts/knockout-{version}.js"));
+            bundles.Add(new ScriptBundle(Const.BundlesBlockUiString).Include("~/Scripts/jquery.blockUI.js"));
             bundles.Add(new ScriptBundle(Const.BundlesKnockstrapString).Include("~/Scripts/knockstrap.js"));
             bundles.Add(new ScriptBundle(Const.BundlesLinqString).Include("~/Scripts/linq.js"));
             bundles.Add(new ScriptBundle(Const.BundlesNumeralString).Include("~/Scripts/numeral/numeral.js"));

@@ -16,6 +16,15 @@ var Application;
         var Util = (function () {
             function Util() {
             }
+            Util.initBlockUiForAjaxRequests = function () {
+                var msg = "<h1>Processing request... Please wait.</h1>";
+                var opt = {
+                    message: msg,
+                    css: { border: "none" }
+                };
+                $(document).ajaxStart(function () { return $.blockUI(opt); });
+                $(document).ajaxStop(function () { return $.unblockUI(); });
+            };
             Util.formatString = function (s) {
                 var params = [];
                 for (var _i = 1; _i < arguments.length; _i++) {
@@ -286,6 +295,7 @@ var Application;
         })();
         Common.GridViewModel = GridViewModel;
         ;
+        Application.Common.Util.initBlockUiForAjaxRequests();
     })(Common = Application.Common || (Application.Common = {}));
 })(Application || (Application = {}));
 //# sourceMappingURL=common.js.map

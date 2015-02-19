@@ -13,8 +13,17 @@ module Application.Common {
         $.ajax(s).done(done).fail(fail);
     }
 
-
     export class Util {
+
+        public static initBlockUiForAjaxRequests = (): void => {
+            var msg = "<h1>Processing request... Please wait.</h1>";
+            var opt: JQBlockUIOptions = {
+                message: msg,
+                css: { border: "none" }
+            };
+            $(document).ajaxStart(() => $.blockUI(opt));
+            $(document).ajaxStop(() => $.unblockUI());
+        }
 
         public static formatString = (s: string, ...params: string[]): string => {
             var i = params.length;
@@ -335,8 +344,10 @@ module Application.Common {
 
         private calculateTotalPages(): number {
             var res = Math.ceil(this.itemCount() / this.pageSize() - 1);
-            return res === -1 ? 0: res;
+            return res === -1 ? 0 : res;
         }
 
     };
+
+    Application.Common.Util.initBlockUiForAjaxRequests();
 }  

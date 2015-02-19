@@ -15,7 +15,7 @@ namespace Architecture.Web.Controllers.Api
         }
 
         public Paged<FindOrders> GetOrders(string customerName, DateTime? from, DateTime? to, int pageSize, int skip, string sort)
-        {
+        {           
             return BusinessLogicFacade.OrderManager.FindOrders(customerName, from, to, new PageAndSortCriteria(pageSize, skip, sort));
         }
 

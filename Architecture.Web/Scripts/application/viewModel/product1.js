@@ -79,7 +79,7 @@ var Application;
                         p.Id = _this.confirmingItem.Id;
                         p.Version = Application.Common.Util.unpackFromString(_this.confirmingItem.Version);
                         var option = _this.getOption();
-                        option.deleteCommand.execute(p, _this.successDelete, option.errorHandlerCallback, 2 /* Delete */);
+                        option.deleteCommand.execute(p, _this.successDelete, option.errorHandlerCallback, Application.Common.Method.Delete);
                     };
                 }
                 IndexViewModel.getInitializedViewModel = function (pagedQuery, query, deleteCommand) {

@@ -24,6 +24,7 @@ namespace Architecture.Web.Code
                 Const.BundlesMomentString,
                 forTest ? Const.BundlesQunitString : Const.BundlesBootstapString,
                 Const.BundlesKnockoutString,
+                Const.BundlesBlockUiString,
                 Const.BundlesKnockstrapString,
                 string.Format("{0}/{1}", Const.BundlesApplicationString, "common"),
                 string.Format("{0}/{1}", Const.BundlesApplicationString, "gridview")
