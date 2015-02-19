@@ -66,11 +66,14 @@
 
 <script type="text/html" id="dataRowTemplate">
     <tr data-bind="foreach: $parent.headers">        
-        <!-- ko if: htmlEncode -->
+        <!-- ko if: !useTemplate -->
         <td data-bind="text: $parents[1].getDisplayValue(item, field, formatString)"></td>
         <!-- /ko -->
-        <!-- ko if: !htmlEncode -->
+        <!-- ko if: useTemplate && useInlineTemplate -->
         <td data-bind="template: { name: templateName, templateEngine: ko.stringTemplateEngine.instance }"></td>
+        <!-- /ko -->
+        <!-- ko if: useTemplate && !useInlineTemplate -->
+        <td data-bind="template: { name: templateName, data: item }"></td>
         <!-- /ko -->
     </tr>
 </script>

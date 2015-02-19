@@ -51,22 +51,27 @@
             this.swapValues();
         }
 
+        public deleteOrder = (item: Index): void => {
+            window.alert(Application.Common.Util.formatString("{0} {1}", item.Id.toString(), item.Version));
+        }
+
         public static getInitializedViewModel(pagedQuery: Common.IPagedQuery<Index, any>,
             query: Common.IQuery<Index, any>): IndexViewModel {
             var o = new Application.GridView.Option<Index>();
             o.filterPanelVisible = true;
-            o.pagingEnabled = false;
+            o.pagingEnabled = true;
             o.pagedQuery = pagedQuery;
             o.defaultPageSize = 10;
             o.query = query;
             o.filterPanelCriteriaTemplateName = "criteriaTemplate";
-            o.columns.push(new Application.GridView.Column("Id", "Id", "Id", "", ""));
-            o.columns.push(new Application.GridView.Column("Code", "Code", "Code", "", ""));
-            o.columns.push(new Application.GridView.Column("Name", "Name", "Name", "", ""));
-            o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", ""));
-            o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", ""));
+            o.columns.push(new Application.GridView.Column("Id", "Id", "Id", "", "", ""));
+            o.columns.push(new Application.GridView.Column("Code", "Code", "Code", "", "", ""));
+            o.columns.push(new Application.GridView.Column("Name", "Name", "Name", "", "", ""));
+            o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", "", ""));
+            o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
             o.columns.push(new Application.GridView.Column("", "", "", "",
-                "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\">Edit</a>"));
+                "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" title=\"Edit product\">Edit</a>", ""));
+            o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
             o.errorHandlerCallback = (data: any) => window.alert(data);
             var vm = new IndexViewModel(o);
             o.filterPanelClearButtonCallback = vm.clearButton;

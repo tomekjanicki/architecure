@@ -7,13 +7,15 @@
         public sortKey: string; // when empty sort is disabled
         public formatString: string;
         public cellTemplate: string;
+        public cellTemplateName: string;
 
-        constructor(caption: string, field: string, sortKey: string, formatString: string, cellTemplate: string) {
+        constructor(caption: string, field: string, sortKey: string, formatString: string, cellTemplate: string, cellTemplateName: string) {
             this.caption = caption;
             this.field = field;
             this.sortKey = sortKey;
             this.formatString = formatString;
             this.cellTemplate = cellTemplate;
+            this.cellTemplateName = cellTemplateName;
         }
     }
 
@@ -92,16 +94,18 @@
         public sortEnabled: boolean;
         public sortStyle: KnockoutComputed<string> = ko.computed(this.getSortStyle);
         public formatString: string;
-        public htmlEncode: boolean = true;
+        public useTemplate: boolean;
+        public useInlineTemplate: boolean;
         public templateName: string;
 
-        constructor(caption: string, field: string, sortEnabled: boolean, formatString: string, htmlEncode: boolean, templateName: string) {
+        constructor(caption: string, field: string, sortEnabled: boolean, formatString: string, useTemplate: boolean, useInlineTemplate: boolean, templateName: string) {
             this.caption = caption;
             this.field = field;
             this.sortEnabled = sortEnabled;
             this.formatString = formatString;
-            this.htmlEncode = htmlEncode;
+            this.useTemplate = useTemplate;
             this.templateName = templateName;
+            this.useInlineTemplate = useInlineTemplate;
         }
     }
 
@@ -239,12 +243,15 @@
             var ste = ko.stringTemplateEngine.instance;
             this.pageSize(this.option.defaultPageSize);
             this.option.columns.forEach((c: Column) => {
-                var templateName = "";
+                var templateName: string;
                 if (c.cellTemplate !== "") {
                     templateName = Application.Common.Guid.newGuid();
                     ste.addTemplate(templateName, c.cellTemplate);
+                } else {
+                    templateName = c.cellTemplateName;
                 }
-                this.headers.push(new Header(c.caption, c.field, c.sortKey !== "", c.formatString, c.cellTemplate === "", templateName));
+                this.headers.push(new Header(c.caption, c.field, c.sortKey !== "", c.formatString,
+                    c.cellTemplate !== "" || c.cellTemplateName !== "", c.cellTemplate !== "", templateName));
             });
             if (this.option.pagingEnabled) {
                 this.pageSize.subscribe(this.goToFirstPage, this);

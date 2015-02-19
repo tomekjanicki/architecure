@@ -47,21 +47,25 @@ var Application;
                         _this.name("");
                         _this.swapValues();
                     };
+                    this.deleteOrder = function (item) {
+                        window.alert(Application.Common.Util.formatString("{0} {1}", item.Id.toString(), item.Version));
+                    };
                 }
                 IndexViewModel.getInitializedViewModel = function (pagedQuery, query) {
                     var o = new Application.GridView.Option();
                     o.filterPanelVisible = true;
-                    o.pagingEnabled = false;
+                    o.pagingEnabled = true;
                     o.pagedQuery = pagedQuery;
                     o.defaultPageSize = 10;
                     o.query = query;
                     o.filterPanelCriteriaTemplateName = "criteriaTemplate";
-                    o.columns.push(new Application.GridView.Column("Id", "Id", "Id", "", ""));
-                    o.columns.push(new Application.GridView.Column("Code", "Code", "Code", "", ""));
-                    o.columns.push(new Application.GridView.Column("Name", "Name", "Name", "", ""));
-                    o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", ""));
-                    o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", ""));
-                    o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\">Edit</a>"));
+                    o.columns.push(new Application.GridView.Column("Id", "Id", "Id", "", "", ""));
+                    o.columns.push(new Application.GridView.Column("Code", "Code", "Code", "", "", ""));
+                    o.columns.push(new Application.GridView.Column("Name", "Name", "Name", "", "", ""));
+                    o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", "", ""));
+                    o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
+                    o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" title=\"Edit product\">Edit</a>", ""));
+                    o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
                     o.errorHandlerCallback = function (data) { return window.alert(data); };
                     var vm = new IndexViewModel(o);
                     o.filterPanelClearButtonCallback = vm.clearButton;

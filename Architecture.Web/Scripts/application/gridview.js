@@ -4,12 +4,13 @@ var Application;
     (function (GridView) {
         "use strict";
         var Column = (function () {
-            function Column(caption, field, sortKey, formatString, cellTemplate) {
+            function Column(caption, field, sortKey, formatString, cellTemplate, cellTemplateName) {
                 this.caption = caption;
                 this.field = field;
                 this.sortKey = sortKey;
                 this.formatString = formatString;
                 this.cellTemplate = cellTemplate;
+                this.cellTemplateName = cellTemplateName;
             }
             return Column;
         })();
@@ -61,7 +62,7 @@ var Application;
         })();
         GridView.Option = Option;
         var Header = (function () {
-            function Header(caption, field, sortEnabled, formatString, htmlEncode, templateName) {
+            function Header(caption, field, sortEnabled, formatString, useTemplate, useInlineTemplate, templateName) {
                 var _this = this;
                 this.getSortStyle = function () {
                     switch (_this.sortDirection()) {
@@ -75,13 +76,13 @@ var Application;
                 };
                 this.sortDirection = ko.observable("");
                 this.sortStyle = ko.computed(this.getSortStyle);
-                this.htmlEncode = true;
                 this.caption = caption;
                 this.field = field;
                 this.sortEnabled = sortEnabled;
                 this.formatString = formatString;
-                this.htmlEncode = htmlEncode;
+                this.useTemplate = useTemplate;
                 this.templateName = templateName;
+                this.useInlineTemplate = useInlineTemplate;
             }
             return Header;
         })();
@@ -195,12 +196,15 @@ var Application;
                     var ste = ko.stringTemplateEngine.instance;
                     _this.pageSize(_this.option.defaultPageSize);
                     _this.option.columns.forEach(function (c) {
-                        var templateName = "";
+                        var templateName;
                         if (c.cellTemplate !== "") {
                             templateName = Application.Common.Guid.newGuid();
                             ste.addTemplate(templateName, c.cellTemplate);
                         }
-                        _this.headers.push(new Header(c.caption, c.field, c.sortKey !== "", c.formatString, c.cellTemplate === "", templateName));
+                        else {
+                            templateName = c.cellTemplateName;
+                        }
+                        _this.headers.push(new Header(c.caption, c.field, c.sortKey !== "", c.formatString, c.cellTemplate !== "" || c.cellTemplateName !== "", c.cellTemplate !== "", templateName));
                     });
                     if (_this.option.pagingEnabled) {
                         _this.pageSize.subscribe(_this.goToFirstPage, _this);

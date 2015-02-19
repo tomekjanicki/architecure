@@ -23,10 +23,12 @@
     </div>
 </script>
 
+<script id="deleteProduct" type="text/html">
+    <button data-bind="click: $parents[2].deleteOrder" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete product">Delete</button>
+</script>
+
 @section scripts {
     @Scripts.Render(@ScriptHelper.GetViewSpecificScripts(ViewContext))
 }
-
-
 
 
