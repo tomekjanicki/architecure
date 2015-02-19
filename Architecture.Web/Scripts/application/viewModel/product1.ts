@@ -2,7 +2,7 @@
     "use strict";
 
     export class IndexOption extends Application.GridView.Option<Index> {
-        
+
         public deleteCommand: Application.Common.ICommand<Delete, any, any> = null;
     }
 
@@ -34,6 +34,13 @@
 
         public code: KnockoutObservable<string> = ko.observable("");
         public name: KnockoutObservable<string> = ko.observable("");
+        public confirmationVisible: KnockoutObservable<boolean> = ko.observable(false);
+        public confirmingItem: Index;
+
+        public showConfirmation = (item: Index): void => {
+            this.confirmingItem = item;
+            this.confirmationVisible(true);            
+        }
 
         private codeLocal: string = "";
         private nameLocal: string = "";
@@ -68,17 +75,17 @@
             this.swapValues();
         }
 
-        public deleteOrder = (item: Index): void => {
+        private successDelete = (): void => {
+            this.refresh();
+            this.confirmationVisible(false);
+        }
+            
+        public deleteOrder = (): void => {
             var p = new Delete();
-            p.Id = item.Id;
-            p.Version = Common.Util.unpackFromString(item.Version);
+            p.Id = this.confirmingItem.Id;
+            p.Version = Common.Util.unpackFromString(this.confirmingItem.Version);
             var option = this.getOption();
             option.deleteCommand.execute(p, this.successDelete, option.errorHandlerCallback, Application.Common.Method.Delete);
-        }
-
-        private successDelete = (): void => {
-            window.alert("OK");
-            this.refresh();
         }
 
         public static getInitializedViewModel(pagedQuery: Common.IPagedQuery<Index, any>,
@@ -98,7 +105,8 @@
             o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", "", ""));
             o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
             o.columns.push(new Application.GridView.Column("", "", "", "",
-                "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" title=\"Edit product\">Edit</a>", ""));
+                "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" " +
+                "title=\"Edit product\">Edit</a>", ""));
             o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
             o.errorHandlerCallback = (data: any) => window.alert(data.status);
             var vm = new IndexViewModel(o);

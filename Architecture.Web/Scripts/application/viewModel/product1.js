@@ -39,6 +39,11 @@ var Application;
                     _super.call(this, option);
                     this.code = ko.observable("");
                     this.name = ko.observable("");
+                    this.confirmationVisible = ko.observable(false);
+                    this.showConfirmation = function (item) {
+                        _this.confirmingItem = item;
+                        _this.confirmationVisible(true);
+                    };
                     this.codeLocal = "";
                     this.nameLocal = "";
                     this.criteriaExpression = function () {
@@ -65,16 +70,16 @@ var Application;
                         _this.name("");
                         _this.swapValues();
                     };
-                    this.deleteOrder = function (item) {
+                    this.successDelete = function () {
+                        _this.refresh();
+                        _this.confirmationVisible(false);
+                    };
+                    this.deleteOrder = function () {
                         var p = new Delete();
-                        p.Id = item.Id;
-                        p.Version = Application.Common.Util.unpackFromString(item.Version);
+                        p.Id = _this.confirmingItem.Id;
+                        p.Version = Application.Common.Util.unpackFromString(_this.confirmingItem.Version);
                         var option = _this.getOption();
                         option.deleteCommand.execute(p, _this.successDelete, option.errorHandlerCallback, 2 /* Delete */);
-                    };
-                    this.successDelete = function () {
-                        window.alert("OK");
-                        _this.refresh();
                     };
                 }
                 IndexViewModel.getInitializedViewModel = function (pagedQuery, query, deleteCommand) {
@@ -91,7 +96,7 @@ var Application;
                     o.columns.push(new Application.GridView.Column("Name", "Name", "Name", "", "", ""));
                     o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", "", ""));
                     o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
-                    o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" title=\"Edit product\">Edit</a>", ""));
+                    o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" " + "title=\"Edit product\">Edit</a>", ""));
                     o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
                     o.errorHandlerCallback = function (data) { return window.alert(data.status); };
                     var vm = new IndexViewModel(o);

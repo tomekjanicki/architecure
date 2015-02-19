@@ -8,6 +8,8 @@
 
 <div data-bind="template: {name: 'criteriaWithGridTemplate'}"></div>
 
+<div data-bind="modal: { visible: confirmationVisible, body: { name: 'modalTemplate', data: $root.confirmingItem }, header: { data: { label: 'Confirm' } }, footer: { data: { action: $root.deleteOrder, closeLabel: 'No', primaryLabel: 'Yes' } }}"></div>
+
 @Html.Partial("_KoGridCommon1")
 
 <script id="criteriaTemplate" type="text/html">
@@ -25,8 +27,15 @@
 
 <script id="deleteProduct" type="text/html">
     <!-- ko if: CanDelete -->
-    <button data-bind="click: $parents[2].deleteOrder" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete product">Delete</button>
+    <button data-bind="click: $parents[2].showConfirmation" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete product">Delete</button>
     <!-- /ko -->        
+</script>
+
+
+<script type="text/html" id="modalTemplate">
+    <!-- ko if:  $root.confirmationVisible -->
+    Are you sure to delete product with Id = <span data-bind="text: $root.confirmingItem.Id"></span>?
+    <!-- /ko -->
 </script>
 
 @section scripts {

@@ -98,7 +98,8 @@
         public useInlineTemplate: boolean;
         public templateName: string;
 
-        constructor(caption: string, field: string, sortEnabled: boolean, formatString: string, useTemplate: boolean, useInlineTemplate: boolean, templateName: string) {
+        constructor(caption: string, field: string, sortEnabled: boolean, formatString: string,
+            useTemplate: boolean, useInlineTemplate: boolean, templateName: string) {
             this.caption = caption;
             this.field = field;
             this.sortEnabled = sortEnabled;
@@ -111,7 +112,11 @@
 
     export class BaseGridView<TModel> {
 
-        private getFilterPanelButtonStyle = (): string => this.filterPanelCriteriaVisible() ? "fa fa-minus-square-o" : "fa fa-plus-square-o";
+        private getFilterPanelButtonStyle = (): string => this.filterPanelCriteriaVisible()
+            ?
+            "fa fa-minus-square-o"
+            :
+            "fa fa-plus-square-o";
         private getFilterButtonTooltip = (): string => this.filterPanelCriteriaVisible() ? "Collapse" : "Expand";
 
         public pageSize: KnockoutObservable<number> = ko.observable(0);

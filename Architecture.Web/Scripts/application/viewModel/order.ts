@@ -48,7 +48,7 @@ module Application.ViewModel.Order {
             this.createOrder().CustomerName("CustomerName");
             this.createOrder().Date(new Date(2014, 1, 1));
             var od1: CreateOrderDetail = new CreateOrderDetail();
-            od1.ProductId(5);
+            od1.ProductId(7);
             od1.ProductCode("ProductCode");
             od1.ProductName("ProductName");
             od1.Quantity(3);
