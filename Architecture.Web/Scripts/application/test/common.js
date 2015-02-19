@@ -6,6 +6,22 @@ var Application;
         var Common;
         (function (Common) {
             "use strict";
+            var FakeQuery = (function () {
+                function FakeQuery(doneResult, failResult) {
+                    this.doneResult = doneResult;
+                    this.failResult = failResult;
+                }
+                FakeQuery.prototype.fetch = function (params, done, fail) {
+                    if (this.doneResult != null) {
+                        done(this.doneResult);
+                    }
+                    else {
+                        fail(this.failResult);
+                    }
+                };
+                return FakeQuery;
+            })();
+            Common.FakeQuery = FakeQuery;
             var FakePagedQuery = (function () {
                 function FakePagedQuery(doneResult, failResult) {
                     this.doneResult = doneResult;

@@ -3,6 +3,26 @@
 module Application.Test.Common {
     "use strict";
 
+    export class FakeQuery<TDone, TFail> implements Application.Common.IQuery<TDone, TFail> {
+
+        private doneResult: TDone[];
+        private failResult: TFail;
+
+        constructor(doneResult: TDone[], failResult: TFail) {
+            this.doneResult = doneResult;
+            this.failResult = failResult;
+        }
+
+        public fetch(params: string, done: JQueryPromiseCallback<TDone[]>,
+            fail: JQueryPromiseCallback<TFail>): void {
+            if (this.doneResult != null) {
+                done(this.doneResult);
+            } else {
+                fail(this.failResult);
+            }
+        }
+    }
+
     export class FakePagedQuery<TDone, TFail> implements Application.Common.IPagedQuery<TDone, TFail> {
 
         private doneResult: Application.Common.Paged<TDone>;
