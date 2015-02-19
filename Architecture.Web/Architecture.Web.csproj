@@ -194,7 +194,6 @@
     <Compile Include="Controllers\Api\ProductController.cs" />
     <Compile Include="Controllers\JsTestController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\Product1Controller.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
@@ -284,8 +283,6 @@
     <Content Include="Views\JsTest\Index.cshtml" />
     <Content Include="Views\Order\Create.cshtml" />
     <Content Include="Views\Shared\_KoGridCommon.cshtml" />
-    <Content Include="Views\Product1\Index.cshtml" />
-    <Content Include="Views\Shared\_KoGridCommon1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Architecture.Business\Architecture.Business.csproj">
@@ -314,13 +311,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\application\common.ts" />
     <TypeScriptCompile Include="Scripts\application\gridview.ts" />
-    <TypeScriptCompile Include="Scripts\application\test.ts" />
-    <TypeScriptCompile Include="Scripts\application\viewModel\product1.ts" />
     <TypeScriptCompile Include="Scripts\application\test\common.ts" />
     <TypeScriptCompile Include="Scripts\application\test\view\order.create.ts" />
     <TypeScriptCompile Include="Scripts\application\viewModel\order.ts" />
     <TypeScriptCompile Include="Scripts\application\view\order.create.ts" />
-    <TypeScriptCompile Include="Scripts\application\view\product1.index.ts" />
     <TypeScriptCompile Include="Scripts\application\view\product.index.ts" />
     <TypeScriptCompile Include="Scripts\application\viewModel\product.ts" />
     <TypeScriptCompile Include="Scripts\application\test\view\product.index.ts" />

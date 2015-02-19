@@ -1,4 +1,3 @@
-/// <reference path="../common.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -12,84 +11,105 @@ var Application;
         var Product;
         (function (Product) {
             "use strict";
-            var IndexProduct = (function () {
-                function IndexProduct() {
+            var IndexOption = (function (_super) {
+                __extends(IndexOption, _super);
+                function IndexOption() {
+                    _super.apply(this, arguments);
+                    this.deleteCommand = null;
                 }
-                return IndexProduct;
+                return IndexOption;
+            })(Application.GridView.Option);
+            Product.IndexOption = IndexOption;
+            var Index = (function () {
+                function Index() {
+                }
+                return Index;
             })();
-            Product.IndexProduct = IndexProduct;
+            Product.Index = Index;
+            var Delete = (function () {
+                function Delete() {
+                }
+                return Delete;
+            })();
+            Product.Delete = Delete;
             var IndexViewModel = (function (_super) {
                 __extends(IndexViewModel, _super);
-                function IndexViewModel(pagedQuery, deleteProductCommand) {
-                    _super.call(this, pagedQuery);
+                function IndexViewModel(option) {
+                    var _this = this;
+                    _super.call(this, option);
                     this.code = ko.observable("");
                     this.name = ko.observable("");
+                    this.confirmationVisible = ko.observable(false);
+                    this.showConfirmation = function (item) {
+                        _this.confirmingItem = item;
+                        _this.confirmationVisible(true);
+                    };
                     this.codeLocal = "";
                     this.nameLocal = "";
-                    this.criteriaCallback = this.getCriteria;
-                    this.deleteProductCommand = deleteProductCommand;
-                    this.clearCallback = this.clear;
-                    this.setFilterCallback = this.setFilterCriteria;
-                    this.filterCriteriaExpressionCallback = this.filterCriteriaExp;
-                    this.getDisplayValueCallback = this.getDisplayVal;
-                    this.headers([
-                        new Application.Common.Header("Id", "id", true, true),
-                        new Application.Common.Header("Code", "code", true, true),
-                        new Application.Common.Header("Name", "name", true, true),
-                        new Application.Common.Header("Price", "price", true, true),
-                        new Application.Common.Header("", "edit", false, false),
-                        new Application.Common.Header("", "delete", false, false)
-                    ]);
-                    this.criteriaTemplate = "criteriaTemplate";
+                    this.criteriaExpression = function () {
+                        var arr = [];
+                        if (_this.codeLocal !== "") {
+                            arr.push(Application.Common.Util.getLikeExpression("Code", _this.codeLocal));
+                        }
+                        if (_this.nameLocal !== "") {
+                            arr.push(Application.Common.Util.getLikeExpression("Name", _this.nameLocal));
+                        }
+                        return arr;
+                    };
+                    this.getOption = function () {
+                        return _this.option;
+                    };
+                    this.criteria = function () { return Application.Common.Util.formatString("code={0}&name={1}", _this.codeLocal, _this.nameLocal); };
+                    this.swapValues = function () {
+                        _this.codeLocal = _this.code();
+                        _this.nameLocal = _this.name();
+                    };
+                    this.setButton = function () { return _this.swapValues(); };
+                    this.clearButton = function () {
+                        _this.code("");
+                        _this.name("");
+                        _this.swapValues();
+                    };
+                    this.successDelete = function () {
+                        _this.refresh();
+                        _this.confirmationVisible(false);
+                    };
+                    this.deleteOrder = function () {
+                        var p = new Delete();
+                        p.Id = _this.confirmingItem.Id;
+                        p.Version = Application.Common.Util.unpackFromString(_this.confirmingItem.Version);
+                        var option = _this.getOption();
+                        option.deleteCommand.execute(p, _this.successDelete, option.errorHandlerCallback, 2 /* Delete */);
+                    };
                 }
-                IndexViewModel.prototype.getDisplayVal = function (obj, key) {
-                    switch (key) {
-                        case "id":
-                            return obj.Id.toFixed(0);
-                        case "code":
-                            return obj.Code;
-                        case "name":
-                            return obj.Name;
-                        case "price":
-                            return obj.Price.toFixed(2);
-                        case "edit":
-                            return "<a href=\"product\\edit\\0\" class=\"btn btn-default\">Edit</a>";
-                        case "delete":
-                            return "<a href=\"#\" class=\"btn btn-default\">Delete</a>";
-                        default:
-                            throw new Error("Not implemented");
-                    }
-                };
-                IndexViewModel.prototype.filterCriteriaExp = function () {
-                    var arr = [];
-                    if (this.codeLocal !== "") {
-                        arr.push(Application.Common.Util.getLikeExpression("Code", this.codeLocal));
-                    }
-                    if (this.nameLocal !== "") {
-                        arr.push(Application.Common.Util.getLikeExpression("Name", this.nameLocal));
-                    }
-                    return arr;
-                };
-                IndexViewModel.prototype.getCriteria = function () {
-                    return Application.Common.Util.formatString("code={0}&name={1}", this.codeLocal, this.nameLocal);
-                };
-                IndexViewModel.prototype.setFilterCriteria = function () {
-                    this.codeLocal = this.code();
-                    this.nameLocal = this.name();
-                };
-                IndexViewModel.prototype.clear = function () {
-                    this.code("");
-                    this.name("");
-                    this.codeLocal = this.code();
-                    this.nameLocal = this.name();
-                };
-                IndexViewModel.getInitializedViewModel = function (pagedQuery, deleteProductCommand) {
-                    var vm = new IndexViewModel(pagedQuery, deleteProductCommand);
+                IndexViewModel.getInitializedViewModel = function (pagedQuery, query, deleteCommand) {
+                    var o = new IndexOption();
+                    o.filterPanelVisible = true;
+                    o.pagingEnabled = true;
+                    o.pagedQuery = pagedQuery;
+                    o.defaultPageSize = 10;
+                    o.query = query;
+                    o.deleteCommand = deleteCommand;
+                    o.filterPanelCriteriaTemplateName = "criteriaTemplate";
+                    o.columns.push(new Application.GridView.Column("Id", "Id", "Id", "", "", ""));
+                    o.columns.push(new Application.GridView.Column("Code", "Code", "Code", "", "", ""));
+                    o.columns.push(new Application.GridView.Column("Name", "Name", "Name", "", "", ""));
+                    o.columns.push(new Application.GridView.Column("Price", "Price", "Price", "$0,0.00", "", ""));
+                    o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
+                    o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" " + "title=\"Edit product\">Edit</a>", ""));
+                    o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
+                    o.errorHandlerCallback = function (data) { return window.alert(data.status); };
+                    var vm = new IndexViewModel(o);
+                    o.filterPanelClearButtonCallback = vm.clearButton;
+                    o.filterPanelSetButtonCallback = vm.setButton;
+                    o.filterPanelCriteriaCallback = vm.criteria;
+                    o.filterPanelCriteriaExpressionCallback = vm.criteriaExpression;
+                    o.defaultCriteriaCallback = vm.criteria;
                     vm.fetchData();
                     return vm;
                 };
                 return IndexViewModel;
-            })(Application.Common.GridViewModel);
+            })(Application.GridView.BaseGridView);
             Product.IndexViewModel = IndexViewModel;
             ;
         })(Product = ViewModel.Product || (ViewModel.Product = {}));

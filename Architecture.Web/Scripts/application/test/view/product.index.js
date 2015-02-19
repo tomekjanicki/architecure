@@ -37,19 +37,19 @@ var Application;
                     QUnit.module("Application.Test.View.Product.Index");
                     QUnit.test("firstPage_countEqualsTo3_returnsAllDisabled", function () {
                         var pagedQuery = new Application.Test.Common.FakePagedQuery(getCountEqual3AndPageSizeEqual3(), null);
-                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null);
+                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
                         vm.pageSize(3);
                         equals(vm, false, false, false, false);
                     });
                     QUnit.test("firstPage_countEqualsTo4_returnsFirstPrevDisabledAndNextLastEnabled", function () {
                         var pagedQuery = new Application.Test.Common.FakePagedQuery(getCountEqual4AndPageSizeEqual3(), null);
-                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null);
+                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
                         vm.pageSize(3);
                         equals(vm, false, false, true, true);
                     });
                     QUnit.test("goToNextPage_countEqualsTo7_returnsFirstPrevNextLastEnabled", function () {
                         var pagedQuery = new Application.Test.Common.FakePagedQuery(getCountEqual7AndPageSizeEqual3(), null);
-                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null);
+                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
                         vm.pageSize(3);
                         if (vm.nextPageEnabled()) {
                             vm.goToNextPage();
@@ -58,7 +58,7 @@ var Application;
                     });
                     QUnit.test("goToLastPage_countEqualsTo7_returnsFirstPrevEnabledAndNextLastDisabled", function () {
                         var pagedQuery = new Application.Test.Common.FakePagedQuery(getCountEqual7AndPageSizeEqual3(), null);
-                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null);
+                        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
                         vm.pageSize(3);
                         if (vm.lastPageEnabled()) {
                             vm.goToLastPage();
