@@ -2,6 +2,7 @@
 /// <reference path="../../../typings/knockout/knockout.d.ts" />
 /// <reference path="../../../typings/qunit/qunit.d.ts" />
 /// <reference path="../../viewmodel/product.ts" />
+/// <reference path="../helper.ts" />
 /// <reference path="../../common.ts" />
 
 module Application.Test.View.Product.Index {

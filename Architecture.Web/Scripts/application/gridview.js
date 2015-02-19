@@ -1,3 +1,4 @@
+/// <reference path="common.ts" />
 var Application;
 (function (Application) {
     var GridView;

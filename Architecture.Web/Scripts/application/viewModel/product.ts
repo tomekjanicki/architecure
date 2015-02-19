@@ -1,4 +1,8 @@
-﻿module Application.ViewModel.Product {
+﻿/// <reference path="../../typings/numeraljs/numeraljs.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
+/// <reference path="../gridview.ts" />
+/// <reference path="../../typings/knockstrap/knockstrap.d.ts" />
+module Application.ViewModel.Product {
     "use strict";
 
     export class IndexOption extends Application.GridView.Option<Index> {

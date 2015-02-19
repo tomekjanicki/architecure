@@ -2,6 +2,8 @@
     "Framework": "qunit",
     "References": [
         { "Path": "Scripts/jquery-2.1.3.min.js" },
-        { "Path": "Scripts/knockout-3.2.0.js" }
+        { "Path": "Scripts/knockout-3.2.0.js" },
+        { "Path": "Scripts/linq.min.js" },
+        { "Path": "Scripts/knockstrap.min.js" }
     ]
 }

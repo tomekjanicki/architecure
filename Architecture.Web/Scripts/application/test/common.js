@@ -1,3 +1,5 @@
+/// <reference path="../../typings/qunit/qunit.d.ts" />
+/// <reference path="../common.ts" />
 var Application;
 (function (Application) {
     var Test;

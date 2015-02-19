@@ -1,5 +1,6 @@
 /// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/knockout/knockout.d.ts" />
+/// <reference path="../typings/jquery.blockui/jquery.blockui.d.ts" />
 /// <reference path="../typings/linq/linq.d.ts" />
 var Application;
 (function (Application) {

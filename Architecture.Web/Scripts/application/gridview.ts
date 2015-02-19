@@ -1,4 +1,5 @@
-﻿module Application.GridView {
+﻿/// <reference path="common.ts" />
+module Application.GridView {
     "use strict";
 
     export class Column {

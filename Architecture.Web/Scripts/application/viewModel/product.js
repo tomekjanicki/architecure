@@ -4,6 +4,10 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+/// <reference path="../../typings/numeraljs/numeraljs.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
+/// <reference path="../gridview.ts" />
+/// <reference path="../../typings/knockstrap/knockstrap.d.ts" />
 var Application;
 (function (Application) {
     var ViewModel;
