@@ -13,9 +13,6 @@ var Application;
                 (function (Create) {
                     "use strict";
                     QUnit.module("Application.Test.View.Order.Create");
-                    QUnit.test("hello test", function () {
-                        ok("1" === "1");
-                    });
                 })(Create = Order.Create || (Order.Create = {}));
             })(Order = View.Order || (View.Order = {}));
         })(View = Test.View || (Test.View = {}));

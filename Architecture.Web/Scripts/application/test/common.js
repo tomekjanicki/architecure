@@ -1,4 +1,3 @@
-/// <reference path="../common.ts" />
 var Application;
 (function (Application) {
     var Test;
@@ -6,48 +5,29 @@ var Application;
         var Common;
         (function (Common) {
             "use strict";
-            var FakeQuery = (function () {
-                function FakeQuery(doneResult, failResult) {
-                    this.doneResult = doneResult;
-                    this.failResult = failResult;
-                }
-                FakeQuery.prototype.fetch = function (params, done, fail) {
-                    if (this.doneResult != null) {
-                        done(this.doneResult);
-                    }
-                    else {
-                        fail(this.failResult);
-                    }
-                };
-                return FakeQuery;
-            })();
-            Common.FakeQuery = FakeQuery;
-            var FakePagedQuery = (function () {
-                function FakePagedQuery(doneResult, failResult) {
-                    this.doneResult = doneResult;
-                    this.failResult = failResult;
-                }
-                FakePagedQuery.prototype.fetch = function (params, done, fail) {
-                    if (this.doneResult != null) {
-                        done(this.doneResult);
-                    }
-                    else {
-                        fail(this.failResult);
-                    }
-                };
-                return FakePagedQuery;
-            })();
-            Common.FakePagedQuery = FakePagedQuery;
-            var FakeCommand = (function () {
-                function FakeCommand(testResult) {
-                    this.testResult = testResult;
-                }
-                FakeCommand.prototype.execute = function (params, done, fail, method) {
-                    done(this.testResult);
-                };
-                return FakeCommand;
-            })();
-            Common.FakeCommand = FakeCommand;
+            QUnit.module("Application.Test.Common.Util");
+            QUnit.test("formatString_twoArguments_returnsConcatendedString", function () {
+                var a1 = "a";
+                var a2 = "b";
+                var result = Application.Common.Util.formatString("{0} {1}", a1, a2);
+                QUnit.equal(result, "a b");
+            });
+            QUnit.test("isUndefinedOrNullOrEmpty_emptyString_returnsTrue", function () {
+                var result = Application.Common.Util.isUndefinedOrNullOrEmpty("");
+                QUnit.equal(result, true);
+            });
+            QUnit.test("isUndefinedOrNullOrEmpty_null_returnsTrue", function () {
+                var result = Application.Common.Util.isUndefinedOrNullOrEmpty(null);
+                QUnit.equal(result, true);
+            });
+            QUnit.test("isUndefinedOrNullOrEmpty_undefined_returnsTrue", function () {
+                var result = Application.Common.Util.isUndefinedOrNullOrEmpty(undefined);
+                QUnit.equal(result, true);
+            });
+            QUnit.test("isUndefinedOrNullOrEmpty_nonEmptyString_returnsFalse", function () {
+                var result = Application.Common.Util.isUndefinedOrNullOrEmpty("a");
+                QUnit.equal(result, false);
+            });
         })(Common = Test.Common || (Test.Common = {}));
     })(Test = Application.Test || (Application.Test = {}));
 })(Application || (Application = {}));

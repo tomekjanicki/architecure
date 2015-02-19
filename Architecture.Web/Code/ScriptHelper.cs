@@ -14,7 +14,8 @@ namespace Architecture.Web.Code
             return new[] { s1, s2 };
         }
 
-        public static string[] GetLayoutCommonScripts(bool forTest)
+        public static string[] 
+            GetLayoutCommonScripts(bool forTest)
         {
             var data = new List<string>
             {
@@ -30,7 +31,7 @@ namespace Architecture.Web.Code
                 string.Format("{0}/{1}", Const.BundlesApplicationString, "gridview")
             };
             if (forTest)
-                data.Add(string.Format("{0}/{1}", Const.BundlesApplicationString, "test/common"));
+                data.Add(string.Format("{0}/{1}", Const.BundlesApplicationString, "test/helper"));
             return data.ToArray();
         }
     }

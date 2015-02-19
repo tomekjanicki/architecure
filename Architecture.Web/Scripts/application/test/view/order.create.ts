@@ -7,8 +7,4 @@ module Application.Test.View.Order.Create {
 
     QUnit.module("Application.Test.View.Order.Create");
 
-    QUnit.test("hello test", () => {
-        ok("1" === "1");
-    });
-
 }

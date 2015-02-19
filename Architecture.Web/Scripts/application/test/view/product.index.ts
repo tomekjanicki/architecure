@@ -3,7 +3,6 @@
 /// <reference path="../../../typings/qunit/qunit.d.ts" />
 /// <reference path="../../viewmodel/product.ts" />
 /// <reference path="../../common.ts" />
-/// <reference path="../common.ts" />
 
 module Application.Test.View.Product.Index {
     "use strict";
@@ -40,7 +39,7 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("firstPage_countEqualsTo3_returnsAllDisabled",() => {
 
-        var pagedQuery = new Application.Test.Common.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
             getCountEqual3AndPageSizeEqual3(), null);
 
         var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
@@ -51,7 +50,7 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("firstPage_countEqualsTo4_returnsFirstPrevDisabledAndNextLastEnabled",() => {
 
-        var pagedQuery = new Application.Test.Common.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
             getCountEqual4AndPageSizeEqual3(), null);
 
         var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
@@ -62,7 +61,7 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("goToNextPage_countEqualsTo7_returnsFirstPrevNextLastEnabled",() => {
 
-        var pagedQuery = new Application.Test.Common.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
             getCountEqual7AndPageSizeEqual3(), null);
 
         var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
@@ -76,7 +75,7 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("goToLastPage_countEqualsTo7_returnsFirstPrevEnabledAndNextLastDisabled",() => {
 
-        var pagedQuery = new Application.Test.Common.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
             getCountEqual7AndPageSizeEqual3(), null);
 
         var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);

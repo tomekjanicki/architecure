@@ -313,6 +313,7 @@
     <TypeScriptCompile Include="Scripts\application\common.ts" />
     <TypeScriptCompile Include="Scripts\application\gridview.ts" />
     <TypeScriptCompile Include="Scripts\application\test\common.ts" />
+    <TypeScriptCompile Include="Scripts\application\test\helper.ts" />
     <TypeScriptCompile Include="Scripts\application\test\view\order.create.ts" />
     <TypeScriptCompile Include="Scripts\application\viewModel\order.ts" />
     <TypeScriptCompile Include="Scripts\application\view\order.create.ts" />

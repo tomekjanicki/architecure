@@ -1,60 +1,43 @@
-﻿/// <reference path="../common.ts" />
-
-module Application.Test.Common {
+﻿module Application.Test.Common {
     "use strict";
 
-    export class FakeQuery<TDone, TFail> implements Application.Common.IQuery<TDone, TFail> {
+    QUnit.module("Application.Test.Common.Util");
 
-        private doneResult: TDone[];
-        private failResult: TFail;
+    QUnit.test("formatString_twoArguments_returnsConcatendedString",() => {
+        var a1 = "a";
+        var a2 = "b";
 
-        constructor(doneResult: TDone[], failResult: TFail) {
-            this.doneResult = doneResult;
-            this.failResult = failResult;
-        }
+        var result = Application.Common.Util.formatString("{0} {1}", a1, a2);
 
-        public fetch(params: string, done: JQueryPromiseCallback<TDone[]>,
-            fail: JQueryPromiseCallback<TFail>): void {
-            if (this.doneResult != null) {
-                done(this.doneResult);
-            } else {
-                fail(this.failResult);
-            }
-        }
-    }
+        QUnit.equal(result, "a b");
+    });
 
-    export class FakePagedQuery<TDone, TFail> implements Application.Common.IPagedQuery<TDone, TFail> {
+    QUnit.test("isUndefinedOrNullOrEmpty_emptyString_returnsTrue",() => {
 
-        private doneResult: Application.Common.Paged<TDone>;
-        private failResult: TFail;
+        var result = Application.Common.Util.isUndefinedOrNullOrEmpty("");
 
-        constructor(doneResult: Application.Common.Paged<TDone>, failResult: TFail) {
-            this.doneResult = doneResult;
-            this.failResult = failResult;
-        }
+        QUnit.equal(result, true);
+    });
 
-        public fetch(params: string, done: JQueryPromiseCallback<Application.Common.Paged<TDone>>,
-            fail: JQueryPromiseCallback<TFail>): void {
-            if (this.doneResult != null) {
-                done(this.doneResult);
-            } else {
-                fail(this.failResult);
-            }
-        }
-    }
+    QUnit.test("isUndefinedOrNullOrEmpty_null_returnsTrue",() => {
 
-    export class FakeCommand<TParam, TDone, TFail> implements Application.Common.ICommand<TParam, TDone, TFail> {
+        var result = Application.Common.Util.isUndefinedOrNullOrEmpty(null);
 
-        private testResult: TDone;
+        QUnit.equal(result, true);
+    });
 
-        constructor(testResult: TDone) {
-            this.testResult = testResult;
-        }
+    QUnit.test("isUndefinedOrNullOrEmpty_undefined_returnsTrue",() => {
 
-        public execute(params: TParam, done: JQueryPromiseCallback<TDone>, fail: JQueryPromiseCallback<TFail>,
-            method: Application.Common.Method): void {
-            done(this.testResult);
-        }
-    }
+        var result = Application.Common.Util.isUndefinedOrNullOrEmpty(undefined);
+
+        QUnit.equal(result, true);
+    });
+
+    QUnit.test("isUndefinedOrNullOrEmpty_nonEmptyString_returnsFalse",() => {
+
+        var result = Application.Common.Util.isUndefinedOrNullOrEmpty("a");
+
+        QUnit.equal(result, false);
+    });
 
 }
