@@ -11,12 +11,27 @@ var Application;
         var Product1;
         (function (Product1) {
             "use strict";
+            var IndexOption = (function (_super) {
+                __extends(IndexOption, _super);
+                function IndexOption() {
+                    _super.apply(this, arguments);
+                    this.deleteCommand = null;
+                }
+                return IndexOption;
+            })(Application.GridView.Option);
+            Product1.IndexOption = IndexOption;
             var Index = (function () {
                 function Index() {
                 }
                 return Index;
             })();
             Product1.Index = Index;
+            var Delete = (function () {
+                function Delete() {
+                }
+                return Delete;
+            })();
+            Product1.Delete = Delete;
             var IndexViewModel = (function (_super) {
                 __extends(IndexViewModel, _super);
                 function IndexViewModel(option) {
@@ -36,6 +51,9 @@ var Application;
                         }
                         return arr;
                     };
+                    this.getOption = function () {
+                        return _this.option;
+                    };
                     this.criteria = function () { return Application.Common.Util.formatString("code={0}&name={1}", _this.codeLocal, _this.nameLocal); };
                     this.swapValues = function () {
                         _this.codeLocal = _this.code();
@@ -48,16 +66,25 @@ var Application;
                         _this.swapValues();
                     };
                     this.deleteOrder = function (item) {
-                        window.alert(Application.Common.Util.formatString("{0} {1}", item.Id.toString(), item.Version));
+                        var p = new Delete();
+                        p.Id = item.Id;
+                        p.Version = Application.Common.Util.unpackFromString(item.Version);
+                        var option = _this.getOption();
+                        option.deleteCommand.execute(p, _this.successDelete, option.errorHandlerCallback, 2 /* Delete */);
+                    };
+                    this.successDelete = function () {
+                        window.alert("OK");
+                        _this.refresh();
                     };
                 }
-                IndexViewModel.getInitializedViewModel = function (pagedQuery, query) {
-                    var o = new Application.GridView.Option();
+                IndexViewModel.getInitializedViewModel = function (pagedQuery, query, deleteCommand) {
+                    var o = new IndexOption();
                     o.filterPanelVisible = true;
                     o.pagingEnabled = true;
                     o.pagedQuery = pagedQuery;
                     o.defaultPageSize = 10;
                     o.query = query;
+                    o.deleteCommand = deleteCommand;
                     o.filterPanelCriteriaTemplateName = "criteriaTemplate";
                     o.columns.push(new Application.GridView.Column("Id", "Id", "Id", "", "", ""));
                     o.columns.push(new Application.GridView.Column("Code", "Code", "Code", "", "", ""));
@@ -66,7 +93,7 @@ var Application;
                     o.columns.push(new Application.GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
                     o.columns.push(new Application.GridView.Column("", "", "", "", "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" title=\"Edit product\">Edit</a>", ""));
                     o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
-                    o.errorHandlerCallback = function (data) { return window.alert(data); };
+                    o.errorHandlerCallback = function (data) { return window.alert(data.status); };
                     var vm = new IndexViewModel(o);
                     o.filterPanelClearButtonCallback = vm.clearButton;
                     o.filterPanelSetButtonCallback = vm.setButton;

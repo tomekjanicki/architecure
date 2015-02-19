@@ -1,6 +1,11 @@
 ﻿module Application.ViewModel.Product1 {
     "use strict";
 
+    export class IndexOption extends Application.GridView.Option<Index> {
+        
+        public deleteCommand: Application.Common.ICommand<Delete, any, any> = null;
+    }
+
     export class Index {
         // reSharper disable InconsistentNaming
         public Id: number;
@@ -11,6 +16,13 @@
         public Version: string;
         // reSharper restore InconsistentNaming
 
+    }
+
+    export class Delete {
+        // reSharper disable InconsistentNaming
+        public Id: number;
+        public Version: number[];
+        // reSharper restore InconsistentNaming
     }
 
     export class IndexViewModel extends Application.GridView.BaseGridView<Index> {
@@ -36,6 +48,10 @@
             return arr;
         }
 
+        private getOption = (): IndexOption => {
+            return <IndexOption>this.option;
+        }
+
         private criteria = (): string => Common.Util.formatString("code={0}&name={1}", this.codeLocal, this.nameLocal);
 
         private swapValues = (): void => {
@@ -52,17 +68,28 @@
         }
 
         public deleteOrder = (item: Index): void => {
-            window.alert(Application.Common.Util.formatString("{0} {1}", item.Id.toString(), item.Version));
+            var p = new Delete();
+            p.Id = item.Id;
+            p.Version = Common.Util.unpackFromString(item.Version);
+            var option = this.getOption();
+            option.deleteCommand.execute(p, this.successDelete, option.errorHandlerCallback, Application.Common.Method.Delete);
+        }
+
+        private successDelete = (): void => {
+            window.alert("OK");
+            this.refresh();
         }
 
         public static getInitializedViewModel(pagedQuery: Common.IPagedQuery<Index, any>,
-            query: Common.IQuery<Index, any>): IndexViewModel {
-            var o = new Application.GridView.Option<Index>();
+            query: Common.IQuery<Index, any>,
+            deleteCommand: Common.ICommand<Delete, any, any>): IndexViewModel {
+            var o = new IndexOption();
             o.filterPanelVisible = true;
             o.pagingEnabled = true;
             o.pagedQuery = pagedQuery;
             o.defaultPageSize = 10;
             o.query = query;
+            o.deleteCommand = deleteCommand;
             o.filterPanelCriteriaTemplateName = "criteriaTemplate";
             o.columns.push(new Application.GridView.Column("Id", "Id", "Id", "", "", ""));
             o.columns.push(new Application.GridView.Column("Code", "Code", "Code", "", "", ""));
@@ -72,7 +99,7 @@
             o.columns.push(new Application.GridView.Column("", "", "", "",
                 "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" title=\"Edit product\">Edit</a>", ""));
             o.columns.push(new Application.GridView.Column("", "", "", "", "", "deleteProduct"));
-            o.errorHandlerCallback = (data: any) => window.alert(data);
+            o.errorHandlerCallback = (data: any) => window.alert(data.status);
             var vm = new IndexViewModel(o);
             o.filterPanelClearButtonCallback = vm.clearButton;
             o.filterPanelSetButtonCallback = vm.setButton;

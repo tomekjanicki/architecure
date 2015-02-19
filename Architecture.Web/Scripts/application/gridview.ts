@@ -130,7 +130,7 @@
         public filterPanelButtonStyle: KnockoutComputed<string> = ko.computed(this.getFilterPanelButtonStyle);
         public filterButtonTooltip: KnockoutComputed<string> = ko.computed(this.getFilterButtonTooltip);
 
-        private option: Option<TModel>;
+        public option: Option<TModel>;
         private optionValidated: boolean = false;
 
         constructor(option: Option<TModel>) {

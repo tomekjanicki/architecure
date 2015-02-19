@@ -37,6 +37,14 @@ var Application;
             };
             Util.isUndefinedOrNull = function (arg) { return arg === undefined || arg === null; };
             Util.isUndefinedOrNullOrEmpty = function (arg) { return Util.isUndefinedOrNull(arg) || arg === ""; };
+            Util.unpackFromString = function (str) {
+                var byteCharacters = atob(str);
+                var byteNumbers = new Array(byteCharacters.length);
+                for (var i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                return byteNumbers;
+            };
             return Util;
         })();
         Common.Util = Util;

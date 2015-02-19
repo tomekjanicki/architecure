@@ -37,6 +37,16 @@ module Application.Common {
         public static isUndefinedOrNull = (arg: any): boolean => arg === undefined || arg === null;
 
         public static isUndefinedOrNullOrEmpty = (arg: string) => Util.isUndefinedOrNull(arg) || arg === "";
+
+        public static unpackFromString = (str: string): number[]=> {
+            var byteCharacters = atob(str);
+            var byteNumbers = new Array(byteCharacters.length);
+            for (var i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            return byteNumbers;
+        }
+
     }
 
     export class Guid {
