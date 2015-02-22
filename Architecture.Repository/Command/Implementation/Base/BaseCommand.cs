@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 using Architecture.Repository.Exception;
 using Architecture.Util;
 using Dapper;
@@ -18,12 +19,17 @@ namespace Architecture.Repository.Command.Implementation.Base
             _connectionWithTransaction = connectionWithTransaction;
         }
 
-        private IDbConnection Connection
+        private DbConnection Connection
         {
             get { return _connectionWithTransaction.ConnectionFunc(); }
         }
 
-        private IDbTransaction Transaction
+        private async Task<DbConnection> GetConnectionAsync()
+        {
+            return await _connectionWithTransaction.ConnectionFuncAsync();
+        }
+
+        private DbTransaction Transaction
         {
             get { return _connectionWithTransaction.TransactionFunc(); }
         }
@@ -58,6 +64,22 @@ namespace Architecture.Repository.Command.Implementation.Base
             return QueryReturnsEnumerable<T>(sql, param).FirstOrDefault();
         }
 
+        protected async Task<IEnumerable<T>> QueryReturnsEnumerableAsync<T>(string sql, object param = null)
+        {
+            var transaction = IsActiveTransaction ? Transaction : null;
+            return await Handler.HandleFunctionAsync(async () =>
+            {
+                var con = await GetConnectionAsync();
+                return await con.QueryAsync<T>(sql, param, transaction);
+            });
+        }
+
+        protected async Task<T> QueryReturnsFirstOrDefaultAsync<T>(string sql, object param = null)
+        {
+            var data = await QueryReturnsEnumerableAsync<T>(sql, param);
+            return data.FirstOrDefault();
+        }
+
         protected T ExecuteScalar<T>(string sql, object param = null)
         {
             return Handler.HandleFunction(() => Connection.ExecuteScalar<T>(sql, param, Transaction));
@@ -66,6 +88,24 @@ namespace Architecture.Repository.Command.Implementation.Base
         protected void Execute(string sql, object param = null)
         {
             Handler.HandleAction(() => Connection.Execute(sql, param, Transaction));
+        }
+
+        protected async Task<T> ExecuteScalarAsync<T>(string sql, object param = null)
+        {
+            return await Handler.HandleFunctionAsync(async () =>
+            {
+                var con = await GetConnectionAsync();
+                return await con.ExecuteScalarAsync<T>(sql, param, Transaction);
+            });
+        }
+
+        protected async Task ExecuteAsync(string sql, object param = null)
+        {
+            await Handler.HandleActionAsync(async () =>
+            {
+                var con = await GetConnectionAsync();
+                await con.ExecuteAsync(sql, param, Transaction);
+            });
         }
 
     }

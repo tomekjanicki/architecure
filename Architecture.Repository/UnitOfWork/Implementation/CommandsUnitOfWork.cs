@@ -1,4 +1,6 @@
 using System.Data;
+using System.Data.Common;
+using System.Threading.Tasks;
 using Architecture.Repository.Command.Implementation;
 using Architecture.Repository.Command.Implementation.Base;
 using Architecture.Repository.Command.Interface;
@@ -10,8 +12,8 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 {
     public class CommandsUnitOfWork : ICommandsUnitOfWork
     {
-        private readonly IDbConnection _connection;
-        private IDbTransaction _transaction;
+        private readonly DbConnection _connection;
+        private DbTransaction _transaction;
         private bool _transactionStarted;
 
         private bool _disposed;
@@ -21,14 +23,21 @@ namespace Architecture.Repository.UnitOfWork.Implementation
             _connection = Handler.HandleFunction(() => Extension.GetConnection("Main", false));
         }
 
-        private IDbConnection GetOpenConnection()
+        private DbConnection GetOpenConnection()
         {
             if (_connection.State != ConnectionState.Open)
                 _connection.Open();
             return _connection;
         }
 
-        private IDbTransaction GetTransaction()
+        private async Task<DbConnection> GetOpenConnectionAsync()
+        {
+            if (_connection.State != ConnectionState.Open)
+                await _connection.OpenAsync();
+            return _connection;
+        }
+
+        private DbTransaction GetTransaction()
         {
             if (_transaction == null)
             {
@@ -103,7 +112,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 
         private ConnectionWithTransaction GetConnectionWithTransaction()
         {
-            return new ConnectionWithTransaction(GetOpenConnection, GetTransaction, IsActiveTransaction);
+            return new ConnectionWithTransaction(GetOpenConnection, GetOpenConnectionAsync, GetTransaction, IsActiveTransaction);
         }
 
     }

@@ -1,4 +1,7 @@
-﻿using Architecture.Business.Manager.Implementation.Base;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Architecture.Business.Manager.Implementation.Base;
 using Architecture.Business.Manager.Interface;
 using Architecture.Repository.UnitOfWork.Interface;
 using Architecture.Util;
@@ -13,9 +16,20 @@ namespace Architecture.Business.Manager.Implementation
         {
         }
 
-        public Paged<FindCustomers> FindCustomers(string name, PageAndSortCriteria pageAndSortCriteria)
+        public async Task<Paged<FindCustomers>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
         {
-            return CommandsUnitOfWork.CustomerCommand.FindCustomers(name, pageAndSortCriteria);
+            return await CommandsUnitOfWork.CustomerCommand.FindCustomersAsync(name, pageAndSortCriteria);
+        }
+
+        public async Task<Tuple<int?, Dictionary<string, IList<string>>>> InsertCustomerAsync(InsertCustomer insertCustomer)
+        {
+            return await HandleValidationAsync<int?>("insertCustomer", insertCustomer, async () =>
+            {
+                var id = await CommandsUnitOfWork.CustomerCommand.InsertCustomerAsync(insertCustomer);
+                CommandsUnitOfWork.SaveChanges();
+                return id;
+            });
+
         }
     }
 }

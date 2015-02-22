@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -34,7 +33,7 @@ namespace Architecture.Util
             throw new NotImplementedException();
         }
 
-        public static IDbConnection GetConnection(string key, bool switchToMaster)
+        public static DbConnection GetConnection(string key, bool switchToMaster)
         {
             var connectionString = ConfigurationManager.ConnectionStrings[key];
             var factory = DbProviderFactories.GetFactory(connectionString.ProviderName);

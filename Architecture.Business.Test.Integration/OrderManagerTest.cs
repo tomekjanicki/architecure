@@ -12,7 +12,7 @@ namespace Architecture.Business.Test.Integration
         {
             var businessLogicFacade = GetBusinessLogicFacade();
             var products = businessLogicFacade.ProductManager.FindProducts("C1", null, new PageAndSortCriteria(1, 0, null));
-            var customers = businessLogicFacade.CustomerManager.FindCustomers("C1", new PageAndSortCriteria(1, 0, null));
+            var customers = businessLogicFacade.CustomerManager.FindCustomersAsync("C1", new PageAndSortCriteria(1, 0, null)).Result;
 
             var data = OrderManagerTestHelper.GetValidInsertOrder(products, customers);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Architecture.Util.Exception
 {
@@ -14,6 +15,16 @@ namespace Architecture.Util.Exception
             _func = func;
         }
 
+        public async Task HandleActionAsync(Func<Task> actionFunc)
+        {
+            await HandleFunctionOrActionAsync<object>(null, actionFunc);
+        }
+
+        public async Task<T> HandleFunctionAsync<T>(Func<Task<T>> function)
+        {
+            return await HandleFunctionOrActionAsync(function, null);
+        }
+
         public void HandleAction(Action action)
         {
             HandleFunctionOrAction<object>(null, action);
@@ -22,6 +33,24 @@ namespace Architecture.Util.Exception
         public T HandleFunction<T>(Func<T> function)
         {
             return HandleFunctionOrAction(function, null);
+        }
+
+        private async Task<T> HandleFunctionOrActionAsync<T>(Func<Task<T>> function, Func<Task> action)
+        {
+            try
+            {
+                if (function != null)
+                    return await function();
+                await action();
+                return default(T);
+            }
+            catch (System.Exception ex)
+            {
+                var exceptionType = ex.GetType();
+                if (_handledExceptionTypes.Contains(exceptionType) || _handledExceptionTypes.Any(exceptionType.IsSubclassOf))
+                    throw _func(ex);
+                throw;
+            }            
         }
 
         private T HandleFunctionOrAction<T>(Func<T> function, Action action)

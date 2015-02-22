@@ -1,11 +1,13 @@
-﻿using Architecture.Util;
+﻿using System.Threading.Tasks;
+using Architecture.Util;
 using Architecture.ViewModel;
 
 namespace Architecture.Repository.Command.Interface
 {
     public interface ICustomerCommand
     {
-        Paged<FindCustomers> FindCustomers(string name, PageAndSortCriteria pageAndSortCriteria);
+        Task<Paged<FindCustomers>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria);
+        Task<int> InsertCustomerAsync(InsertCustomer insertCustomer);
         string GetCustomerMail(int id);
     }
 }
