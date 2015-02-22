@@ -22,7 +22,7 @@ namespace Architecture.Repository.Command.Implementation
             var whereFragment = GetWhereFragment(name);
             var pagedFragment = GetPagedFragment(Page.FromPageAndSortCriteria(pageAndSortCriteria), GetTranslatedSort(pageAndSortCriteria.Sort));
             var countQuery = string.Format("SELECT COUNT(*) FROM DBO.CUSTOMERS {0}", whereFragment.Item1);
-            var count = QueryReturnsFirstOrDefault<int>(countQuery, whereFragment.Item2);
+            var count = await QueryReturnsFirstOrDefaultAsync<int>(countQuery, whereFragment.Item2);
             var dataQuery = string.Format(@"SELECT ID, NAME, MAIL FROM DBO.CUSTOMERS {0} {1}", whereFragment.Item1, pagedFragment.Item1);
             whereFragment.Item2.AddDynamicParams(pagedFragment.Item2);
             var data = await QueryReturnsEnumerableAsync<FindCustomersAsync>(dataQuery, whereFragment.Item2);
