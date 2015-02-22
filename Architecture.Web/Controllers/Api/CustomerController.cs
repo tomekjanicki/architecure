@@ -14,7 +14,7 @@ namespace Architecture.Web.Controllers.Api
         {
         }
 
-        public async Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, int pageSize, int skip, string sort)
+        public async Task<Paged<FindCustomersAsync>> GetCustomersAsync(string name, int pageSize, int skip, string sort)
         {
             return await BusinessLogicFacade.CustomerManager.FindCustomersAsync(name, new PageAndSortCriteria(pageSize, skip, sort));
         }

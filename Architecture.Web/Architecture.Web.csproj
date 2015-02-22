@@ -191,6 +191,7 @@
     <Compile Include="Code\Security\ClaimsTransformer.cs" />
     <Compile Include="Controllers\Api\CustomerController.cs" />
     <Compile Include="Controllers\Api\OrderController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\ProductController.cs" />
     <Compile Include="Controllers\JsTestController.cs" />
@@ -284,6 +285,7 @@
     <Content Include="Views\JsTest\Index.cshtml" />
     <Content Include="Views\Order\Create.cshtml" />
     <Content Include="Views\Shared\_KoGridCommon.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Architecture.Business\Architecture.Business.csproj">
@@ -315,7 +317,9 @@
     <TypeScriptCompile Include="Scripts\application\test\common.ts" />
     <TypeScriptCompile Include="Scripts\application\test\helper.ts" />
     <TypeScriptCompile Include="Scripts\application\test\view\order.create.ts" />
+    <TypeScriptCompile Include="Scripts\application\viewModel\customer.ts" />
     <TypeScriptCompile Include="Scripts\application\viewModel\order.ts" />
+    <TypeScriptCompile Include="Scripts\application\view\customer.index.ts" />
     <TypeScriptCompile Include="Scripts\application\view\order.create.ts" />
     <TypeScriptCompile Include="Scripts\application\view\product.index.ts" />
     <TypeScriptCompile Include="Scripts\application\viewModel\product.ts" />

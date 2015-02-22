@@ -1,0 +1,18 @@
+﻿@using Architecture.Web.Code
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<button class="btn btn-default" data-bind="click: fetchCustomers">Find customers</button>
+<br/>
+<button class="btn btn-default" data-bind="click: insertCustomer">Insert customer</button>
+@section scripts {
+    @Scripts.Render(@ScriptHelper.GetViewSpecificScripts(ViewContext))
+}
+
+
+
+
