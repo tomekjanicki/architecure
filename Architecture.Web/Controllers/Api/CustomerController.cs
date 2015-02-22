@@ -14,14 +14,14 @@ namespace Architecture.Web.Controllers.Api
         {
         }
 
-        public async Task<Paged<FindCustomers>> FindCustomersAsync(string name, int pageSize, int skip, string sort)
+        public async Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, int pageSize, int skip, string sort)
         {
             return await BusinessLogicFacade.CustomerManager.FindCustomersAsync(name, new PageAndSortCriteria(pageSize, skip, sort));
         }
 
-        public async Task<IHttpActionResult> PostCustomerAsync(InsertCustomer insertCustomer)
+        public async Task<IHttpActionResult> PostCustomerAsync(InsertCustomerAsync insertCustomerAsync)
         {
-            return await HandlePostAsync(() => BusinessLogicFacade.CustomerManager.InsertCustomerAsync(insertCustomer), insertCustomer);
+            return await HandlePostAsync(() => BusinessLogicFacade.CustomerManager.InsertCustomerAsync(insertCustomerAsync), insertCustomerAsync);
         }
 
     }

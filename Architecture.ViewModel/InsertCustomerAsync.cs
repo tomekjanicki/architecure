@@ -2,7 +2,7 @@
 
 namespace Architecture.ViewModel
 {
-    public class InsertCustomer
+    public class InsertCustomerAsync
     {
         [Required]
         [MaxLength(50)]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Architecture.Util.Test
@@ -34,6 +35,18 @@ namespace Architecture.Util.Test
         {
             Trace.WriteLine(string.Format("Time: {0}: Thread Id: {1}, Msg: {2}", DateTime.Now.ToString("hh:mm:ss.ffff"), Thread.CurrentThread.ManagedThreadId, message));
         }
+
+        protected static async Task<T> Delayed<T>(int miliseconds, T result)
+        {
+            await Task.Delay(miliseconds);
+            return result;
+        }
+
+        protected static async Task<T> Delayed<T>(T result)
+        {
+            return await Delayed(100, result);
+        }
+
 
     }
 }

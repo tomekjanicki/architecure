@@ -8,7 +8,7 @@ namespace Architecture.Business.Manager.Interface
 {
     public interface ICustomerManager
     {
-        Task<Paged<FindCustomers>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria);
-        Task<Tuple<int?, Dictionary<string, IList<string>>>> InsertCustomerAsync(InsertCustomer insertCustomer);
+        Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria);
+        Task<Tuple<int?, Dictionary<string, IList<string>>>> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync);
     }
 }

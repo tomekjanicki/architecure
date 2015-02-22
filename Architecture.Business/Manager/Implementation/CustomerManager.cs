@@ -16,16 +16,16 @@ namespace Architecture.Business.Manager.Implementation
         {
         }
 
-        public async Task<Paged<FindCustomers>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
+        public async Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
         {
             return await CommandsUnitOfWork.CustomerCommand.FindCustomersAsync(name, pageAndSortCriteria);
         }
 
-        public async Task<Tuple<int?, Dictionary<string, IList<string>>>> InsertCustomerAsync(InsertCustomer insertCustomer)
+        public async Task<Tuple<int?, Dictionary<string, IList<string>>>> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync)
         {
-            return await HandleValidationAsync<int?>("insertCustomer", insertCustomer, async () =>
+            return await HandleValidationAsync<int?>("insertCustomer", insertCustomerAsync, async () =>
             {
-                var id = await CommandsUnitOfWork.CustomerCommand.InsertCustomerAsync(insertCustomer);
+                var id = await CommandsUnitOfWork.CustomerCommand.InsertCustomerAsync(insertCustomerAsync);
                 CommandsUnitOfWork.SaveChanges();
                 return id;
             });

@@ -6,8 +6,8 @@ namespace Architecture.Repository.Command.Interface
 {
     public interface ICustomerCommand
     {
-        Task<Paged<FindCustomers>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria);
-        Task<int> InsertCustomerAsync(InsertCustomer insertCustomer);
+        Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria);
+        Task<int> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync);
         string GetCustomerMail(int id);
     }
 }

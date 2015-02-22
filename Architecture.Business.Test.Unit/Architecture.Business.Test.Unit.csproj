@@ -59,6 +59,8 @@
     </Compile>
     <Compile Include="Base\BaseManagerTest.cs" />
     <Compile Include="Base\IoC.cs" />
+    <Compile Include="CustomerManagerTest.cs" />
+    <Compile Include="Helper\CustomerManagerTestHelper.cs" />
     <Compile Include="MailManagerTest.cs" />
     <Compile Include="Helper\MailManagerTestHelper.cs" />
     <Compile Include="OrderManagerTest.cs" />

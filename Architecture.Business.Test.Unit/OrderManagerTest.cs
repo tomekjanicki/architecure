@@ -10,7 +10,6 @@ using NUnit.Framework;
 
 namespace Architecture.Business.Test.Unit
 {
-
     public class OrderManagerTest : BaseManagerTest
     {
         [Test]

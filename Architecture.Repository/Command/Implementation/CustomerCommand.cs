@@ -16,7 +16,7 @@ namespace Architecture.Repository.Command.Implementation
         {
         }
 
-        public async Task<Paged<FindCustomers>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
+        public async Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
         {
             var whereFragment = GetWhereFragment(name);
             var pagedFragment = GetPagedFragment(Page.FromPageAndSortCriteria(pageAndSortCriteria), GetTranslatedSort(pageAndSortCriteria.Sort));
@@ -24,13 +24,13 @@ namespace Architecture.Repository.Command.Implementation
             var count = QueryReturnsFirstOrDefault<int>(countQuery, whereFragment.Item2);
             var dataQuery = string.Format(@"SELECT ID, NAME, MAIL FROM DBO.CUSTOMERS {0} {1}", whereFragment.Item1, pagedFragment.Item1);
             whereFragment.Item2.AddDynamicParams(pagedFragment.Item2);
-            var data = await QueryReturnsEnumerableAsync<FindCustomers>(dataQuery, whereFragment.Item2);
-            return new Paged<FindCustomers>(count, data);
+            var data = await QueryReturnsEnumerableAsync<FindCustomersAsync>(dataQuery, whereFragment.Item2);
+            return new Paged<FindCustomersAsync>(count, data);
         }
 
-        public async Task<int> InsertCustomerAsync(InsertCustomer insertCustomer)
+        public async Task<int> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync)
         {
-            return await ExecuteScalarAsync<int>("INSERT INTO DBO.CUSTOMERS (NAME, MAIL) OUTPUT INSERTED.ID VALUES(@NAME, @MAIL)", new { NAME = insertCustomer.Name, MAIL = insertCustomer.Mail });
+            return await ExecuteScalarAsync<int>("INSERT INTO DBO.CUSTOMERS (NAME, MAIL) OUTPUT INSERTED.ID VALUES(@NAME, @MAIL)", new { NAME = insertCustomerAsync.Name, MAIL = insertCustomerAsync.Mail });
         }
 
         public string GetCustomerMail(int id)
