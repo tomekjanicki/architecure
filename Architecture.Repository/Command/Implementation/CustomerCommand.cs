@@ -5,6 +5,7 @@ using Architecture.Repository.Command.Implementation.Base;
 using Architecture.Repository.Command.Interface;
 using Architecture.Util;
 using Architecture.ViewModel;
+using Architecture.ViewModel.Internal;
 using Dapper;
 
 namespace Architecture.Repository.Command.Implementation
@@ -31,6 +32,12 @@ namespace Architecture.Repository.Command.Implementation
         public async Task<int> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync)
         {
             return await ExecuteScalarAsync<int>("INSERT INTO DBO.CUSTOMERS (NAME, MAIL) OUTPUT INSERTED.ID VALUES(@NAME, @MAIL)", new { NAME = insertCustomerAsync.Name, MAIL = insertCustomerAsync.Mail });
+        }
+
+        public async Task<bool> IsMailUniqueAsync(IsMailUniqueAsync isMailUniqueAsync)
+        {
+            var r = await QueryReturnsFirstOrDefaultAsync<int>("SELECT CASE WHEN @ID IS NULL THEN (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL) ELSE (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL AND ID NOT IN (@ID)) END", new { MAIL = isMailUniqueAsync.Mail, ID = isMailUniqueAsync.CustomerId });
+            return r == 0;
         }
 
         public string GetCustomerMail(int id)

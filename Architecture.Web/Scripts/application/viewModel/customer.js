@@ -22,12 +22,12 @@ var Application;
                     var _this = this;
                     this.insertCustomer = function () {
                         var insertCustomerAsync = new InsertCustomerAsync();
-                        insertCustomerAsync.Mail = "example@example.com";
+                        insertCustomerAsync.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
                         insertCustomerAsync.Name = "name";
                         _this.insertCommand.execute(insertCustomerAsync, function () {
                             window.alert("OK");
-                        }, function () {
-                            window.alert("Error");
+                        }, function (data) {
+                            window.alert(Application.Common.Util.formatString("Error status: {0}", data.status));
                         }, 0 /* Post */);
                     };
                     this.fetchCustomers = function () {

@@ -28,12 +28,12 @@
 
         public insertCustomer = (): void => {
             var insertCustomerAsync = new InsertCustomerAsync();
-            insertCustomerAsync.Mail = "example@example.com";
+            insertCustomerAsync.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
             insertCustomerAsync.Name = "name";
             this.insertCommand.execute(insertCustomerAsync,() => {
                 window.alert("OK");
-            },() => {
-                    window.alert("Error");
+            },(data: any) => {
+                    window.alert(Application.Common.Util.formatString("Error status: {0}", data.status));
                 }, Application.Common.Method.Post);
         }
 

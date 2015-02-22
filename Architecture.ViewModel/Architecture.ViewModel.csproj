@@ -57,6 +57,7 @@
     <Compile Include="FindOrders.cs" />
     <Compile Include="Internal\GetNotConfirmedOrdersToRemind.cs" />
     <Compile Include="InsertOrder.cs" />
+    <Compile Include="Internal\IsMailUniqueAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Send.cs" />
     <Compile Include="UpdateOrder.cs" />
