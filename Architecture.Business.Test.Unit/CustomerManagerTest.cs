@@ -45,6 +45,20 @@ namespace Architecture.Business.Test.Unit
         }
 
         [Test]
+        public async Task InsertCustomerAsync_DefaultArgument_ReturnsValidationResults()
+        {
+            var commandsUnitOfWork = GetCommandsUnitOfWork();
+            var businessLogicFacade = GetBusinessLogicFacade();
+            var data = new InsertCustomerAsync();
+            commandsUnitOfWork.CustomerCommand.Returns(CustomerManagerTestHelper.GetCustomerCommand());
+
+            var returnedData = await businessLogicFacade.CustomerManager.InsertCustomerAsync(data);
+
+            Assert.That(returnedData.Item1 == null);
+            Assert.That(returnedData.Item2.Count > 0);
+        }
+
+        [Test]
         public async Task FindCustomersAsync_ValidArguments_ReturnResults()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
