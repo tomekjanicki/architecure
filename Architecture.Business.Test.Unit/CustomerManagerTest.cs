@@ -57,6 +57,7 @@ namespace Architecture.Business.Test.Unit
             Assert.That(returnedData.Item1 == null);
             Assert.That(returnedData.Item2.Count > 0);
         }
+        //testowy komentarz
       
         [Test]
         public async Task FindCustomersAsync_ValidArguments_ReturnResults()
