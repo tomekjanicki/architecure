@@ -19,22 +19,22 @@ namespace Architecture.Business.Manager.Implementation
 
         public async Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
         {
-            return await CommandsUnitOfWork.CustomerCommand.FindCustomersAsync(name, pageAndSortCriteria);
+            return await CommandsUnitOfWork.CustomerCommand.FindCustomersAsync(name, pageAndSortCriteria).NoAwait();
         }
 
         public async Task<Tuple<int?, Dictionary<string, IList<string>>>> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync)
         {
             Func<Task<List<Tuple<string, string>>>> additionalValidationProviderFunc = async () =>
             {
-                var isUnique = await CommandsUnitOfWork.CustomerCommand.IsMailUniqueAsync(new IsMailUniqueAsync{Mail = insertCustomerAsync.Mail});
+                var isUnique = await CommandsUnitOfWork.CustomerCommand.IsMailUniqueAsync(new IsMailUniqueAsync{Mail = insertCustomerAsync.Mail}).NoAwait();
                 return isUnique ? new List<Tuple<string, string>>() : new List<Tuple<string, string>> { new Tuple<string, string>(string.Empty, Const.CustomerMailIsNotUniqueMessage) } ;
             };
             return await HandleValidationAsync<int?>("insertCustomer", insertCustomerAsync, async () =>
             {
-                var id = await CommandsUnitOfWork.CustomerCommand.InsertCustomerAsync(insertCustomerAsync);
+                var id = await CommandsUnitOfWork.CustomerCommand.InsertCustomerAsync(insertCustomerAsync).NoAwait();
                 CommandsUnitOfWork.SaveChanges();
                 return id;
-            }, additionalValidationProviderFunc);
+            }, additionalValidationProviderFunc).NoAwait();
 
         }
     }

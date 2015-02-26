@@ -4,6 +4,8 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Architecture.Util.Ninject.Scope;
 using Ninject.Syntax;
 
@@ -112,6 +114,16 @@ namespace Architecture.Util
                 throw new ArgumentNullException("func");
             if (handler != null)
                 handler(sender, func());
+        }
+
+        public static ConfiguredTaskAwaitable<T> NoAwait<T>(this Task<T> task)
+        {
+            return task.ConfigureAwait(false);
+        }
+
+        public static ConfiguredTaskAwaitable NoAwait(this Task task)
+        {
+            return task.ConfigureAwait(false);
         }
 
     }

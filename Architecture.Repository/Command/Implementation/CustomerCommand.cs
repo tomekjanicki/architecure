@@ -22,21 +22,21 @@ namespace Architecture.Repository.Command.Implementation
             var whereFragment = GetWhereFragment(name);
             var pagedFragment = GetPagedFragment(Page.FromPageAndSortCriteria(pageAndSortCriteria), GetTranslatedSort(pageAndSortCriteria.Sort));
             var countQuery = string.Format("SELECT COUNT(*) FROM DBO.CUSTOMERS {0}", whereFragment.Item1);
-            var count = await QueryReturnsFirstOrDefaultAsync<int>(countQuery, whereFragment.Item2);
+            var count = await QueryReturnsFirstOrDefaultAsync<int>(countQuery, whereFragment.Item2).NoAwait();
             var dataQuery = string.Format(@"SELECT ID, NAME, MAIL FROM DBO.CUSTOMERS {0} {1}", whereFragment.Item1, pagedFragment.Item1);
             whereFragment.Item2.AddDynamicParams(pagedFragment.Item2);
-            var data = await QueryReturnsEnumerableAsync<FindCustomersAsync>(dataQuery, whereFragment.Item2);
+            var data = await QueryReturnsEnumerableAsync<FindCustomersAsync>(dataQuery, whereFragment.Item2).NoAwait();
             return new Paged<FindCustomersAsync>(count, data);
         }
 
         public async Task<int> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync)
         {
-            return await ExecuteScalarAsync<int>("INSERT INTO DBO.CUSTOMERS (NAME, MAIL) OUTPUT INSERTED.ID VALUES(@NAME, @MAIL)", new { NAME = insertCustomerAsync.Name, MAIL = insertCustomerAsync.Mail });
+            return await ExecuteScalarAsync<int>("INSERT INTO DBO.CUSTOMERS (NAME, MAIL) OUTPUT INSERTED.ID VALUES(@NAME, @MAIL)", new { NAME = insertCustomerAsync.Name, MAIL = insertCustomerAsync.Mail }).NoAwait();
         }
 
         public async Task<bool> IsMailUniqueAsync(IsMailUniqueAsync isMailUniqueAsync)
         {
-            var r = await QueryReturnsFirstOrDefaultAsync<int>("SELECT CASE WHEN @ID IS NULL THEN (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL) ELSE (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL AND ID NOT IN (@ID)) END", new { MAIL = isMailUniqueAsync.Mail, ID = isMailUniqueAsync.CustomerId });
+            var r = await QueryReturnsFirstOrDefaultAsync<int>("SELECT CASE WHEN @ID IS NULL THEN (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL) ELSE (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL AND ID NOT IN (@ID)) END", new { MAIL = isMailUniqueAsync.Mail, ID = isMailUniqueAsync.CustomerId }).NoAwait();
             return r == 0;
         }
 

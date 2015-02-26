@@ -33,7 +33,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
         private async Task<DbConnection> GetOpenConnectionAsync()
         {
             if (_connection.State != ConnectionState.Open)
-                await _connection.OpenAsync();
+                await _connection.OpenAsync().NoAwait();
             return _connection;
         }
 

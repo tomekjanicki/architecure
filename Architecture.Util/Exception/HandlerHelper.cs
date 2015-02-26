@@ -17,12 +17,12 @@ namespace Architecture.Util.Exception
 
         public async Task HandleActionAsync(Func<Task> actionFunc)
         {
-            await HandleFunctionOrActionAsync<object>(null, actionFunc);
+            await HandleFunctionOrActionAsync<object>(null, actionFunc).NoAwait();
         }
 
         public async Task<T> HandleFunctionAsync<T>(Func<Task<T>> function)
         {
-            return await HandleFunctionOrActionAsync(function, null);
+            return await HandleFunctionOrActionAsync(function, null).NoAwait();
         }
 
         public void HandleAction(Action action)
@@ -40,8 +40,8 @@ namespace Architecture.Util.Exception
             try
             {
                 if (function != null)
-                    return await function();
-                await action();
+                    return await function().NoAwait();
+                await action().NoAwait();
                 return default(T);
             }
             catch (System.Exception ex)

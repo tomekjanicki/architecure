@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Architecture.Business.Exception;
 using Architecture.Repository.UnitOfWork.Interface;
+using Architecture.Util;
 using Architecture.Util.Validation;
 
 namespace Architecture.Business.Manager.Implementation.Base
@@ -47,7 +48,7 @@ namespace Architecture.Business.Manager.Implementation.Base
             var ret = GetValidationResultCommon(prefix, obj); 
             if (additionalValidationProviderFunc != null)
             {
-                var r = await additionalValidationProviderFunc();
+                var r = await additionalValidationProviderFunc().NoAwait();
                 ModelStateAdapter.Merge(prefix, ret, r);
             }
             return ret;
@@ -73,10 +74,10 @@ namespace Architecture.Business.Manager.Implementation.Base
 
         protected async Task<Tuple<T, Dictionary<string, IList<string>>>> HandleValidationAsync<T>(string prefix, object obj, Func<Task<T>> func, Func<Task<List<Tuple<string, string>>>> additionalValidationProviderFunc = null)
         {
-            var validationResults = await GetValidationResultAsync(prefix, obj, additionalValidationProviderFunc);
+            var validationResults = await GetValidationResultAsync(prefix, obj, additionalValidationProviderFunc).NoAwait();
             if (validationResults.Count > 0)
                 return new Tuple<T, Dictionary<string, IList<string>>>(default(T), validationResults);
-            var result = await func();
+            var result = await func().NoAwait();
             return new Tuple<T, Dictionary<string, IList<string>>>(result, new Dictionary<string, IList<string>>());
         }
 
@@ -88,7 +89,7 @@ namespace Architecture.Business.Manager.Implementation.Base
 
         protected async Task HandleConcurrencyAsync(Func<Task<byte[]>> getVersionFunc, byte[] localVersion, string key, Type exceptionType)
         {
-            var version = await ReturnDataWhenFoundOrThrowNotFoundExceptionAsync(getVersionFunc, key, exceptionType);
+            var version = await ReturnDataWhenFoundOrThrowNotFoundExceptionAsync(getVersionFunc, key, exceptionType).NoAwait();
             HandleConcurrencyCommon(localVersion, key, exceptionType, version);
         }
 

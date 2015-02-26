@@ -13,7 +13,6 @@ namespace Architecture.Repository.Command.Implementation.Base
     {
         private readonly ConnectionWithTransaction _connectionWithTransaction;
 
-
         protected BaseCommand(ConnectionWithTransaction connectionWithTransaction)
         {
             _connectionWithTransaction = connectionWithTransaction;
@@ -26,7 +25,7 @@ namespace Architecture.Repository.Command.Implementation.Base
 
         private async Task<DbConnection> GetConnectionAsync()
         {
-            return await _connectionWithTransaction.ConnectionFuncAsync();
+            return await _connectionWithTransaction.ConnectionFuncAsync().NoAwait();
         }
 
         private DbTransaction Transaction
@@ -69,14 +68,14 @@ namespace Architecture.Repository.Command.Implementation.Base
             var transaction = IsActiveTransaction ? Transaction : null;
             return await Handler.HandleFunctionAsync(async () =>
             {
-                var con = await GetConnectionAsync();
-                return await con.QueryAsync<T>(sql, param, transaction);
-            });
+                var con = await GetConnectionAsync().NoAwait();
+                return await con.QueryAsync<T>(sql, param, transaction).NoAwait();
+            }).NoAwait();
         }
 
         protected async Task<T> QueryReturnsFirstOrDefaultAsync<T>(string sql, object param = null)
         {
-            var data = await QueryReturnsEnumerableAsync<T>(sql, param);
+            var data = await QueryReturnsEnumerableAsync<T>(sql, param).NoAwait();
             return data.FirstOrDefault();
         }
 
@@ -94,18 +93,18 @@ namespace Architecture.Repository.Command.Implementation.Base
         {
             return await Handler.HandleFunctionAsync(async () =>
             {
-                var con = await GetConnectionAsync();
-                return await con.ExecuteScalarAsync<T>(sql, param, Transaction);
-            });
+                var con = await GetConnectionAsync().NoAwait();
+                return await con.ExecuteScalarAsync<T>(sql, param, Transaction).NoAwait();
+            }).NoAwait();
         }
 
         protected async Task ExecuteAsync(string sql, object param = null)
         {
             await Handler.HandleActionAsync(async () =>
             {
-                var con = await GetConnectionAsync();
-                await con.ExecuteAsync(sql, param, Transaction);
-            });
+                var con = await GetConnectionAsync().NoAwait();
+                await con.ExecuteAsync(sql, param, Transaction).NoAwait();
+            }).NoAwait();
         }
 
     }
