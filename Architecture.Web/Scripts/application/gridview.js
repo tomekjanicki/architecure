@@ -65,6 +65,13 @@ var Application;
         var Header = (function () {
             function Header(caption, field, sortEnabled, formatString, useTemplate, useInlineTemplate, templateName) {
                 var _this = this;
+                this.caption = caption;
+                this.field = field;
+                this.sortEnabled = sortEnabled;
+                this.formatString = formatString;
+                this.useTemplate = useTemplate;
+                this.useInlineTemplate = useInlineTemplate;
+                this.templateName = templateName;
                 this.getSortStyle = function () {
                     switch (_this.sortDirection()) {
                         case "asc":
@@ -77,13 +84,6 @@ var Application;
                 };
                 this.sortDirection = ko.observable("");
                 this.sortStyle = ko.computed(this.getSortStyle);
-                this.caption = caption;
-                this.field = field;
-                this.sortEnabled = sortEnabled;
-                this.formatString = formatString;
-                this.useTemplate = useTemplate;
-                this.templateName = templateName;
-                this.useInlineTemplate = useInlineTemplate;
             }
             return Header;
         })();
@@ -91,6 +91,7 @@ var Application;
         var BaseGridView = (function () {
             function BaseGridView(option) {
                 var _this = this;
+                this.option = option;
                 this.getFilterPanelButtonStyle = function () { return _this.filterPanelCriteriaVisible() ? "fa fa-minus-square-o" : "fa fa-plus-square-o"; };
                 this.getFilterButtonTooltip = function () { return _this.filterPanelCriteriaVisible() ? "Collapse" : "Expand"; };
                 this.pageSize = ko.observable(0);
@@ -285,7 +286,6 @@ var Application;
                             return "not implemented yet";
                     }
                 };
-                this.option = option;
             }
             return BaseGridView;
         })();

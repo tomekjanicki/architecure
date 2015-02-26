@@ -106,10 +106,7 @@ module Application.Common {
 
     export class Query<TDone, TFail> implements IQuery<TDone, TFail> {
 
-        private url: string;
-
-        constructor(url: string) {
-            this.url = url;
+        constructor(private url: string) {
         }
 
         public fetch = (params: string, done: JQueryPromiseCallback<TDone[]>, fail: JQueryPromiseCallback<TFail>): void => {
@@ -119,10 +116,7 @@ module Application.Common {
 
     export class PagedQuery<TDone, TFail> implements IPagedQuery<TDone, TFail> {
 
-        private url: string;
-
-        constructor(url: string) {
-            this.url = url;
+        constructor(private url: string) {
         }
 
         public fetch = (params: string, done: JQueryPromiseCallback<Paged<TDone>>, fail: JQueryPromiseCallback<TFail>): void => {
@@ -132,10 +126,7 @@ module Application.Common {
 
     export class Command<TParam, TDone, TFail> implements ICommand<TParam, TDone, TFail> {
 
-        private url: string;
-
-        constructor(url: string) {
-            this.url = url;
+        constructor(private url: string) {
         }
 
         private getMethod(method: Method): string {

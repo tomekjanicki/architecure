@@ -30,8 +30,8 @@ var Application;
             Order.CreateOrderDetail = CreateOrderDetail;
             var CreateViewModel = (function () {
                 function CreateViewModel(command) {
-                    this.createOrder = ko.observable(new CreateOrder());
                     this.command = command;
+                    this.createOrder = ko.observable(new CreateOrder());
                     this.initCreateOrder();
                 }
                 CreateViewModel.prototype.create = function () {

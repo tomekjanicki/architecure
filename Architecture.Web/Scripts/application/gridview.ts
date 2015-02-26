@@ -3,20 +3,7 @@ module Application.GridView {
     "use strict";
 
     export class Column {
-        public caption: string;
-        public field: string;
-        public sortKey: string; // when empty sort is disabled
-        public formatString: string;
-        public cellTemplate: string;
-        public cellTemplateName: string;
-
-        constructor(caption: string, field: string, sortKey: string, formatString: string, cellTemplate: string, cellTemplateName: string) {
-            this.caption = caption;
-            this.field = field;
-            this.sortKey = sortKey;
-            this.formatString = formatString;
-            this.cellTemplate = cellTemplate;
-            this.cellTemplateName = cellTemplateName;
+        constructor(public caption: string, public field: string, public sortKey: string, public formatString: string, public cellTemplate: string, public cellTemplateName: string) {
         }
     }
 
@@ -89,25 +76,11 @@ module Application.GridView {
             }
         }
 
-        public caption: string;
-        public field: string;
         public sortDirection: KnockoutObservable<string> = ko.observable("");
-        public sortEnabled: boolean;
         public sortStyle: KnockoutComputed<string> = ko.computed(this.getSortStyle);
-        public formatString: string;
-        public useTemplate: boolean;
-        public useInlineTemplate: boolean;
-        public templateName: string;
 
-        constructor(caption: string, field: string, sortEnabled: boolean, formatString: string,
-            useTemplate: boolean, useInlineTemplate: boolean, templateName: string) {
-            this.caption = caption;
-            this.field = field;
-            this.sortEnabled = sortEnabled;
-            this.formatString = formatString;
-            this.useTemplate = useTemplate;
-            this.templateName = templateName;
-            this.useInlineTemplate = useInlineTemplate;
+        constructor(public caption: string, public field: string, public sortEnabled: boolean, public formatString: string,
+            public useTemplate: boolean, public useInlineTemplate: boolean, public templateName: string) {
         }
     }
 
@@ -136,11 +109,9 @@ module Application.GridView {
         public filterPanelButtonStyle: KnockoutComputed<string> = ko.computed(this.getFilterPanelButtonStyle);
         public filterButtonTooltip: KnockoutComputed<string> = ko.computed(this.getFilterButtonTooltip);
 
-        public option: Option<TModel>;
         private optionValidated: boolean = false;
 
-        constructor(option: Option<TModel>) {
-            this.option = option;
+        constructor(public option: Option<TModel>) {
         }
 
         public fetchData = (): void => {

@@ -18,13 +18,8 @@
 
     export class ViewModel {
 
-        constructor(insertCommand: Application.Common.ICommand<InsertCustomerAsync, any, any>, findPagedQuery: Application.Common.IPagedQuery<FindCustomerAsync, any>) {
-            this.insertCommand = insertCommand;
-            this.findPagedQuery = findPagedQuery;
+        constructor(private insertCommand: Application.Common.ICommand<InsertCustomerAsync, any, any>, private findPagedQuery: Application.Common.IPagedQuery<FindCustomerAsync, any>) {
         }
-
-        private insertCommand: Application.Common.ICommand<InsertCustomerAsync, any, any>;
-        private findPagedQuery: Application.Common.IPagedQuery<FindCustomerAsync, any>;
 
         public insertCustomer = (): void => {
             var insertCustomerAsync = new InsertCustomerAsync();

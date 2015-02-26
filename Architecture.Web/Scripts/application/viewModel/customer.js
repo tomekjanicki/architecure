@@ -20,6 +20,8 @@ var Application;
             var ViewModel = (function () {
                 function ViewModel(insertCommand, findPagedQuery) {
                     var _this = this;
+                    this.insertCommand = insertCommand;
+                    this.findPagedQuery = findPagedQuery;
                     this.insertCustomer = function () {
                         var insertCustomerAsync = new InsertCustomerAsync();
                         insertCustomerAsync.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
@@ -37,8 +39,6 @@ var Application;
                             window.alert("Error");
                         });
                     };
-                    this.insertCommand = insertCommand;
-                    this.findPagedQuery = findPagedQuery;
                 }
                 ViewModel.getInitializedViewModel = function (pagedQuery, insertCommand) {
                     var vm = new ViewModel(insertCommand, pagedQuery);

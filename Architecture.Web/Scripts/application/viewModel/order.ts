@@ -22,10 +22,8 @@ module Application.ViewModel.Order {
     }
 
     export class CreateViewModel {
-        private command: Common.ICommand<CreateOrder, any, any>;
 
-        constructor(command: Common.ICommand<CreateOrder, any, any>) {
-            this.command = command;
+        constructor(private command: Common.ICommand<CreateOrder, any, any>) {
             this.initCreateOrder();
         }
 

@@ -5,12 +5,7 @@ module Application.Test.Helper {
 
     export class FakeQuery<TDone, TFail> implements Application.Common.IQuery<TDone, TFail> {
 
-        private doneResult: TDone[];
-        private failResult: TFail;
-
-        constructor(doneResult: TDone[], failResult: TFail) {
-            this.doneResult = doneResult;
-            this.failResult = failResult;
+        constructor(private doneResult: TDone[], private failResult: TFail) {
         }
 
         public fetch(params: string, done: JQueryPromiseCallback<TDone[]>,
@@ -25,12 +20,7 @@ module Application.Test.Helper {
 
     export class FakePagedQuery<TDone, TFail> implements Application.Common.IPagedQuery<TDone, TFail> {
 
-        private doneResult: Application.Common.Paged<TDone>;
-        private failResult: TFail;
-
-        constructor(doneResult: Application.Common.Paged<TDone>, failResult: TFail) {
-            this.doneResult = doneResult;
-            this.failResult = failResult;
+        constructor(private doneResult: Application.Common.Paged<TDone>, private failResult: TFail) {
         }
 
         public fetch(params: string, done: JQueryPromiseCallback<Application.Common.Paged<TDone>>,
@@ -45,10 +35,7 @@ module Application.Test.Helper {
 
     export class FakeCommand<TParam, TDone, TFail> implements Application.Common.ICommand<TParam, TDone, TFail> {
 
-        private testResult: TDone;
-
-        constructor(testResult: TDone) {
-            this.testResult = testResult;
+        constructor(private testResult: TDone) {
         }
 
         public execute(params: TParam, done: JQueryPromiseCallback<TDone>, fail: JQueryPromiseCallback<TFail>,

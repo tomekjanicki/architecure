@@ -91,10 +91,10 @@ var Application;
         var Query = (function () {
             function Query(url) {
                 var _this = this;
+                this.url = url;
                 this.fetch = function (params, done, fail) {
                     ajax(_this.url, params, done, fail, "GET");
                 };
-                this.url = url;
             }
             return Query;
         })();
@@ -102,10 +102,10 @@ var Application;
         var PagedQuery = (function () {
             function PagedQuery(url) {
                 var _this = this;
+                this.url = url;
                 this.fetch = function (params, done, fail) {
                     ajax(_this.url, params, done, fail, "GET");
                 };
-                this.url = url;
             }
             return PagedQuery;
         })();
@@ -113,11 +113,11 @@ var Application;
         var Command = (function () {
             function Command(url) {
                 var _this = this;
+                this.url = url;
                 this.execute = function (params, done, fail, method) {
                     var m = _this.getMethod(method);
                     ajax(_this.url, params, done, fail, m);
                 };
-                this.url = url;
             }
             Command.prototype.getMethod = function (method) {
                 if (method.toString() === "0") {
