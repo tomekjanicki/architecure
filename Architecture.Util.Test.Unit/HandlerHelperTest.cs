@@ -16,33 +16,21 @@ namespace Architecture.Util.Test.Unit
         }
 
         [Test]
-        [ExpectedException(typeof(MailServiceException))]
         public void HandleAction_ThrowConfiguredExceptionType_ThrowsWrapedException()
         {
-            _handlerHelper.HandleAction(() =>
-            {
-                throw new SmtpException();
-            });
+            Assert.Catch<MailServiceException>(() => _handlerHelper.HandleAction(() => { throw new SmtpException(); }));
         }
 
         [Test]
-        [ExpectedException(typeof(MailServiceException))]
         public void HandleAction_ThrowInheritedExceptionType_ThrowsWrapedException()
         {
-            _handlerHelper.HandleAction(() =>
-            {
-                throw new SmtpFailedRecipientException();
-            });
+            Assert.Catch<MailServiceException>(() => _handlerHelper.HandleAction(() => { throw new SmtpFailedRecipientException(); }));
         }
 
         [Test]
-        [ExpectedException(typeof(System.Exception))]
         public void HandleAction_ThrowNotConfiguredExceptionType_ThrowsOrginalException()
         {
-            _handlerHelper.HandleAction(() =>
-            {
-                throw new System.Exception();
-            });
+            Assert.Catch<System.Exception>(() => _handlerHelper.HandleAction(() => { throw new System.Exception(); }));
         }
 
     }

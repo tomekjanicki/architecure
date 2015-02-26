@@ -39,7 +39,6 @@ namespace Architecture.Business.Test.Unit
         }
 
         [Test]
-        [ExpectedException(typeof(System.Exception))]
         public void Send_ThrowsException_IsNotHandled()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -49,7 +48,7 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.MailCommand.Find10OldestMailDefinitions().Returns(data);
             commandsUnitOfWork.MailCommand.When(command => command.UpdateFinished(Arg.Is(data[1].Id))).Do(info => { throw new System.Exception(); });
 
-            businessLogicFacade.MailManager.Send();
+            Assert.Catch<System.Exception>(() => businessLogicFacade.MailManager.Send());
         }
 
     }

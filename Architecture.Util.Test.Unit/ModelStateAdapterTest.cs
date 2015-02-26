@@ -53,38 +53,33 @@ namespace Architecture.Util.Test.Unit
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ToDictionary_PrefixNull_ThrowsArgumentNullException()
         {
-            ModelStateAdapter.ToDictionary(null, new Collection<ValidationResult>());
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.ToDictionary(null, new Collection<ValidationResult>()));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ToDictionary_ValidationResultsNull_ThrowsArgumentNullException()
         {
-            ModelStateAdapter.ToDictionary(string.Empty, null);
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.ToDictionary(string.Empty, null));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Merge_PrefixNull_ThrowsArgumentNullException()
         {
-            ModelStateAdapter.Merge(null, new Dictionary<string, IList<string>>(), new List<Tuple<string, string>>());
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.Merge(null, new Dictionary<string, IList<string>>(), new List<Tuple<string, string>>()));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Merge_SourceNull_ThrowsArgumentNullException()
         {
-            ModelStateAdapter.Merge("", null, new List<Tuple<string, string>>());
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.Merge("", null, new List<Tuple<string, string>>()));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Merge_AdditionalListNull_ThrowsArgumentNullException()
         {
-            ModelStateAdapter.Merge("", new Dictionary<string, IList<string>>(), null);
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.Merge("", new Dictionary<string, IList<string>>(), null));
         }
 
     }

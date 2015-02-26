@@ -27,7 +27,6 @@ namespace Architecture.Business.Test.Unit
         }
 
         [Test]
-        [ExpectedException(typeof(ObjectNotFoundException))]
         public void GetOrder_WrongArguments_ThrowsObjectNotFoundException()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -36,7 +35,7 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.OrderCommand.Returns(OrderManagerTestHelper.GetOrderCommand());
             commandsUnitOfWork.OrderCommand.GetOrder(Arg.Is(id)).Returns(info => null);
 
-            businessLogicFacade.OrderManager.GetOrder(id);
+            Assert.Catch<ObjectNotFoundException>(() => businessLogicFacade.OrderManager.GetOrder(id));
         }
 
         [Test]
@@ -76,7 +75,6 @@ namespace Architecture.Business.Test.Unit
         }
 
         [Test]
-        [ExpectedException(typeof(ObjectNotFoundException))]
         public void UpdateOrder_NotFound_ThrowsObjectNotFoundException()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -85,11 +83,10 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.OrderCommand.Returns(OrderManagerTestHelper.GetOrderCommand());
             commandsUnitOfWork.OrderCommand.GetOrderVersion(Arg.Is(data.Id)).Returns(info => null);
 
-            businessLogicFacade.OrderManager.UpdateOrder(data);
+            Assert.Catch<ObjectNotFoundException>(() => businessLogicFacade.OrderManager.UpdateOrder(data));
         }
 
         [Test]
-        [ExpectedException(typeof(OptimisticConcurrencyException))]
         public void UpdateOrder_WrongVersion_ThrowsOptimisticConcurrencyException()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -98,7 +95,7 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.OrderCommand.Returns(OrderManagerTestHelper.GetOrderCommand());
             commandsUnitOfWork.OrderCommand.GetOrderVersion(Arg.Is(data.Id)).Returns(new byte[] { 5, 18 });
 
-            businessLogicFacade.OrderManager.UpdateOrder(data);
+            Assert.Catch<OptimisticConcurrencyException>(() => businessLogicFacade.OrderManager.UpdateOrder(data));
         }
 
         [Test]
@@ -121,7 +118,6 @@ namespace Architecture.Business.Test.Unit
         }
 
         [Test]
-        [ExpectedException(typeof(ObjectNotFoundException))]
         public void DeleteOrder_NotFound_ThrowsObjectNotFoundException()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -131,11 +127,10 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.OrderCommand.Returns(OrderManagerTestHelper.GetOrderCommand());
             commandsUnitOfWork.OrderCommand.GetOrderVersion(Arg.Is(data.Id)).Returns(info => null);
 
-            businessLogicFacade.OrderManager.DeleteOrder(data);
+            Assert.Catch<ObjectNotFoundException>(() => businessLogicFacade.OrderManager.DeleteOrder(data));
         }
 
         [Test]
-        [ExpectedException(typeof(OptimisticConcurrencyException))]
         public void DeleteOrder_WrongVersion_ThrowsOptimisticConcurrencyException()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -144,7 +139,7 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.OrderCommand.Returns(OrderManagerTestHelper.GetOrderCommand());
             commandsUnitOfWork.OrderCommand.GetOrderVersion(Arg.Is(data.Id)).Returns(new byte[] { 5, 18 });
 
-            businessLogicFacade.OrderManager.DeleteOrder(data);
+            Assert.Catch<OptimisticConcurrencyException>(() => businessLogicFacade.OrderManager.DeleteOrder(data));
         }
 
         [Test]

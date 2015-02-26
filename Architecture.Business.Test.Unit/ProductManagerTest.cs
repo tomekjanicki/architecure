@@ -65,7 +65,6 @@ namespace Architecture.Business.Test.Unit
         }
 
         [Test]
-        [ExpectedException(typeof(ObjectNotFoundException))]
         public void DeleteProduct_NotFound_ThrowsObjectNotFoundException()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -76,11 +75,10 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.ProductCommand.CanDelete(Arg.Is(data.Id)).Returns(true);
             commandsUnitOfWork.ProductCommand.GetProductVersion(Arg.Is(data.Id)).Returns(info => null);
 
-            businessLogicFacade.ProductManager.DeleteProduct(data);
+            Assert.Catch<ObjectNotFoundException>(() => businessLogicFacade.ProductManager.DeleteProduct(data));
         }
 
         [Test]
-        [ExpectedException(typeof(OptimisticConcurrencyException))]
         public void DeleteOrder_WrongVersion_ThrowsOptimisticConcurrencyException()
         {
             var commandsUnitOfWork = GetCommandsUnitOfWork();
@@ -91,7 +89,7 @@ namespace Architecture.Business.Test.Unit
             commandsUnitOfWork.ProductCommand.CanDelete(Arg.Is(data.Id)).Returns(true);
             commandsUnitOfWork.ProductCommand.GetProductVersion(Arg.Is(data.Id)).Returns(new byte[] { 5, 18 });
 
-            businessLogicFacade.ProductManager.DeleteProduct(data);
+            Assert.Catch<OptimisticConcurrencyException>(() => businessLogicFacade.ProductManager.DeleteProduct(data));
         }
 
     }
