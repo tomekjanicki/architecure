@@ -12,7 +12,7 @@ namespace Architecture.Web.Test.Unit.Api.Base
 {
     public abstract class BaseControllerTest : BaseTest
     {
-        private ThreadProcessingScope _threadProcessingScope;
+        private CallContextScope _callContextScope;
 
         public override void TestFixtureSetUp()
         {
@@ -22,14 +22,14 @@ namespace Architecture.Web.Test.Unit.Api.Base
         public override void SetUp()
         {
             base.SetUp();
-            _threadProcessingScope = new ThreadProcessingScope();
+            _callContextScope = new CallContextScope();
         }
 
         public override void TearDown()
         {
             base.TearDown();
-            _threadProcessingScope.Dispose();
-            _threadProcessingScope = null;
+            _callContextScope.Dispose();
+            _callContextScope = null;
         }
 
         protected TController GetConfiguredWebApiController<TController>(Func<TController> newInstanceFunc, HttpMethod method, string key) where TController : BaseApiController

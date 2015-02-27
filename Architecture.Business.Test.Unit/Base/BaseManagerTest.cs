@@ -8,7 +8,7 @@ namespace Architecture.Business.Test.Unit.Base
 {
     public abstract class BaseManagerTest : BaseTest
     {
-        private ThreadProcessingScope _threadProcessingScope;
+        private CallContextScope _callContextScope;
 
         public override void TestFixtureSetUp()
         {
@@ -18,14 +18,14 @@ namespace Architecture.Business.Test.Unit.Base
         public override void SetUp()
         {
             base.SetUp();
-            _threadProcessingScope = new ThreadProcessingScope();
+            _callContextScope = new CallContextScope();
         }
 
         public override void TearDown()
         {
             base.TearDown();
-            _threadProcessingScope.Dispose();
-            _threadProcessingScope = null;
+            _callContextScope.Dispose();
+            _callContextScope = null;
         }
 
         protected IBusinessLogicFacade GetBusinessLogicFacade()

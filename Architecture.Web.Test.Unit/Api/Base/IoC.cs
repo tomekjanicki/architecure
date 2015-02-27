@@ -13,8 +13,8 @@ namespace Architecture.Web.Test.Unit.Api.Base
         static IoC()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<IBusinessLogicFacade>().ToMethod(context => Substitute.For<IBusinessLogicFacade>()).InThreadProcessingScope();
-            kernel.Bind<ICacheService>().To<CacheService>().InThreadProcessingScope();
+            kernel.Bind<IBusinessLogicFacade>().ToMethod(context => Substitute.For<IBusinessLogicFacade>()).InCallContextScope();
+            kernel.Bind<ICacheService>().To<CacheService>().InCallContextScope();
             Factory.Init(kernel);
         }
 

@@ -55,9 +55,9 @@ namespace Architecture.Util
             return string.Format("%{0}%", input);
         }
 
-        public static IBindingNamedWithOrOnSyntax<T> InThreadProcessingScope<T>(this IBindingInSyntax<T> syntax)
+        public static IBindingNamedWithOrOnSyntax<T> InCallContextScope<T>(this IBindingInSyntax<T> syntax)
         {
-            return syntax.InScope(context => ThreadProcessingScope.Current);
+            return syntax.InScope(context => CallContextScope.Current);
         }
 
         public static string GetPropertyName<T>(Expression<Func<T, object>> expr)

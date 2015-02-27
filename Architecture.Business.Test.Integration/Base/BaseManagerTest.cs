@@ -37,11 +37,11 @@ namespace Architecture.Business.Test.Integration.Base
         private class Scope : IDisposable
         {
             private TransactionScope _transactionScope;
-            private ThreadProcessingScope _threadProcessingScope;
+            private CallContextScope _callContextScope;
 
             public Scope()
             {
-                _threadProcessingScope = new ThreadProcessingScope();
+                _callContextScope = new CallContextScope();
                 _transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew);                
             }
 
@@ -49,8 +49,8 @@ namespace Architecture.Business.Test.Integration.Base
             {
                 _transactionScope.Dispose();
                 _transactionScope = null;
-                _threadProcessingScope.Dispose();
-                _threadProcessingScope = null;
+                _callContextScope.Dispose();
+                _callContextScope = null;
             }
         }
 

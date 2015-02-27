@@ -18,8 +18,8 @@ namespace Architecture.WinService
             var kernel = new StandardKernel();
             kernel.Bind<ICacheService>().To<CacheService>().InSingletonScope();
             kernel.Bind<IMailService>().To<MailService>().InSingletonScope();
-            kernel.Bind<IBusinessLogicFacade>().To<BusinessLogicFacade>().InThreadProcessingScope();
-            kernel.Bind<ICommandsUnitOfWork>().To<CommandsUnitOfWork>().InThreadProcessingScope();
+            kernel.Bind<IBusinessLogicFacade>().To<BusinessLogicFacade>().InCallContextScope();
+            kernel.Bind<ICommandsUnitOfWork>().To<CommandsUnitOfWork>().InCallContextScope();
             return kernel;
         }
 

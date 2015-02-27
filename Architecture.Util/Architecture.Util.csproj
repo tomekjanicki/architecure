@@ -73,7 +73,7 @@
     <Compile Include="Mail\MailDefinition.cs" />
     <Compile Include="Ninject\Factory.cs" />
     <Compile Include="Ninject\Scope\ScopingObject.cs" />
-    <Compile Include="Ninject\Scope\ThreadProcessingScope.cs" />
+    <Compile Include="Ninject\Scope\CallContextScope.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="Paged.cs" />
     <Compile Include="PageAndSortCriteria.cs" />

@@ -19,10 +19,10 @@ namespace Architecture.Business.Test.Integration.Base
         static Setup()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<IBusinessLogicFacade>().To<BusinessLogicFacade>().InThreadProcessingScope();
-            kernel.Bind<ICommandsUnitOfWork>().To<CommandsUnitOfWork>().InThreadProcessingScope();
-            kernel.Bind<IMailService>().ToMethod(context => Substitute.For<IMailService>()).InThreadProcessingScope();
-            kernel.Bind<ICacheService>().To<CacheService>().InThreadProcessingScope();
+            kernel.Bind<IBusinessLogicFacade>().To<BusinessLogicFacade>().InCallContextScope();
+            kernel.Bind<ICommandsUnitOfWork>().To<CommandsUnitOfWork>().InCallContextScope();
+            kernel.Bind<IMailService>().ToMethod(context => Substitute.For<IMailService>()).InCallContextScope();
+            kernel.Bind<ICacheService>().To<CacheService>().InCallContextScope();
             Factory.Init(kernel);
         }
 

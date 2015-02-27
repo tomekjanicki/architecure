@@ -17,7 +17,7 @@ namespace Architecture.WinService
 
         private static void DoWork<T>() where T : BaseJob
         {
-            using (new ThreadProcessingScope())
+            using (new CallContextScope())
                 Factory.Resolve<T>().DoWork();
         }
 
