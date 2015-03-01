@@ -5,19 +5,19 @@ module Application.ViewModel.Order {
 
     export class CreateOrder {
         // reSharper disable InconsistentNaming
-        public CustomerId: KnockoutObservable<number> = ko.observable(null);
-        public CustomerName: KnockoutObservable<string> = ko.observable("bla");
-        public Date: KnockoutObservable<Date> = ko.observable(null);
-        public OrderDetails: KnockoutObservableArray<CreateOrderDetail> = ko.observableArray([]);
+        CustomerId: KnockoutObservable<number> = ko.observable(null);
+        CustomerName = ko.observable("bla");
+        Date: KnockoutObservable<Date> = ko.observable(null);
+        OrderDetails = ko.observableArray<CreateOrderDetail>([]);
         // reSharper restore InconsistentNaming
     }
 
     export class CreateOrderDetail {
         // reSharper disable InconsistentNaming
-        public ProductId: KnockoutObservable<number> = ko.observable(null);
-        public ProductCode: KnockoutObservable<string> = ko.observable("");
-        public ProductName: KnockoutObservable<string> = ko.observable("");
-        public Quantity: KnockoutObservable<number> = ko.observable(null);
+        ProductId: KnockoutObservable<number> = ko.observable(null);
+        ProductCode = ko.observable("");
+        ProductName = ko.observable("");
+        Quantity: KnockoutObservable<number> = ko.observable(null);
         // reSharper restore InconsistentNaming
     }
 
@@ -27,9 +27,9 @@ module Application.ViewModel.Order {
             this.initCreateOrder();
         }
 
-        public createOrder: KnockoutObservable<CreateOrder> = ko.observable(new CreateOrder());
+        createOrder = ko.observable(new CreateOrder());
 
-        public create(): void {
+        create(): void {
             var jsonString = ko.toJSON(this.createOrder());
             var json = $.parseJSON(jsonString);
             this.command.execute(json,
@@ -45,7 +45,7 @@ module Application.ViewModel.Order {
             this.createOrder().CustomerId(5);
             this.createOrder().CustomerName("CustomerName");
             this.createOrder().Date(new Date(2014, 1, 1));
-            var od1: CreateOrderDetail = new CreateOrderDetail();
+            var od1 = new CreateOrderDetail();
             od1.ProductId(7);
             od1.ProductCode("ProductCode");
             od1.ProductName("ProductName");
@@ -53,7 +53,7 @@ module Application.ViewModel.Order {
             this.createOrder().OrderDetails([od1]);
         }
 
-        public static getInitializedViewModel(command: Common.ICommand<CreateOrder, any, any>): CreateViewModel {
+        static getInitializedViewModel(command: Common.ICommand<CreateOrder, any, any>): CreateViewModel {
             return new CreateViewModel(command);
         }
 

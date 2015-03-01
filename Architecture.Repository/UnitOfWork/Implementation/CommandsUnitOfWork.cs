@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
@@ -16,11 +17,22 @@ namespace Architecture.Repository.UnitOfWork.Implementation
         private DbTransaction _transaction;
         private bool _transactionStarted;
 
+        private readonly Lazy<IOrderCommand> _lazyOrderCommand;
+        private readonly Lazy<IProductCommand> _lazyProductCommand;
+        private readonly Lazy<IMailCommand> _lazyMailCommand;
+        private readonly Lazy<ICustomerCommand> _lazyCustomerCommand;
+        private readonly Lazy<IUserCommand> _lazyUserCommand; 
+
         private bool _disposed;
 
         public CommandsUnitOfWork()
         {
             _connection = Handler.HandleFunction(() => Extension.GetConnection("Main", false));
+            _lazyOrderCommand = new Lazy<IOrderCommand>(() => new OrderCommand(GetConnectionWithTransaction()));
+            _lazyCustomerCommand = new Lazy<ICustomerCommand>(() => new CustomerCommand(GetConnectionWithTransaction()));
+            _lazyProductCommand = new Lazy<IProductCommand>(() => new ProductCommand(GetConnectionWithTransaction()));
+            _lazyMailCommand = new Lazy<IMailCommand>(() => new MailCommand(GetConnectionWithTransaction()));
+            _lazyUserCommand = new Lazy<IUserCommand>(() => new UserCommand(GetConnectionWithTransaction()));
         }
 
         private DbConnection GetOpenConnection()
@@ -54,27 +66,27 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 
         public virtual ICustomerCommand CustomerCommand
         {
-            get { return new CustomerCommand(GetConnectionWithTransaction()); }
+            get { return _lazyCustomerCommand.Value; }
         }
 
         public virtual IMailCommand MailCommand
         {
-            get { return new MailCommand(GetConnectionWithTransaction()); }
+            get { return _lazyMailCommand.Value; }
         }
 
         public virtual IUserCommand UserCommand
         {
-            get { return new UserCommand(GetConnectionWithTransaction()); }
+            get { return _lazyUserCommand.Value; }
         }
 
         public virtual IOrderCommand OrderCommand
         {
-            get { return new OrderCommand(GetConnectionWithTransaction()); }
+            get { return _lazyOrderCommand.Value; }
         }
 
         public virtual IProductCommand ProductCommand
         {
-            get { return new ProductCommand(GetConnectionWithTransaction()); }
+            get { return _lazyProductCommand.Value; }
         }
 
         public void SaveChanges()

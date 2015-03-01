@@ -3,45 +3,45 @@
 
     export class FindCustomerAsync {
         // reSharper disable InconsistentNaming
-        public Id: number;
-        public Name: string;
-        public Mail: string;
+        Id: number;
+        Name: string;
+        Mail: string;
         // reSharper restore InconsistentNaming
     }
 
     export class InsertCustomerAsync {
         // reSharper disable InconsistentNaming
-        public Name: string;
-        public Mail: string;
+        Name: string;
+        Mail: string;
         // reSharper restore InconsistentNaming 
     }
 
     export class ViewModel {
 
-        constructor(private insertCommand: Application.Common.ICommand<InsertCustomerAsync, any, any>, private findPagedQuery: Application.Common.IPagedQuery<FindCustomerAsync, any>) {
+        constructor(private insertCommand: Common.ICommand<InsertCustomerAsync, any, any>,
+            private findPagedQuery: Common.IPagedQuery<FindCustomerAsync, any>) {
         }
 
-        public insertCustomer = (): void => {
+        insertCustomer = (): void => {
             var insertCustomerAsync = new InsertCustomerAsync();
-            insertCustomerAsync.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
+            insertCustomerAsync.Mail = Common.Util.formatString("{0}@example.com", Common.Guid.newGuid());
             insertCustomerAsync.Name = "name";
             this.insertCommand.execute(insertCustomerAsync,() => {
                 window.alert("OK");
             },(data: any) => {
-                    window.alert(Application.Common.Util.formatString("Error status: {0}", data.status));
-                }, Application.Common.Method.Post);
+                    window.alert(Common.Util.formatString("Error status: {0}", data.status));
+                }, Common.Method.Post);
         }
-
-        public fetchCustomers = (): void => {
-            this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=",(data: Application.Common.Paged<FindCustomerAsync>) => {
+        fetchCustomers = (): void => {
+            this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=", (data: Common.Paged<FindCustomerAsync>) => {
                 window.alert(data.Count);
             },() => {
                     window.alert("Error");
                 });
         }
 
-        public static getInitializedViewModel(pagedQuery: Application.Common.IPagedQuery<FindCustomerAsync, any>,
-            insertCommand: Application.Common.ICommand<InsertCustomerAsync, any, any>): ViewModel {
+        static getInitializedViewModel(pagedQuery: Common.IPagedQuery<FindCustomerAsync, any>,
+            insertCommand: Common.ICommand<InsertCustomerAsync, any, any>): ViewModel {
             var vm = new ViewModel(insertCommand, pagedQuery);
             return vm;
         }

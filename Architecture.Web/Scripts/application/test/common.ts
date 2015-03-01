@@ -1,5 +1,6 @@
 ﻿/// <reference path="../../typings/qunit/qunit.d.ts" />
 /// <reference path="../common.ts" />
+
 module Application.Test.Common {
     "use strict";
 

@@ -3,62 +3,62 @@ module Application.GridView {
     "use strict";
 
     export class Column {
-        constructor(public caption: string, public field: string, public sortKey: string, public formatString: string, public cellTemplate: string, public cellTemplateName: string) {
+        constructor(public caption: string, public field: string, public sortKey: string,
+            public formatString: string, public cellTemplate: string, public cellTemplateName: string) {
         }
     }
 
     export class Option<TModel> {
-        public filterPanelVisible: boolean = true;
-        public filterPanelCriteriaTemplateName: string = null;
-        public filterPanelCriteriaCallback: () => string = null;
-        public filterPanelCriteriaExpressionCallback: () => string[] = null;
-        public filterPanelClearButtonCallback: () => void = null;
-        public filterPanelSetButtonCallback: () => void = null;
-        public defaultCriteriaCallback: () => string = null;
-        public columns: Column[] = [];
-        public pagingEnabled: boolean = true;
-        public defaultPageSize: number = 5;
-        public avaliablePageSizes: number[] = [3, 5, 10, 20, 50, 100];
-        public pageSizeArgumentName: string = "pageSize";
-        public skipArgumentName: string = "skip";
-        public sortArgumentName: string = "sort";
-        public pagedQuery: Application.Common.IPagedQuery<TModel, any> = null;
-        public query: Application.Common.IQuery<TModel, any> = null;
-        public errorHandlerCallback: (data: any) => void = null;
-
-        public validate = (): void => {
+        filterPanelVisible = true;
+        filterPanelCriteriaTemplateName: string = null;
+        filterPanelCriteriaCallback: () => string = null;
+        filterPanelCriteriaExpressionCallback: () => string[] = null;
+        filterPanelClearButtonCallback: () => void = null;
+        filterPanelSetButtonCallback: () => void = null;
+        defaultCriteriaCallback: () => string = null;
+        columns: Column[] = [];
+        pagingEnabled = true;
+        defaultPageSize = 5;
+        avaliablePageSizes: number[] = [3, 5, 10, 20, 50, 100];
+        pageSizeArgumentName = "pageSize";
+        skipArgumentName = "skip";
+        sortArgumentName = "sort";
+        pagedQuery: Common.IPagedQuery<TModel, any> = null;
+        query: Common.IQuery<TModel, any> = null;
+        errorHandlerCallback: (data: any) => void = null;
+        validate = (): void => {
             if (this.filterPanelVisible) {
-                Application.Common.Util.validateSettings(
+                Common.Util.validateSettings(
                     this.filterPanelCriteriaTemplateName !== "", "filterPanelCriteriaTemplateName is not set");
-                Application.Common.Util.validateSettings(
+                Common.Util.validateSettings(
                     this.filterPanelCriteriaCallback !== null, "filterPanelCriteriaCallback is not set");
-                Application.Common.Util.validateSettings(
+                Common.Util.validateSettings(
                     this.filterPanelCriteriaExpressionCallback !== null, "filterPanelCriteriaExpressionCallback is not set");
-                Application.Common.Util.validateSettings(
+                Common.Util.validateSettings(
                     this.filterPanelClearButtonCallback !== null, "filterPanelClearButtonCallback is not set");
-                Application.Common.Util.validateSettings(
+                Common.Util.validateSettings(
                     this.filterPanelSetButtonCallback !== null, "filterPanelSetButtonCallback is not set");
             }
-            Application.Common.Util.validateSettings(this.columns.length > 0, "At least one column should be defined");
+            Common.Util.validateSettings(this.columns.length > 0, "At least one column should be defined");
             if (this.pagingEnabled) {
-                Application.Common.Util.validateSettings(this.avaliablePageSizes.length > 0,
+                Common.Util.validateSettings(this.avaliablePageSizes.length > 0,
                     "At least one avaliablePageSizes should be defined when pagingEnabled is set to true");
-                Application.Common.Util.validateSettings(this.avaliablePageSizes.length > 0
+                Common.Util.validateSettings(this.avaliablePageSizes.length > 0
                     && Enumerable.From<number>(this.avaliablePageSizes).Contains(this.defaultPageSize),
                     "AvaliablePageSizes does not contain defaultPageSize when pagingEnabled is set to true");
-                Application.Common.Util.validateSettings(this.pageSizeArgumentName !== "",
+                Common.Util.validateSettings(this.pageSizeArgumentName !== "",
                     "PageSizeArgumentName should be defined when pagingEnabled is set to true");
-                Application.Common.Util.validateSettings(this.skipArgumentName !== "",
+                Common.Util.validateSettings(this.skipArgumentName !== "",
                     "skipArgumentName should be defined when pagingEnabled is set to true");
-                Application.Common.Util.validateSettings(this.pagedQuery !== null,
+                Common.Util.validateSettings(this.pagedQuery !== null,
                     "pagedQuery should be defined when pagingEnabled is set to true");
             } else {
-                Application.Common.Util.validateSettings(this.query !== null,
+                Common.Util.validateSettings(this.query !== null,
                     "query should be defined when pagingEnabled is set to false");
             }
-            Application.Common.Util.validateSettings(this.sortArgumentName !== "",
+            Common.Util.validateSettings(this.sortArgumentName !== "",
                 "sortArgumentName should be defined");
-            Application.Common.Util.validateSettings(this.errorHandlerCallback !== null,
+            Common.Util.validateSettings(this.errorHandlerCallback !== null,
                 "errorHandlerCallback should be defined");
         }
     }
@@ -75,9 +75,8 @@ module Application.GridView {
                     return "";
             }
         }
-
-        public sortDirection: KnockoutObservable<string> = ko.observable("");
-        public sortStyle: KnockoutComputed<string> = ko.computed(this.getSortStyle);
+        sortDirection = ko.observable("");
+        sortStyle = ko.computed(this.getSortStyle);
 
         constructor(public caption: string, public field: string, public sortEnabled: boolean, public formatString: string,
             public useTemplate: boolean, public useInlineTemplate: boolean, public templateName: string) {
@@ -92,29 +91,28 @@ module Application.GridView {
             :
             "fa fa-plus-square-o";
         private getFilterButtonTooltip = (): string => this.filterPanelCriteriaVisible() ? "Collapse" : "Expand";
+        pageSize = ko.observable(0);
+        headers = ko.observableArray<Header>([]);
+        currentPage = ko.observable(0);
+        pageCount = ko.observable(0);
+        items = ko.observableArray<TModel>([]);
+        itemCount = ko.observable(0);
+        firstPageEnabled = ko.observable(false);
+        prevPageEnabled = ko.observable(false);
+        nextPageEnabled = ko.observable(false);
+        lastPageEnabled = ko.observable(false);
+        filterPanelCriteriaExpression = ko.observable("Filter criteria: ");
+        sort = ko.observable("");
+        filterPanelCriteriaVisible = ko.observable(true);
+        filterPanelButtonStyle = ko.computed(this.getFilterPanelButtonStyle);
+        filterButtonTooltip = ko.computed(this.getFilterButtonTooltip);
 
-        public pageSize: KnockoutObservable<number> = ko.observable(0);
-        public headers: KnockoutObservableArray<Header> = ko.observableArray([]);
-        public currentPage: KnockoutObservable<number> = ko.observable(0);
-        public pageCount: KnockoutObservable<number> = ko.observable(0);
-        public items: KnockoutObservableArray<TModel> = ko.observableArray([]);
-        public itemCount: KnockoutObservable<number> = ko.observable(0);
-        public firstPageEnabled: KnockoutObservable<boolean> = ko.observable(false);
-        public prevPageEnabled: KnockoutObservable<boolean> = ko.observable(false);
-        public nextPageEnabled: KnockoutObservable<boolean> = ko.observable(false);
-        public lastPageEnabled: KnockoutObservable<boolean> = ko.observable(false);
-        public filterPanelCriteriaExpression: KnockoutObservable<string> = ko.observable("Filter criteria: ");
-        public sort: KnockoutObservable<string> = ko.observable("");
-        public filterPanelCriteriaVisible: KnockoutObservable<boolean> = ko.observable(true);
-        public filterPanelButtonStyle: KnockoutComputed<string> = ko.computed(this.getFilterPanelButtonStyle);
-        public filterButtonTooltip: KnockoutComputed<string> = ko.computed(this.getFilterButtonTooltip);
-
-        private optionValidated: boolean = false;
+        private optionValidated = false;
 
         constructor(public option: Option<TModel>) {
         }
 
-        public fetchData = (): void => {
+        fetchData = (): void => {
             if (!this.optionValidated) {
                 this.option.validate();
                 this.initFieldsFromOption();
@@ -127,72 +125,60 @@ module Application.GridView {
                     :
                     (this.option.defaultCriteriaCallback != null ? this.option.defaultCriteriaCallback() : "");
             if (criteria !== "") {
-                criteria = Application.Common.Util.formatString("&{0}", criteria);
+                criteria = Common.Util.formatString("&{0}", criteria);
             }
             var params: string;
             if (this.option.pagingEnabled) {
                 var skip = this.currentPage() * this.pageSize();
-                params = Application.Common.Util.formatString("{4}={0}&{5}={1}&{6}={2}{3}",
+                params = Common.Util.formatString("{4}={0}&{5}={1}&{6}={2}{3}",
                     this.pageSize().toString(), skip.toString(), this.sort(), criteria, this.option.pageSizeArgumentName,
                     this.option.skipArgumentName, this.option.sortArgumentName);
                 this.option.pagedQuery.fetch(params, this.handlePagedData, this.handleError);
             } else {
-                params = Application.Common.Util.formatString("{2}={0}{1}", this.sort(), criteria, this.option.sortArgumentName);
+                params = Common.Util.formatString("{2}={0}{1}", this.sort(), criteria, this.option.sortArgumentName);
                 this.option.query.fetch(params, this.handleData, this.handleError);
             }
         }
-
-        public refresh = (): void => this.fetchData();
-
-        public goToFirstPage = (): void => {
+        refresh = (): void => this.fetchData();
+        goToFirstPage = (): void => {
             if (this.option.pagingEnabled) {
                 this.currentPage(0);
                 this.fetchData();
             }
         }
-
-        public goToPrevPage = (): void => {
+        goToPrevPage = (): void => {
             if (this.option.pagingEnabled) {
                 this.currentPage(this.currentPage() - 1);
                 this.fetchData();
             }
         }
-
-        public goToNextPage = (): void => {
+        goToNextPage = (): void => {
             if (this.option.pagingEnabled) {
                 this.currentPage(this.currentPage() + 1);
                 this.fetchData();
             }
         }
-
-        public goToLastPage = (): void => {
+        goToLastPage = (): void => {
             if (this.option.pagingEnabled) {
                 this.currentPage(Math.ceil(this.itemCount() / this.pageSize() - 1));
                 this.fetchData();
             }
         }
-
-        public filterPanelCriteriaTemplateName = (): string => this.option.filterPanelCriteriaTemplateName;
-
-        public avaliablePageSizes = (): number[]=> this.option.avaliablePageSizes;
-
-        public filterPanelVisible = (): boolean => this.option.filterPanelVisible;
-
-        public pagingEnabled = (): boolean => this.option.pagingEnabled;
-
-        public sortItems = (header: Header): void => {
+        filterPanelCriteriaTemplateName = (): string => this.option.filterPanelCriteriaTemplateName;
+        avaliablePageSizes = (): number[]=> this.option.avaliablePageSizes;
+        filterPanelVisible = (): boolean => this.option.filterPanelVisible;
+        pagingEnabled = (): boolean => this.option.pagingEnabled;
+        sortItems = (header: Header): void => {
             var order = this.getSortOrder(header.field);
-            this.sort(Application.Common.Util.formatString("{0} {1}", header.field, order));
+            this.sort(Common.Util.formatString("{0} {1}", header.field, order));
             this.fetchData();
         }
-
-        public toggleFilterPanel = (): void => {
+        toggleFilterPanel = (): void => {
             if (this.option.filterPanelVisible) {
                 this.filterPanelCriteriaVisible(!this.filterPanelCriteriaVisible());
             }
         }
-
-        public setFilter = (): void => {
+        setFilter = (): void => {
             if (this.option.filterPanelVisible) {
                 this.option.filterPanelSetButtonCallback();
                 this.setFilterCriteriaExpression();
@@ -203,8 +189,7 @@ module Application.GridView {
                 }
             }
         }
-
-        public clearFilter = (): void => {
+        clearFilter = (): void => {
             if (this.option.filterPanelVisible) {
                 this.option.filterPanelClearButtonCallback();
                 this.setFilterCriteriaExpression();
@@ -222,7 +207,7 @@ module Application.GridView {
             this.option.columns.forEach((c: Column) => {
                 var templateName: string;
                 if (c.cellTemplate !== "") {
-                    templateName = Application.Common.Guid.newGuid();
+                    templateName = Common.Guid.newGuid();
                     ste.addTemplate(templateName, c.cellTemplate);
                 } else {
                     templateName = c.cellTemplateName;
@@ -235,7 +220,7 @@ module Application.GridView {
             }
         }
 
-        private handlePagedData = (data: Application.Common.Paged<TModel>): void => {
+        private handlePagedData = (data: Common.Paged<TModel>): void => {
             this.itemCount(data.Count);
             this.pageCount(this.calculateTotalPages());
             this.items(data.Items);
@@ -295,8 +280,7 @@ module Application.GridView {
             this.prevPageEnabled(this.isPrevPageEnabled());
             this.firstPageEnabled(this.isFirstPageEnabled());
         }
-
-        public getDisplayValue = (obj: TModel, field: string, formatString: string): string => {
+        getDisplayValue = (obj: TModel, field: string, formatString: string): string => {
             var d: any = obj[field];
             var undefinedOrNull = Common.Util.isUndefinedOrNull(d);
             if (undefinedOrNull) {

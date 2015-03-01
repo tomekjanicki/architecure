@@ -8,7 +8,7 @@ module Application.Test.Helper {
         constructor(private doneResult: TDone[], private failResult: TFail) {
         }
 
-        public fetch(params: string, done: JQueryPromiseCallback<TDone[]>,
+        fetch(params: string, done: JQueryPromiseCallback<TDone[]>,
             fail: JQueryPromiseCallback<TFail>): void {
             if (this.doneResult != null) {
                 done(this.doneResult);
@@ -23,7 +23,7 @@ module Application.Test.Helper {
         constructor(private doneResult: Application.Common.Paged<TDone>, private failResult: TFail) {
         }
 
-        public fetch(params: string, done: JQueryPromiseCallback<Application.Common.Paged<TDone>>,
+        fetch(params: string, done: JQueryPromiseCallback<Application.Common.Paged<TDone>>,
             fail: JQueryPromiseCallback<TFail>): void {
             if (this.doneResult != null) {
                 done(this.doneResult);
@@ -38,7 +38,7 @@ module Application.Test.Helper {
         constructor(private testResult: TDone) {
         }
 
-        public execute(params: TParam, done: JQueryPromiseCallback<TDone>, fail: JQueryPromiseCallback<TFail>,
+        execute(params: TParam, done: JQueryPromiseCallback<TDone>, fail: JQueryPromiseCallback<TFail>,
             method: Application.Common.Method): void {
             done(this.testResult);
         }

@@ -3,7 +3,6 @@
 /// <reference path="../../../typings/qunit/qunit.d.ts" />
 /// <reference path="../../viewmodel/product.ts" />
 /// <reference path="../helper.ts" />
-/// <reference path="../../common.ts" />
 
 module Application.Test.View.Product.Index {
     "use strict";
@@ -29,7 +28,7 @@ module Application.Test.View.Product.Index {
         return getJson(7);
     }
 
-    function equals(vm: Application.ViewModel.Product.IndexViewModel, first: boolean, prev: boolean, next: boolean, last: boolean) {
+    function equals(vm: ViewModel.Product.IndexViewModel, first: boolean, prev: boolean, next: boolean, last: boolean) {
         equal(vm.firstPageEnabled(), first);
         equal(vm.prevPageEnabled(), prev);
         equal(vm.nextPageEnabled(), next);
@@ -40,10 +39,10 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("firstPage_countEqualsTo3_returnsAllDisabled",() => {
 
-        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Test.Helper.FakePagedQuery<ViewModel.Product.Index, any>(
             getCountEqual3AndPageSizeEqual3(), null);
 
-        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
+        var vm = ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
         vm.pageSize(3);
 
         equals(vm, false, false, false, false);
@@ -51,10 +50,10 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("firstPage_countEqualsTo4_returnsFirstPrevDisabledAndNextLastEnabled",() => {
 
-        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Test.Helper.FakePagedQuery<ViewModel.Product.Index, any>(
             getCountEqual4AndPageSizeEqual3(), null);
 
-        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
+        var vm = ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
         vm.pageSize(3);
 
         equals(vm, false, false, true, true);
@@ -62,10 +61,10 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("goToNextPage_countEqualsTo7_returnsFirstPrevNextLastEnabled",() => {
 
-        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Test.Helper.FakePagedQuery<ViewModel.Product.Index, any>(
             getCountEqual7AndPageSizeEqual3(), null);
 
-        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
+        var vm = ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
         vm.pageSize(3);
         if (vm.nextPageEnabled()) {
             vm.goToNextPage();
@@ -76,10 +75,10 @@ module Application.Test.View.Product.Index {
 
     QUnit.test("goToLastPage_countEqualsTo7_returnsFirstPrevEnabledAndNextLastDisabled",() => {
 
-        var pagedQuery = new Application.Test.Helper.FakePagedQuery<Application.ViewModel.Product.Index, any>(
+        var pagedQuery = new Test.Helper.FakePagedQuery<ViewModel.Product.Index, any>(
             getCountEqual7AndPageSizeEqual3(), null);
 
-        var vm = Application.ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
+        var vm = ViewModel.Product.IndexViewModel.getInitializedViewModel(pagedQuery, null, null);
         vm.pageSize(3);
         if (vm.lastPageEnabled()) {
             vm.goToLastPage();

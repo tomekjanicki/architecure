@@ -131,8 +131,8 @@ var Application;
             return Command;
         })();
         Common.Command = Command;
-        Application.Common.Util.initBlockUiForAjaxRequests();
-        Application.Common.Util.initBlockUiForNonAjax();
+        Util.initBlockUiForAjaxRequests();
+        Util.initBlockUiForNonAjax();
     })(Common = Application.Common || (Application.Common = {}));
 })(Application || (Application = {}));
 //# sourceMappingURL=common.js.map

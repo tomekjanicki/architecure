@@ -24,39 +24,31 @@ module Application.Common {
             };
             $.blockUI(opt);
         }
-
-        public static initBlockUiForNonAjax = (): void => {
+        static initBlockUiForNonAjax = (): void => {
             $(document).on("click", "a[data-blockui], input[data-blockui]", Util.blockUi);
         }
-
-        public static initBlockUiForAjaxRequests = (): void => {
+        static initBlockUiForAjaxRequests = (): void => {
             $(document).ajaxStart(() => Util.blockUi());
             $(document).ajaxStop(() => $.unblockUI());
         }
-
-        public static formatString = (s: string, ...params: string[]): string => {
+        static formatString = (s: string, ...params: string[]): string => {
             var i = params.length;
             while (i--) {
                 s = s.replace(new RegExp("\\{" + i + "\\}", "gm"), params[i]);
             }
             return s;
         }
-
-        public static getLikeExpression = (field: string, value: string): string => {
+        static getLikeExpression = (field: string, value: string): string => {
             return Util.formatString("[{0}] like \"%{1}%\"", field, value);
         }
-
-        public static validateSettings = (valid: boolean, notValidMessage: string): void => {
+        static validateSettings = (valid: boolean, notValidMessage: string): void => {
             if (!valid) {
                 throw new Error(notValidMessage);
             }
         }
-
-        public static isUndefinedOrNull = (arg: any): boolean => arg === undefined || arg === null;
-
-        public static isUndefinedOrNullOrEmpty = (arg: string) => Util.isUndefinedOrNull(arg) || arg === "";
-
-        public static unpackFromString = (str: string): number[]=> {
+        static isUndefinedOrNull = (arg: any): boolean => arg === undefined || arg === null;
+        static isUndefinedOrNullOrEmpty = (arg: string) => Util.isUndefinedOrNull(arg) || arg === "";
+        static unpackFromString = (str: string): number[]=> {
             var byteCharacters = atob(str);
             var byteNumbers = new Array(byteCharacters.length);
             for (var i = 0; i < byteCharacters.length; i++) {
@@ -72,8 +64,7 @@ module Application.Common {
         private static s4 = (): string => {
             return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         }
-
-        public static newGuid = (): string => {
+        static newGuid = (): string => {
             return Util.formatString("{0}{1}-{2}-{3}-{4}-{5}{6}{7}",
                 Guid.s4(), Guid.s4(), Guid.s4(), Guid.s4(), Guid.s4(), Guid.s4(), Guid.s4(), Guid.s4());
         }
@@ -81,8 +72,8 @@ module Application.Common {
 
     export class Paged<T> {
         // reSharper disable InconsistentNaming
-        public Items: T[];
-        public Count: number;
+        Items: T[];
+        Count: number;
         // reSharper enable InconsistentNaming
     }
 
@@ -109,7 +100,7 @@ module Application.Common {
         constructor(private url: string) {
         }
 
-        public fetch = (params: string, done: JQueryPromiseCallback<TDone[]>, fail: JQueryPromiseCallback<TFail>): void => {
+        fetch = (params: string, done: JQueryPromiseCallback<TDone[]>, fail: JQueryPromiseCallback<TFail>): void => {
             ajax(this.url, params, done, fail, "GET");
         }
     }
@@ -119,7 +110,7 @@ module Application.Common {
         constructor(private url: string) {
         }
 
-        public fetch = (params: string, done: JQueryPromiseCallback<Paged<TDone>>, fail: JQueryPromiseCallback<TFail>): void => {
+        fetch = (params: string, done: JQueryPromiseCallback<Paged<TDone>>, fail: JQueryPromiseCallback<TFail>): void => {
             ajax(this.url, params, done, fail, "GET");
         }
     }
@@ -139,12 +130,12 @@ module Application.Common {
             return "DELETE";
         }
 
-        public execute = (params: TParam, done: JQueryPromiseCallback<TDone>, fail: JQueryPromiseCallback<TFail>, method: Method): void => {
+        execute = (params: TParam, done: JQueryPromiseCallback<TDone>, fail: JQueryPromiseCallback<TFail>, method: Method): void => {
             var m = this.getMethod(method);
             ajax(this.url, params, done, fail, m);
         }
     }
 
-    Application.Common.Util.initBlockUiForAjaxRequests();
-    Application.Common.Util.initBlockUiForNonAjax();
+    Util.initBlockUiForAjaxRequests();
+    Util.initBlockUiForNonAjax();
 }  
