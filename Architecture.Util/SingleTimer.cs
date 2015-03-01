@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading;
 
-namespace Architecture.WinService
+namespace Architecture.Util
 {
     public class SingleTimer : IDisposable
     {
         private readonly int _initialDelayInSeconds;
         private readonly int _intervalInSeconds;
         private readonly Action _workAction;
-        private readonly Action<Exception> _exceptionAction;
+        private readonly Action<System.Exception> _exceptionAction;
         private Timer _timer;
         private readonly object _locker = new object();
         private bool _working;
@@ -46,7 +46,7 @@ namespace Architecture.WinService
             _timer = null;
         }
 
-        public SingleTimer(int initialDelayInSeconds, int intervalInSeconds, Action workAction, Action<Exception> exceptionAction)
+        public SingleTimer(int initialDelayInSeconds, int intervalInSeconds, Action workAction, Action<System.Exception> exceptionAction)
         {
             _initialDelayInSeconds = initialDelayInSeconds;
             _intervalInSeconds = intervalInSeconds;
@@ -62,7 +62,7 @@ namespace Architecture.WinService
                 {
                     _workAction();
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     _exceptionAction(ex);
                 }

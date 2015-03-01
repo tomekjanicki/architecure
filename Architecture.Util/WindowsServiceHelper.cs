@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
 
-namespace Architecture.WinService
+namespace Architecture.Util
 {
     public static class WindowsServiceHelper
     {
@@ -35,7 +35,7 @@ namespace Architecture.WinService
                 else
                     return false;
             }
-            catch (Exception exception)
+            catch (System.Exception exception)
             {
                 Console.WriteLine("Error: {0}", exception.Message);
             }

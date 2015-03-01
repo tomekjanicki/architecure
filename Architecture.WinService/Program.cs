@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceProcess;
+using Architecture.Util;
 using Architecture.Util.Ninject;
 
 namespace Architecture.WinService

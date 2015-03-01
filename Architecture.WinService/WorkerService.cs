@@ -1,4 +1,5 @@
 ﻿using System.ServiceProcess;
+using Architecture.Util;
 using Architecture.Util.Ninject;
 using Architecture.Util.Ninject.Scope;
 using Architecture.WinService.Job;

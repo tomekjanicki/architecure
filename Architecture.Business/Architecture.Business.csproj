@@ -83,6 +83,10 @@
       <Project>{7B40F097-63A1-48C4-868D-7F667345040D}</Project>
       <Name>Architecture.Util</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Architecture.ViewModel.Internal\Architecture.ViewModel.Internal.csproj">
+      <Project>{67b096f1-0e53-435d-9cbf-195abad6370f}</Project>
+      <Name>Architecture.ViewModel.Internal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Architecture.ViewModel\Architecture.ViewModel.csproj">
       <Project>{D7BCAB1C-D459-4995-8113-6B9440090921}</Project>
       <Name>Architecture.ViewModel</Name>
