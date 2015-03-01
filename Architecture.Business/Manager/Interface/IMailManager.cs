@@ -1,5 +1,4 @@
 ﻿
-using System;
 using Architecture.ViewModel;
 
 namespace Architecture.Business.Manager.Interface

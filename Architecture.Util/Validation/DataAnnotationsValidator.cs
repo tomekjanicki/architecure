@@ -21,7 +21,7 @@ namespace Architecture.Util.Validation
         private static IEnumerable<Tuple<string, object>> GetComplexPropertyNamesWithPropertyValues(object obj)
         {
             return obj.GetType().GetProperties()
-                .Where(p => (p.GetValue(obj) as IEnumerable == null) && p.PropertyType.IsClass && p.PropertyType.MemberType == MemberTypes.NestedType)
+                .Where(p => (!(p.GetValue(obj) is IEnumerable)) && p.PropertyType.IsClass && p.PropertyType.MemberType == MemberTypes.NestedType)
                 .Select(p => new Tuple<string, object>(p.Name, p.GetValue(obj)))
                 .Where(tuple => tuple.Item2 != null);
         }
@@ -29,7 +29,7 @@ namespace Architecture.Util.Validation
         private static IEnumerable<Tuple<string, IEnumerable>> GetEnumerablePropertyNamesWithPropertyValues(object obj)
         {
             return obj.GetType().GetProperties()
-                .Where(p => (p.GetValue(obj) as IEnumerable != null))
+                .Where(p => (p.GetValue(obj) is IEnumerable))
                 .Select(p => new Tuple<string, IEnumerable>(p.Name, (IEnumerable)p.GetValue(obj)));
         }
 

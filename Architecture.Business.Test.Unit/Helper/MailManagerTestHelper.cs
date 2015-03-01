@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Architecture.Repository.Command.Interface;
 using Architecture.Util.Mail;
-using Architecture.ViewModel;
 using Architecture.ViewModel.Internal;
 using NSubstitute;
 

@@ -11,7 +11,7 @@ namespace Architecture.Web.Code.Attribute
         {
             var actionName = actionContext.ActionDescriptor.ActionName;
             var controllerName = string.Format(@"api/{0}", actionContext.ControllerContext.ControllerDescriptor.ControllerName);
-            return ClaimsAuthorization.CheckAccess(principal, actionName, new[] { controllerName });
+            return ClaimsAuthorization.CheckAccess(principal, actionName, controllerName);
         }
     }
 }
