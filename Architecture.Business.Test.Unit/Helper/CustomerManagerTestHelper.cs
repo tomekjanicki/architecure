@@ -6,9 +6,9 @@ namespace Architecture.Business.Test.Unit.Helper
 {
     public static class CustomerManagerTestHelper
     {
-        public static InsertCustomerAsync GetValidInsertCustomerAsync()
+        public static InsertCustomer GetValidInsertCustomerAsync()
         {
-            return new InsertCustomerAsync {Mail = "example@example.com", Name = "name" };
+            return new InsertCustomer {Mail = "example@example.com", Name = "name" };
         }
 
         public static ICustomerCommand GetCustomerCommand()

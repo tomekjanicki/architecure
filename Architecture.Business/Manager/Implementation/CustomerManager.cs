@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Architecture.Business.Manager.Implementation.Base;
 using Architecture.Business.Manager.Interface;
 using Architecture.Repository.UnitOfWork.Interface;
@@ -17,24 +16,24 @@ namespace Architecture.Business.Manager.Implementation
         {
         }
 
-        public async Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
+        public Paged<FindCustomers> FindCustomers(string name, PageAndSortCriteria pageAndSortCriteria)
         {
-            return await CommandsUnitOfWork.CustomerCommand.FindCustomersAsync(name, pageAndSortCriteria).NoAwait();
+            return CommandsUnitOfWork.CustomerCommand.FindCustomers(name, pageAndSortCriteria);
         }
 
-        public async Task<Tuple<int?, Dictionary<string, IList<string>>>> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync)
+        public Tuple<int?, Dictionary<string, IList<string>>> InsertCustomer(InsertCustomer insertCustomer)
         {
-            Func<Task<List<Tuple<string, string>>>> additionalValidationProviderFunc = async () =>
+            Func<List<Tuple<string, string>>> additionalValidationProviderFunc = () =>
             {
-                var isUnique = await CommandsUnitOfWork.CustomerCommand.IsMailUniqueAsync(new IsMailUniqueAsync{Mail = insertCustomerAsync.Mail}).NoAwait();
+                var isUnique = CommandsUnitOfWork.CustomerCommand.IsMailUnique(new IsMailUnique{Mail = insertCustomer.Mail});
                 return isUnique ? new List<Tuple<string, string>>() : new List<Tuple<string, string>> { new Tuple<string, string>(string.Empty, Const.CustomerMailIsNotUniqueMessage) } ;
             };
-            return await HandleValidationAsync<int?>("insertCustomer", insertCustomerAsync, async () =>
+            return HandleValidation<int?>("insertCustomer", insertCustomer, () =>
             {
-                var id = await CommandsUnitOfWork.CustomerCommand.InsertCustomerAsync(insertCustomerAsync).NoAwait();
+                var id = CommandsUnitOfWork.CustomerCommand.InsertCustomer(insertCustomer);
                 CommandsUnitOfWork.SaveChanges();
                 return id;
-            }, additionalValidationProviderFunc).NoAwait();
+            }, additionalValidationProviderFunc);
 
         }
     }

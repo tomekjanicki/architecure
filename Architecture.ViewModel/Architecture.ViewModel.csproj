@@ -47,9 +47,9 @@
     <Compile Include="Const.cs" />
     <Compile Include="DeleteOrder.cs" />
     <Compile Include="DeleteProduct.cs" />
-    <Compile Include="InsertCustomerAsync.cs" />
+    <Compile Include="InsertCustomer.cs" />
     <Compile Include="FindByLogin.cs" />
-    <Compile Include="FindCustomersAsync.cs" />
+    <Compile Include="FindCustomers.cs" />
     <Compile Include="FindProducts.cs" />
     <Compile Include="GetOrder.cs" />
     <Compile Include="GetOrderDetail.cs" />

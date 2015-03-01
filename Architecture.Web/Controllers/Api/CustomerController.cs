@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using System.Web.Http;
 using Architecture.Business.Facade.Interface;
 using Architecture.Util;
@@ -14,14 +13,14 @@ namespace Architecture.Web.Controllers.Api
         {
         }
 
-        public async Task<Paged<FindCustomersAsync>> GetCustomersAsync(string name, int pageSize, int skip, string sort)
+        public Paged<FindCustomers> GetCustomers(string name, int pageSize, int skip, string sort)
         {
-            return await BusinessLogicFacade.CustomerManager.FindCustomersAsync(name, new PageAndSortCriteria(pageSize, skip, sort));
+            return BusinessLogicFacade.CustomerManager.FindCustomers(name, new PageAndSortCriteria(pageSize, skip, sort));
         }
 
-        public async Task<IHttpActionResult> PostCustomerAsync(InsertCustomerAsync insertCustomerAsync)
+        public IHttpActionResult PostCustomer(InsertCustomer insertCustomer)
         {
-            return await HandlePostAsync(() => BusinessLogicFacade.CustomerManager.InsertCustomerAsync(insertCustomerAsync), insertCustomerAsync);
+            return HandlePost(() => BusinessLogicFacade.CustomerManager.InsertCustomer(insertCustomer), insertCustomer);
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿namespace Architecture.ViewModel.Internal
 {
-    public class IsMailUniqueAsync
+    public class IsMailUnique
     {
         public string Mail { get; set; }
 

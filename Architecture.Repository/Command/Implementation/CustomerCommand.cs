@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Architecture.Repository.Command.Implementation.Base;
 using Architecture.Repository.Command.Interface;
 using Architecture.Util;
@@ -17,26 +16,26 @@ namespace Architecture.Repository.Command.Implementation
         {
         }
 
-        public async Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria)
+        public Paged<FindCustomers> FindCustomers(string name, PageAndSortCriteria pageAndSortCriteria)
         {
             var whereFragment = GetWhereFragment(name);
             var pagedFragment = GetPagedFragment(Page.FromPageAndSortCriteria(pageAndSortCriteria), GetTranslatedSort(pageAndSortCriteria.Sort));
             var countQuery = string.Format("SELECT COUNT(*) FROM DBO.CUSTOMERS {0}", whereFragment.Item1);
-            var count = await QueryReturnsFirstOrDefaultAsync<int>(countQuery, whereFragment.Item2).NoAwait();
+            var count = QueryReturnsFirstOrDefault<int>(countQuery, whereFragment.Item2);
             var dataQuery = string.Format(@"SELECT ID, NAME, MAIL FROM DBO.CUSTOMERS {0} {1}", whereFragment.Item1, pagedFragment.Item1);
             whereFragment.Item2.AddDynamicParams(pagedFragment.Item2);
-            var data = await QueryReturnsEnumerableAsync<FindCustomersAsync>(dataQuery, whereFragment.Item2).NoAwait();
-            return new Paged<FindCustomersAsync>(count, data);
+            var data = QueryReturnsEnumerable<FindCustomers>(dataQuery, whereFragment.Item2);
+            return new Paged<FindCustomers>(count, data);
         }
 
-        public async Task<int> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync)
+        public int InsertCustomer(InsertCustomer insertCustomer)
         {
-            return await ExecuteScalarAsync<int>("INSERT INTO DBO.CUSTOMERS (NAME, MAIL) OUTPUT INSERTED.ID VALUES(@NAME, @MAIL)", new { NAME = insertCustomerAsync.Name, MAIL = insertCustomerAsync.Mail }).NoAwait();
+            return ExecuteScalar<int>("INSERT INTO DBO.CUSTOMERS (NAME, MAIL) OUTPUT INSERTED.ID VALUES(@NAME, @MAIL)", new { NAME = insertCustomer.Name, MAIL = insertCustomer.Mail });
         }
 
-        public async Task<bool> IsMailUniqueAsync(IsMailUniqueAsync isMailUniqueAsync)
+        public bool IsMailUnique(IsMailUnique isMailUnique)
         {
-            var r = await QueryReturnsFirstOrDefaultAsync<int>("SELECT CASE WHEN @ID IS NULL THEN (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL) ELSE (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL AND ID NOT IN (@ID)) END", new { MAIL = isMailUniqueAsync.Mail, ID = isMailUniqueAsync.CustomerId }).NoAwait();
+            var r = QueryReturnsFirstOrDefault<int>("SELECT CASE WHEN @ID IS NULL THEN (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL) ELSE (SELECT COUNT(*) FROM DBO.CUSTOMERS WHERE MAIL = @MAIL AND ID NOT IN (@ID)) END", new { MAIL = isMailUnique.Mail, ID = isMailUnique.CustomerId });
             return r == 0;
         }
 

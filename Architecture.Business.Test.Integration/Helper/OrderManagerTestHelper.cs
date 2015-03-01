@@ -8,7 +8,7 @@ namespace Architecture.Business.Test.Integration.Helper
 {
     public static class OrderManagerTestHelper
     {
-        public static InsertOrder GetValidInsertOrder(Paged<FindProducts> products, Paged<FindCustomersAsync> customers)
+        public static InsertOrder GetValidInsertOrder(Paged<FindProducts> products, Paged<FindCustomers> customers)
         {
             var data = new InsertOrder { Date = DateTime.Now };
             if (customers.Count > 0)

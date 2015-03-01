@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Architecture.Util;
+﻿using Architecture.Util;
 using Architecture.ViewModel;
 using Architecture.ViewModel.Internal;
 
@@ -7,9 +6,9 @@ namespace Architecture.Repository.Command.Interface
 {
     public interface ICustomerCommand
     {
-        Task<Paged<FindCustomersAsync>> FindCustomersAsync(string name, PageAndSortCriteria pageAndSortCriteria);
-        Task<int> InsertCustomerAsync(InsertCustomerAsync insertCustomerAsync);
-        Task<bool> IsMailUniqueAsync(IsMailUniqueAsync isMailUniqueAsync);
+        Paged<FindCustomers> FindCustomers(string name, PageAndSortCriteria pageAndSortCriteria);
+        int InsertCustomer(InsertCustomer insertCustomer);
+        bool IsMailUnique(IsMailUnique isMailUnique);
         string GetCustomerMail(int id);
     }
 }
