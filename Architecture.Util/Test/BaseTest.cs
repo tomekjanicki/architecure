@@ -42,7 +42,7 @@ namespace Architecture.Util.Test
 
         protected static async Task<T> Delayed<T>(T result)
         {
-            return await Delayed(100, result);
+            return await Delayed(10, result);
         }
 
 
