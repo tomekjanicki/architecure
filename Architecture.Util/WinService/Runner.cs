@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration.Install;
 using System.IO;
 using System.Linq;
@@ -6,19 +7,50 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
 
-namespace Architecture.Util
+namespace Architecture.Util.WinService
 {
-    public static class WindowsServiceHelper
+    public static class Runner
     {
+        public static void Run<TService, TAppRunner>() where TService: ServiceBaseEx, new() where TAppRunner: IAppRunner, new()
+        {
+            var args = Environment.GetCommandLineArgs();
+            // runs the app as a  console application if the command argument "-console" is used
+            if (RunAsConsoleIfRequested<TAppRunner>(args))
+                return;
+            // uses "-install" and "-uninstall" to manage the service.
+            if (ManageServiceIfRequested(args))
+                return;
+            var service = new TService();
+            service.SetAppRunner(new TAppRunner());
+            ServiceBase.Run(service);            
+        }
+
         private static readonly string[] InstallArguments = { "/i", "/install", "-i", "-install" };
         private static readonly string[] UninstallArguments = { "/u", "/uninstall", "-u", "-uninstall" };
+        private const string ConsoleArgument = "-console";
 
         private static void AttachConsole()
         {
             AllocConsole();
         }
 
-        public static bool ManageServiceIfRequested(string[] arguments)
+        private static bool RunAsConsoleIfRequested<T>(IEnumerable<string> args) where T : IAppRunner, new()
+        {
+            if (!args.Contains(ConsoleArgument))
+                return false;
+            AttachConsole();
+            var service = new T();
+            var a = Environment.GetCommandLineArgs().Where(name => name != ConsoleArgument).ToArray();
+            service.OnStart(a);
+            Console.WriteLine("Your service named '{0}' is up and running.\r\nPress 'ENTER' to stop it.", service.GetType().FullName);
+            Console.ReadLine();
+            service.OnStop();
+            Console.WriteLine("Service is stopped. Press any key to exit console");
+            Console.ReadKey();
+            return true;
+        }
+
+        private static bool ManageServiceIfRequested(string[] arguments)
         {
             try
             {
@@ -44,25 +76,8 @@ namespace Architecture.Util
             return true;
         }
 
-        public static bool RunAsConsoleIfRequested<T>() where T : ServiceBase, new()
-        {
-            if (!Environment.CommandLine.Contains("-console"))
-                return false;
-            AttachConsole();
-            var service = new T();
-            var onstart = service.GetType().GetMethod("OnStart", BindingFlags.Instance | BindingFlags.NonPublic);
-            var args = Environment.GetCommandLineArgs().Where(name => name != "-console").ToArray();
-            onstart.Invoke(service, new object[] { args });
-            Console.WriteLine("Your service named '{0}' is up and running.\r\nPress 'ENTER' to stop it.", service.GetType().FullName);
-            Console.ReadLine();
-            var onstop = service.GetType().GetMethod("OnStop", BindingFlags.Instance | BindingFlags.NonPublic);
-            onstop.Invoke(service, null);
-            Console.WriteLine("Service is stopped. Press any key to exit console");
-            Console.ReadKey();
-            return true;
-        }
-
         [DllImport("kernel32")]
         private static extern bool AllocConsole();
+
     }
 }

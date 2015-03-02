@@ -84,7 +84,11 @@
     <Compile Include="Test\BaseTest.cs" />
     <Compile Include="Validation\DataAnnotationsValidator.cs" />
     <Compile Include="Validation\ModelStateAdapter.cs" />
-    <Compile Include="WindowsServiceHelper.cs" />
+    <Compile Include="WinService\IAppRunner.cs" />
+    <Compile Include="WinService\Runner.cs" />
+    <Compile Include="WinService\ServiceBaseEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
