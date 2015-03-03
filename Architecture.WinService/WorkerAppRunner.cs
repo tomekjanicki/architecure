@@ -21,8 +21,8 @@ namespace Architecture.WinService
                 Factory.Resolve<T>().DoWork();
         }
 
-        private readonly SingleTimer _mailQueueTimer;
-        private readonly SingleTimer _orderConfirmationReminderTimer;
+        private SingleTimer _mailQueueTimer;
+        private SingleTimer _orderConfirmationReminderTimer;
 
         public void OnStart(string[] args)
         {
@@ -34,6 +34,21 @@ namespace Architecture.WinService
         {
             _mailQueueTimer.Stop();
             _orderConfirmationReminderTimer.Stop();
+        }
+
+        public void Dispose()
+        {
+            if (_mailQueueTimer != null)
+            {
+                _mailQueueTimer.Dispose();
+                _mailQueueTimer = null;
+            }
+            if (_orderConfirmationReminderTimer != null)
+            {
+                _orderConfirmationReminderTimer.Dispose();
+                _orderConfirmationReminderTimer = null;
+            }
+                
         }
     }
 }
