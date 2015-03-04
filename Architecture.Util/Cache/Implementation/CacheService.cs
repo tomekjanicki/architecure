@@ -10,20 +10,25 @@ namespace Architecture.Util.Cache.Implementation
 
         public T Get<T>(string key, Func<T> fetchFunc, TimeSpan timeToLive, bool absoluteExpiration)
         {
-            var fullKey = Extension.GetFullKey(typeof(T), key);            
+            var fullKey = Extension.GetFullKey(typeof(T), key);
             lock (_locker)
             {
-                var cache = MemoryCache.Default;
-                if (cache.Contains(fullKey))
-                    return (T)cache.Get(fullKey);
-                var data = fetchFunc();
-                if (absoluteExpiration)
+                if (MemoryCache.Default.Contains(fullKey))
+                    return (T) MemoryCache.Default.Get(fullKey);
+            }
+            var data = fetchFunc();
+            lock (_locker)
+            {
+                if (!MemoryCache.Default.Contains(fullKey))
                 {
-                    var date = DateTime.Now.Add(timeToLive);
-                    cache.Add(fullKey, data, date);
+                    if (absoluteExpiration)
+                    {
+                        var date = DateTime.Now.Add(timeToLive);
+                        MemoryCache.Default.Add(fullKey, data, date);
+                    }
+                    else
+                        MemoryCache.Default.Add(new CacheItem(fullKey, data), new CacheItemPolicy { SlidingExpiration = timeToLive });                    
                 }
-                else
-                    cache.Add(new CacheItem(fullKey, data), new CacheItemPolicy { SlidingExpiration = timeToLive });
                 return data;
             }            
         }
@@ -33,9 +38,8 @@ namespace Architecture.Util.Cache.Implementation
             var fullKey = Extension.GetFullKey(typeof(T), key);            
             lock (_locker)
             {
-                var cache = MemoryCache.Default;
-                if (cache.Contains(fullKey))
-                    cache.Remove(fullKey);                
+                if (MemoryCache.Default.Contains(fullKey))
+                    MemoryCache.Default.Remove(fullKey);                
             }
         }
     }
