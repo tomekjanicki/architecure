@@ -35,11 +35,10 @@ namespace Architecture.Business.Test.Unit.Base
             return Factory.Resolve<IBusinessLogicFacade>();
         }
 
-        protected ICacheService GetCacheService()
+        private static ICacheService GetCacheService()
         {
             return Factory.Resolve<ICacheService>();
         }
-
 
         protected ICommandsUnitOfWork GetCommandsUnitOfWork()
         {

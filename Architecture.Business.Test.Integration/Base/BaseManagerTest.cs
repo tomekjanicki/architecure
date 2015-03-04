@@ -36,11 +36,10 @@ namespace Architecture.Business.Test.Integration.Base
             return Factory.Resolve<IBusinessLogicFacade>();
         }
 
-        protected ICacheService GetCacheService()
+        private static ICacheService GetCacheService()
         {
             return Factory.Resolve<ICacheService>();
         }
-
 
         private class Scope : IDisposable
         {

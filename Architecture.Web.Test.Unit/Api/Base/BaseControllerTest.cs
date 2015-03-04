@@ -35,7 +35,7 @@ namespace Architecture.Web.Test.Unit.Api.Base
             _callContextScope = null;
         }
 
-        protected ICacheService GetCacheService()
+        private static ICacheService GetCacheService()
         {
             return Factory.Resolve<ICacheService>();
         }
