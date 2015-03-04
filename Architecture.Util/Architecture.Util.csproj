@@ -82,6 +82,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleTimer.cs" />
     <Compile Include="Test\BaseTest.cs" />
+    <Compile Include="Threading\ReaderWriterLockProxy.cs" />
+    <Compile Include="Threading\ReaderWriterLocker.cs" />
     <Compile Include="Validation\DataAnnotationsValidator.cs" />
     <Compile Include="Validation\ModelStateAdapter.cs" />
     <Compile Include="WinService\IAppRunner.cs" />
