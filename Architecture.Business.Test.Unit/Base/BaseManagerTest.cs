@@ -1,5 +1,6 @@
 ﻿using Architecture.Business.Facade.Interface;
 using Architecture.Repository.UnitOfWork.Interface;
+using Architecture.Util.Cache.Interface;
 using Architecture.Util.Ninject;
 using Architecture.Util.Ninject.Scope;
 using Architecture.Util.Test;
@@ -24,6 +25,7 @@ namespace Architecture.Business.Test.Unit.Base
         public override void TearDown()
         {
             base.TearDown();
+            GetCacheService().Clear();
             _callContextScope.Dispose();
             _callContextScope = null;
         }
@@ -32,6 +34,12 @@ namespace Architecture.Business.Test.Unit.Base
         {
             return Factory.Resolve<IBusinessLogicFacade>();
         }
+
+        protected ICacheService GetCacheService()
+        {
+            return Factory.Resolve<ICacheService>();
+        }
+
 
         protected ICommandsUnitOfWork GetCommandsUnitOfWork()
         {

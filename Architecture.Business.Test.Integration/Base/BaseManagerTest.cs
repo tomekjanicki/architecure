@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Transactions;
 using Architecture.Business.Facade.Interface;
+using Architecture.Util.Cache.Interface;
 using Architecture.Util.Ninject;
 using Architecture.Util.Ninject.Scope;
 using Architecture.Util.Test;
@@ -25,6 +26,7 @@ namespace Architecture.Business.Test.Integration.Base
         public override void TearDown()
         {
             base.TearDown();
+            GetCacheService().Clear();
             _scope.Dispose();
             _scope = null;
         }
@@ -33,6 +35,12 @@ namespace Architecture.Business.Test.Integration.Base
         {
             return Factory.Resolve<IBusinessLogicFacade>();
         }
+
+        protected ICacheService GetCacheService()
+        {
+            return Factory.Resolve<ICacheService>();
+        }
+
 
         private class Scope : IDisposable
         {

@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
+using Architecture.Util.Cache.Interface;
+using Architecture.Util.Ninject;
 using Architecture.Util.Ninject.Scope;
 using Architecture.Util.Test;
 using Architecture.Web.Code;
@@ -28,8 +30,14 @@ namespace Architecture.Web.Test.Unit.Api.Base
         public override void TearDown()
         {
             base.TearDown();
+            GetCacheService().Clear();
             _callContextScope.Dispose();
             _callContextScope = null;
+        }
+
+        protected ICacheService GetCacheService()
+        {
+            return Factory.Resolve<ICacheService>();
         }
 
         protected TController GetConfiguredWebApiController<TController>(Func<TController> newInstanceFunc, HttpMethod method, string key) where TController : BaseApiController

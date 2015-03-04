@@ -42,5 +42,11 @@ namespace Architecture.Util.Cache.Implementation
                     MemoryCache.Default.Remove(fullKey);                
             }
         }
+
+        public void Clear()
+        {
+            lock (_locker)
+                MemoryCache.Default.Dispose();
+        }
     }
 }
