@@ -7,16 +7,17 @@ namespace Architecture.Util.Cache.Implementation
 {
     public class CacheService : ICacheService
     {
+        private readonly ReaderWriterLocker _locker = new ReaderWriterLocker();
+
         public T Get<T>(string key, Func<T> fetchFunc, TimeSpan timeToLive, bool absoluteExpiration)
         {
             var fullKey = Extension.GetFullKey(typeof(T), key);
-            var locker = new ReaderWriterLocker();
-            using (locker.AcquireUpgradeableReader())
+            using (_locker.AcquireUpgradeableReader())
             {
                 if (MemoryCache.Default.Contains(fullKey))
                     return (T)MemoryCache.Default.Get(fullKey);
                 var data = fetchFunc();
-                using (locker.AcquireWriter())
+                using (_locker.AcquireWriter())
                 {                    
                     if (!MemoryCache.Default.Contains(fullKey))
                     {
@@ -36,8 +37,7 @@ namespace Architecture.Util.Cache.Implementation
         public void Remove<T>(string key)
         {
             var fullKey = Extension.GetFullKey(typeof(T), key);
-            var locker = new ReaderWriterLocker();
-            using (locker.AcquireWriter())
+            using (_locker.AcquireWriter())
             {
                 if (MemoryCache.Default.Contains(fullKey))
                     MemoryCache.Default.Remove(fullKey);
@@ -46,8 +46,7 @@ namespace Architecture.Util.Cache.Implementation
 
         public void Clear()
         {
-            var locker = new ReaderWriterLocker();
-            using (locker.AcquireWriter())
+            using (_locker.AcquireWriter())
                 MemoryCache.Default.Dispose();
         }
     }

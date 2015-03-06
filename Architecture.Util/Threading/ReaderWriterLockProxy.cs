@@ -21,19 +21,19 @@ namespace Architecture.Util.Threading
             _rwLock = rwLock;
         }
 
-        public static ReaderWriterLockProxy AcquireReader(ReaderWriterLockSlim rwLock)
+        internal static ReaderWriterLockProxy AcquireReader(ReaderWriterLockSlim rwLock)
         {
             rwLock.EnterReadLock();
             return new ReaderWriterLockProxy(Type.Read, rwLock);
         }
 
-        public static ReaderWriterLockProxy AcquireWriter(ReaderWriterLockSlim rwLock)
+        internal static ReaderWriterLockProxy AcquireWriter(ReaderWriterLockSlim rwLock)
         {
             rwLock.EnterWriteLock();
             return new ReaderWriterLockProxy(Type.Write, rwLock);
         }
 
-        public static ReaderWriterLockProxy AcquireUpgradeableReader(ReaderWriterLockSlim @lock)
+        internal static ReaderWriterLockProxy AcquireUpgradeableReader(ReaderWriterLockSlim @lock)
         {
             @lock.EnterUpgradeableReadLock();
             return new ReaderWriterLockProxy(Type.UpgradeRead, @lock);
