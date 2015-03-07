@@ -20,7 +20,7 @@ namespace Architecture.Business.Manager.Implementation
         public FindByLogin FindByLogin(string login, bool useCache)
         {
             Func<FindByLogin> f = () => CommandsUnitOfWork.UserCommand.FindByLogin(login);
-            return useCache ? _cacheService.Get(login, f, new TimeSpan(0, 0, 30), false) : f();
+            return useCache ? _cacheService.AddOrGet(login, f, new TimeSpan(0, 0, 30), false, true) : f();
         }
     }
 }

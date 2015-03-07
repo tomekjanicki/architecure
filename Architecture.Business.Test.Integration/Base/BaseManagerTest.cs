@@ -26,7 +26,9 @@ namespace Architecture.Business.Test.Integration.Base
         public override void TearDown()
         {
             base.TearDown();
-            GetCacheService().Clear();
+            var cs = GetCacheService();
+            cs.Clear();
+            cs.ClearPermament();
             _scope.Dispose();
             _scope = null;
         }

@@ -30,7 +30,9 @@ namespace Architecture.Web.Test.Unit.Api.Base
         public override void TearDown()
         {
             base.TearDown();
-            GetCacheService().Clear();
+            var cs = GetCacheService();
+            cs.Clear();
+            cs.ClearPermament();
             _callContextScope.Dispose();
             _callContextScope = null;
         }
