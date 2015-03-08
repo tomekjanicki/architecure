@@ -115,6 +115,10 @@
       <Project>{a3565191-fd48-40c9-beb8-e0586e2c9c52}</Project>
       <Name>Architecture.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Architecture.Util.Test\Architecture.Util.Test.csproj">
+      <Project>{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}</Project>
+      <Name>Architecture.Util.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Architecture.Util\Architecture.Util.csproj">
       <Project>{7b40f097-63a1-48c4-868d-7f667345040d}</Project>
       <Name>Architecture.Util</Name>

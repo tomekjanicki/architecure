@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3810AD5F-D794-4487-944A-327B02C36CE2}</ProjectGuid>
+    <ProjectGuid>{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Architecture.Util.Test.Unit</RootNamespace>
-    <AssemblyName>Architecture.Util.Test.Unit</AssemblyName>
+    <RootNamespace>Architecture.Util.Test</RootNamespace>
+    <AssemblyName>Architecture.Util.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,14 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NSubstitute">
-      <HintPath>..\packages\NSubstitute.1.8.1.0\lib\net45\NSubstitute.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,30 +51,17 @@
     <Compile Include="..\Architecture.File\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DataAnnotationsValidatorTest.cs" />
-    <Compile Include="HandlerHelperTest.cs" />
-    <Compile Include="Helper\DataAnnotationsValidatorTestHelper.cs" />
-    <Compile Include="Helper\Header.cs" />
-    <Compile Include="ModelStateAdapterTest.cs" />
-    <Compile Include="Helper\ModelStateAdapterTestHelper.cs" />
+    <Compile Include="BaseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Architecture.Util.Test\Architecture.Util.Test.csproj">
-      <Project>{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}</Project>
-      <Name>Architecture.Util.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Architecture.Util\Architecture.Util.csproj">
-      <Project>{7B40F097-63A1-48C4-868D-7F667345040D}</Project>
+      <Project>{7b40f097-63a1-48c4-868d-7f667345040d}</Project>
       <Name>Architecture.Util</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

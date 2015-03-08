@@ -82,6 +82,10 @@
       <Project>{0B83053F-9EC8-44F3-993A-1DDF9F885271}</Project>
       <Name>Architecture.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Architecture.Util.Test\Architecture.Util.Test.csproj">
+      <Project>{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}</Project>
+      <Name>Architecture.Util.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Architecture.Util\Architecture.Util.csproj">
       <Project>{7B40F097-63A1-48C4-868D-7F667345040D}</Project>
       <Name>Architecture.Util</Name>
