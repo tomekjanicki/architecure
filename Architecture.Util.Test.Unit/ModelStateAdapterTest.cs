@@ -61,7 +61,7 @@ namespace Architecture.Util.Test.Unit
         [Test]
         public void ToDictionary_ValidationResultsNull_ThrowsArgumentNullException()
         {
-            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.ToDictionary(string.Empty, null));
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.ToDictionary("p", null));
         }
 
         [Test]
@@ -73,13 +73,13 @@ namespace Architecture.Util.Test.Unit
         [Test]
         public void Merge_SourceNull_ThrowsArgumentNullException()
         {
-            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.Merge("", null, new List<Tuple<string, string>>()));
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.Merge("p", null, new List<Tuple<string, string>>()));
         }
 
         [Test]
         public void Merge_AdditionalListNull_ThrowsArgumentNullException()
         {
-            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.Merge("", new Dictionary<string, IList<string>>(), null));
+            Assert.Catch<ArgumentNullException>(() => ModelStateAdapter.Merge("p", new Dictionary<string, IList<string>>(), null));
         }
 
     }

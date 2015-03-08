@@ -71,8 +71,7 @@ namespace Architecture.Util.Validation
 
         public static ICollection<ValidationResult> Validate(object obj)
         {
-            if (obj == null)
-                throw new ArgumentNullException("obj");
+            Extension.EnsureIsNotNull(obj, "obj");
             return ValidateCurrentObject(obj).Union(ValidateNestedObjects(GetEnumerablePropertyNamesWithPropertyValues(obj), GetComplexPropertyNamesWithPropertyValues(obj))).ToList();
         }
 

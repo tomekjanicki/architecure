@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Architecture.Util
 {
@@ -7,12 +7,11 @@ namespace Architecture.Util
     {
         public Paged(int count, IEnumerable<T> items)
         {
-            if (count < 0)
-                throw new ArgumentOutOfRangeException("count");
-            if (items == null)
-                throw new ArgumentNullException("items");
+            Extension.EnsureArgumentIsInRange(count < 0, "count");
+            var enumerable = items as IList<T> ?? items.ToList();
+            Extension.EnsureIsNotNull(enumerable, "items");
             Count = count;
-            Items = items;
+            Items = enumerable;
         }
 
         public int Count { get; private set; }

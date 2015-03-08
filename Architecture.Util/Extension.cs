@@ -15,10 +15,29 @@ namespace Architecture.Util
     {
         private const string SqlClient = "System.Data.SqlClient";
 
+        public static void EnsureArgumentIsInRange(bool notInRange, string errorMessage)
+        {
+            if (notInRange)
+                throw new ArgumentOutOfRangeException(errorMessage);
+        }
+
+        public static void EnsureIsNotNull<T>(T obj, string argument) where T: class 
+        {
+            if (obj == null)
+                throw new ArgumentNullException(argument);
+        }
+
+        public static void EnsureIsNotNullOrEmpty(string obj, string argument)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(argument);
+            if (obj == string.Empty)
+                throw new ArgumentException(argument);
+        }
+
         private static string GetConnectionStringWithMasterDb(ConnectionStringSettings css)
         {
-            if (css == null)
-                throw new ArgumentNullException("css");
+            EnsureIsNotNull(css, "css");
             if (css.ProviderName == SqlClient)
                 return new SqlConnectionStringBuilder(css.ConnectionString) {InitialCatalog = "master"}.ToString();
             throw new NotImplementedException();
@@ -98,20 +117,16 @@ namespace Architecture.Util
 
         public static void RaiseEvent(EventHandler handler, object sender, Func<EventArgs> func)
         {
-            if (sender == null)
-                throw new ArgumentNullException("sender");
-            if (func == null)
-                throw new ArgumentNullException("func");
+            EnsureIsNotNull(sender, "sender");
+            EnsureIsNotNull(func, "func");
             if (handler != null)
                 handler(sender, func());
         }
 
         public static void RaiseEvent<T>(EventHandler<T> handler, object sender, Func<T> func) where T: EventArgs
         {
-            if (sender == null)
-                throw new ArgumentNullException("sender");
-            if (func == null)
-                throw new ArgumentNullException("func");
+            EnsureIsNotNull(sender, "sender");
+            EnsureIsNotNull(func, "func");
             if (handler != null)
                 handler(sender, func());
         }
