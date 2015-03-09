@@ -13,7 +13,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 {
     public class CommandsUnitOfWork : ICommandsUnitOfWork
     {
-        private readonly DbConnection _connection;
+        private DbConnection _connection;
         private DbTransaction _transaction;
         private bool _transactionStarted;
 
@@ -37,6 +37,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 
         private DbConnection GetOpenConnection()
         {
+            EnsureNotDisposed();
             if (_connection.State != ConnectionState.Open)
                 _connection.Open();
             return _connection;
@@ -44,6 +45,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 
         private async Task<DbConnection> GetOpenConnectionAsync()
         {
+            EnsureNotDisposed();
             if (_connection.State != ConnectionState.Open)
                 await _connection.OpenAsync().NoAwait();
             return _connection;
@@ -51,6 +53,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 
         private DbTransaction GetTransaction()
         {
+            EnsureNotDisposed();
             if (_transaction == null)
             {
                 _transaction = _connection.BeginTransaction();
@@ -61,36 +64,58 @@ namespace Architecture.Repository.UnitOfWork.Implementation
 
         private bool IsActiveTransaction()
         {
+            EnsureNotDisposed();
             return _transactionStarted;
         }
 
         public virtual ICustomerCommand CustomerCommand
         {
-            get { return _lazyCustomerCommand.Value; }
+            get
+            {
+                EnsureNotDisposed();
+                return _lazyCustomerCommand.Value;
+            }
         }
 
         public virtual IMailCommand MailCommand
         {
-            get { return _lazyMailCommand.Value; }
+            get
+            {
+                EnsureNotDisposed();
+                return _lazyMailCommand.Value;
+            }
         }
 
         public virtual IUserCommand UserCommand
         {
-            get { return _lazyUserCommand.Value; }
+            get
+            {
+                EnsureNotDisposed();
+                return _lazyUserCommand.Value;
+            }
         }
 
         public virtual IOrderCommand OrderCommand
         {
-            get { return _lazyOrderCommand.Value; }
+            get
+            {
+                EnsureNotDisposed();
+                return _lazyOrderCommand.Value;
+            }
         }
 
         public virtual IProductCommand ProductCommand
         {
-            get { return _lazyProductCommand.Value; }
+            get
+            {
+                EnsureNotDisposed();
+                return _lazyProductCommand.Value;
+            }
         }
 
         public void SaveChanges()
         {
+            EnsureNotDisposed();
             Handler.HandleAction(() =>
             {
                 if (_transactionStarted)
@@ -102,29 +127,38 @@ namespace Architecture.Repository.UnitOfWork.Implementation
             });
         }
 
+        private ConnectionWithTransaction GetConnectionWithTransaction()
+        {
+            EnsureNotDisposed();
+            return new ConnectionWithTransaction(GetOpenConnection, GetOpenConnectionAsync, GetTransaction, IsActiveTransaction);
+        }
+
         public void Dispose()
         {
-            Handler.HandleAction(() =>
+            Extension.PublicDispose(() => Dispose(true), this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            Extension.ProtectedDispose(ref _disposed, disposing, () =>
             {
-                if (!_disposed)
+                if (_transaction != null)
                 {
-                    if (_transaction != null)
-                    {
-                        _transaction.Rollback();
-                        _transaction = null;
-                        _transactionStarted = false;
-                    }
+                    _transaction.Rollback();
+                    _transaction = null;
+                    _transactionStarted = false;
+                }
+                Extension.StandardDisposeWithAction(ref _connection, () =>
+                {
                     if (_connection.State == ConnectionState.Open)
-                        _connection.Close();
-                    _connection.Dispose();
-                    _disposed = true;
-                }                
+                        _connection.Close();                    
+                });
             });
         }
 
-        private ConnectionWithTransaction GetConnectionWithTransaction()
+        private void EnsureNotDisposed()
         {
-            return new ConnectionWithTransaction(GetOpenConnection, GetOpenConnectionAsync, GetTransaction, IsActiveTransaction);
+            Extension.EnsureNotDisposed<CommandsUnitOfWork>(_disposed);
         }
 
     }

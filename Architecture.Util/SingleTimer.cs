@@ -12,9 +12,11 @@ namespace Architecture.Util
         private Timer _timer;
         private readonly object _locker = new object();
         private bool _working;
+        private bool _disposed;
 
         private bool CanWork()
         {
+            EnsureNotDisposed();
             lock (_locker)
             {
                 if (!_working)
@@ -28,17 +30,20 @@ namespace Architecture.Util
 
         private void SetNotWorking()
         {
+            EnsureNotDisposed();
             lock (_locker)
                 _working = false;
         }
 
         public void Start()
         {
+            EnsureNotDisposed();
             _timer = new Timer(Elapsed, null, _initialDelayInSeconds * 1000, _intervalInSeconds * 1000);
         }
 
         public void Stop()
         {
+            EnsureNotDisposed();
             while (!CanWork())
             {                
             }
@@ -56,6 +61,7 @@ namespace Architecture.Util
 
         private void Elapsed(object state)
         {
+            EnsureNotDisposed();
             if (CanWork())
             {
                 try
@@ -75,8 +81,17 @@ namespace Architecture.Util
 
         public void Dispose()
         {
-            if (_timer != null) 
-                _timer.Dispose();
+            Extension.PublicDispose(() => Dispose(true), this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            Extension.ProtectedDispose(ref _disposed, disposing, () => Extension.StandardDispose(ref _timer));
+        }
+
+        private void EnsureNotDisposed()
+        {
+            Extension.EnsureNotDisposed<SingleTimer>(_disposed);
         }
     }
 }

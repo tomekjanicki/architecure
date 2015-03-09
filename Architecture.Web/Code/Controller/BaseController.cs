@@ -5,8 +5,7 @@ namespace Architecture.Web.Code.Controller
 {
     public abstract class BaseController : System.Web.Mvc.Controller
     {
-
-        protected readonly IBusinessLogicFacade BusinessLogicFacade;
+        protected IBusinessLogicFacade BusinessLogicFacade;
 
         protected BaseController(IBusinessLogicFacade businessLogicFacade)
         {

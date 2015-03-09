@@ -25,11 +25,8 @@ namespace Architecture.Business.Test.Unit.Base
         public override void TearDown()
         {
             base.TearDown();
-            var cs = GetCacheService();
-            cs.Clear();
-            cs.ClearPermament();
-            _callContextScope.Dispose();
-            _callContextScope = null;
+            GetCacheService().Dispose();
+            Util.Extension.StandardDispose(ref _callContextScope);
         }
 
         protected IBusinessLogicFacade GetBusinessLogicFacade()

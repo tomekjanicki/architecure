@@ -18,7 +18,7 @@ namespace Architecture.Business.Facade.Implementation
         private readonly Lazy<ICustomerManager> _lazyCustomerManager;
         private readonly Lazy<IProductManager> _lazyProductManager;
         private readonly Lazy<IMailManager> _lazyMailManager;
-        private readonly Lazy<IUserManager> _lazyUserManager; 
+        private readonly Lazy<IUserManager> _lazyUserManager;
 
         public BusinessLogicFacade(ICommandsUnitOfWork commandsUnitOfWork, IMailService mailService, ICacheService cacheService)
         {
@@ -57,9 +57,5 @@ namespace Architecture.Business.Facade.Implementation
             get { return _lazyUserManager.Value; }
         }
 
-        public void Dispose()
-        {
-            _commandsUnitOfWork.Dispose(); 
-        }
     }
 }

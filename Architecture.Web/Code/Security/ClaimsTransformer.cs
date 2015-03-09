@@ -25,7 +25,7 @@ namespace Architecture.Web.Code.Security
                 {
                     var p = Principal.Create("Application", new Claim(ClaimTypes.Name, login), new Claim(ClaimTypes.GivenName, findByLogin.FirstName), new Claim(ClaimTypes.Surname, findByLogin.LastName));
                     findByLogin.Roles.ToList().ForEach(role => p.Identities.First().AddClaim(new Claim(ClaimTypes.Role, role)));
-                    return p;                    
+                    return p;
                 }
             }
             return null;

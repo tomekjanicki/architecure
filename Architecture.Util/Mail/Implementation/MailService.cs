@@ -17,7 +17,11 @@ namespace Architecture.Util.Mail.Implementation
 
         public void Send(MailMessage message)
         {
-            _handler.HandleAction(() => new SmtpClient().Send(message));
+            _handler.HandleAction(() =>
+            {
+                using (var client = new SmtpClient())
+                    client.Send(message);
+            });
         }
     }
 }

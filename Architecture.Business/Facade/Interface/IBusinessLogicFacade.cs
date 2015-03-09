@@ -1,9 +1,8 @@
-﻿using System;
-using Architecture.Business.Manager.Interface;
+﻿using Architecture.Business.Manager.Interface;
 
 namespace Architecture.Business.Facade.Interface
 {
-    public interface IBusinessLogicFacade : IDisposable
+    public interface IBusinessLogicFacade
     {
         IOrderManager OrderManager { get; }
         ICustomerManager CustomerManager { get; }

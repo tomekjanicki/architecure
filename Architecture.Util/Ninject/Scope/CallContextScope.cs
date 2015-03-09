@@ -3,7 +3,7 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Architecture.Util.Ninject.Scope
 {
-    public class CallContextScope: IDisposable
+    public sealed class CallContextScope: IDisposable
     {
 
         public CallContextScope()

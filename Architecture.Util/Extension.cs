@@ -15,6 +15,45 @@ namespace Architecture.Util
     {
         private const string SqlClient = "System.Data.SqlClient";
 
+        public static void StandardDisposeWithAction<T>(ref T obj, Action additionalAction) where T : class, IDisposable
+        {
+            if (obj != null)
+            {
+                if (additionalAction != null)
+                    additionalAction();
+                obj.Dispose();
+                obj = null;
+            }
+        }
+
+        public static void StandardDispose<T>(ref T obj) where T: class, IDisposable
+        {
+            StandardDisposeWithAction(ref obj, null);
+        }
+
+        public static void ProtectedDispose(ref bool disposed, bool disposing, Action disposingAction)
+        {
+            if (disposed)
+                return;
+            if (disposing)
+            {
+                disposingAction();
+                disposed = true;
+            }
+        }
+
+        public static void PublicDispose(Action disposeAction, object obj)
+        {
+            disposeAction();
+            GC.SuppressFinalize(obj);
+        }
+
+        public static void EnsureNotDisposed<T>(bool disposed) where T : class
+        {
+            if (disposed)
+                throw new ObjectDisposedException(typeof(T).FullName);
+        }
+
         public static void EnsureArgumentIsInRange(bool notInRange, string errorMessage)
         {
             if (notInRange)

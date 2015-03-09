@@ -23,32 +23,40 @@ namespace Architecture.WinService
 
         private SingleTimer _mailQueueTimer;
         private SingleTimer _orderConfirmationReminderTimer;
+        private bool _disposed;
 
         public void OnStart(string[] args)
         {
+            EnsureNotDisposed();
             _mailQueueTimer.Start();
             _orderConfirmationReminderTimer.Start();
         }
 
         public void OnStop()
         {
+            EnsureNotDisposed();
             _mailQueueTimer.Stop();
             _orderConfirmationReminderTimer.Stop();
         }
 
         public void Dispose()
         {
-            if (_mailQueueTimer != null)
-            {
-                _mailQueueTimer.Dispose();
-                _mailQueueTimer = null;
-            }
-            if (_orderConfirmationReminderTimer != null)
-            {
-                _orderConfirmationReminderTimer.Dispose();
-                _orderConfirmationReminderTimer = null;
-            }
-                
+            Extension.PublicDispose(() => Dispose(true), this);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            {
+                Extension.StandardDispose(ref _mailQueueTimer);
+                Extension.StandardDispose(ref _orderConfirmationReminderTimer);
+            });
+        }
+
+        private void EnsureNotDisposed()
+        {
+            Extension.EnsureNotDisposed<WorkerAppRunner>(_disposed);
+        }
+
     }
 }

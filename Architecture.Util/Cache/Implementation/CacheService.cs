@@ -8,9 +8,10 @@ namespace Architecture.Util.Cache.Implementation
 {
     public class CacheService : ICacheService
     {
-        private readonly ReaderWriterLocker _locker = new ReaderWriterLocker();
-        private readonly ReaderWriterLocker _permLocker = new ReaderWriterLocker();
+        private ReaderWriterLocker _locker = new ReaderWriterLocker();
+        private ReaderWriterLocker _permLocker = new ReaderWriterLocker();
         private readonly Dictionary<string, object> _permamentCache = new Dictionary<string, object>();
+        private bool _disposed;
 
         private class Empty
         {
@@ -18,6 +19,7 @@ namespace Architecture.Util.Cache.Implementation
 
         public T AddOrGet<T>(string key, Func<T> fetchFunc, TimeSpan timeToLive, bool absoluteExpiration, bool cacheNull) where T : class
         {
+            EnsureNotDisposed();
             var fullKey = Extension.GetFullKey(typeof(T), key);
             using (_locker.AcquireUpgradeableReader())
             {
@@ -51,6 +53,7 @@ namespace Architecture.Util.Cache.Implementation
 
         public T AddOrGetPermament<T>(string key, Func<T> fetchFunc, bool cacheNull) where T : class
         {
+            EnsureNotDisposed();
             var fullKey = Extension.GetFullKey(typeof(T), key);
             using (_permLocker.AcquireUpgradeableReader())
             {
@@ -72,6 +75,7 @@ namespace Architecture.Util.Cache.Implementation
 
         public void Remove<T>(string key) where T : class
         {
+            EnsureNotDisposed();
             var fullKey = Extension.GetFullKey(typeof(T), key);
             using (_locker.AcquireWriter())
                 MemoryCache.Default.Remove(fullKey);
@@ -79,6 +83,7 @@ namespace Architecture.Util.Cache.Implementation
 
         public void RemovePermamant<T>(string key) where T : class
         {
+            EnsureNotDisposed();
             var fullKey = Extension.GetFullKey(typeof(T), key);
             using (_permLocker.AcquireWriter())
                 _permamentCache.Remove(fullKey);
@@ -86,14 +91,37 @@ namespace Architecture.Util.Cache.Implementation
 
         public void Clear()
         {
+            EnsureNotDisposed();
             using (_locker.AcquireWriter())
                 MemoryCache.Default.Dispose();
         }
 
         public void ClearPermament()
         {
+            EnsureNotDisposed();
             using (_permLocker.AcquireWriter())
                 _permamentCache.Clear();
+        }
+
+        public void Dispose()
+        {
+            Extension.PublicDispose(() => Dispose(true), this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            {
+                Clear();
+                ClearPermament();
+                Extension.StandardDispose(ref _locker);
+                Extension.StandardDispose(ref _permLocker);
+            });
+        }
+
+        private void EnsureNotDisposed()
+        {
+            Extension.EnsureNotDisposed<CacheService>(_disposed);
         }
     }
 }

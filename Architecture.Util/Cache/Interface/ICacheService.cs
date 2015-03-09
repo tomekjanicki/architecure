@@ -2,7 +2,7 @@
 
 namespace Architecture.Util.Cache.Interface
 {
-    public interface ICacheService
+    public interface ICacheService : IDisposable
     {
         T AddOrGet<T>(string key, Func<T> fetchFunc, TimeSpan timeToLive, bool absoluteExpiration, bool cacheNull) where T: class;
         T AddOrGetPermament<T>(string key, Func<T> fetchFunc, bool cacheNull) where T : class;

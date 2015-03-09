@@ -14,6 +14,7 @@ namespace Architecture.Util.Threading
 
         private readonly Type _lockType;
         private readonly ReaderWriterLockSlim _rwLock;
+        private bool _disposed;
 
         private ReaderWriterLockProxy(Type lockType, ReaderWriterLockSlim rwLock)
         {
@@ -41,20 +42,27 @@ namespace Architecture.Util.Threading
 
         public void Dispose()
         {
-            switch (_lockType)
-            {
-                case Type.Read:
-                    _rwLock.ExitReadLock();
-                    break;
-                case Type.Write:
-                    _rwLock.ExitWriteLock();
-                    break;
-                case Type.UpgradeRead:
-                    _rwLock.ExitUpgradeableReadLock();
-                    break;
-            }
+            Extension.PublicDispose(() => Dispose(true), this);
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            {
+                switch (_lockType)
+                {
+                    case Type.Read:
+                        _rwLock.ExitReadLock();
+                        break;
+                    case Type.Write:
+                        _rwLock.ExitWriteLock();
+                        break;
+                    case Type.UpgradeRead:
+                        _rwLock.ExitUpgradeableReadLock();
+                        break;
+                }
+            });
+        }
 
     }
 }

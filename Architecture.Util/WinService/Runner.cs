@@ -20,9 +20,14 @@ namespace Architecture.Util.WinService
             // uses "-install" and "-uninstall" to manage the service.
             if (ManageServiceIfRequested(args))
                 return;
-            var service = new TService();
-            service.SetAppRunner(new TAppRunner());
-            ServiceBase.Run(service);            
+            using (var service = new TService())
+            {
+                using (var runner = new TAppRunner())
+                {
+                    service.SetAppRunner(runner);
+                    ServiceBase.Run(service);                                
+                }
+            }
         }
 
         private static readonly string[] InstallArguments = { "/i", "/install", "-i", "-install" };
@@ -39,13 +44,15 @@ namespace Architecture.Util.WinService
             if (!args.Contains(ConsoleArgument))
                 return false;
             AttachConsole();
-            var service = new T();
             var a = Environment.GetCommandLineArgs().Where(name => name != ConsoleArgument).ToArray();
-            service.OnStart(a);
-            Console.WriteLine("Your service named '{0}' is up and running.\r\nPress 'ENTER' to stop it.", service.GetType().FullName);
-            Console.ReadLine();
-            service.OnStop();
-            Console.WriteLine("Service is stopped. Press any key to exit console");
+            using (var service = new T())
+            {
+                service.OnStart(a);
+                Console.WriteLine("Your service named '{0}' is up and running.\r\nPress 'ENTER' to stop it.", service.GetType().FullName);
+                Console.ReadLine();
+                service.OnStop();
+                Console.WriteLine("Service is stopped. Press any key to exit console");                
+            }
             Console.ReadKey();
             return true;
         }

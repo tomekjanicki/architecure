@@ -3,7 +3,7 @@ using Ninject.Infrastructure.Disposal;
 
 namespace Architecture.Util.Ninject.Scope
 {
-    public class ScopingObject : INotifyWhenDisposed
+    public sealed class ScopingObject : INotifyWhenDisposed
     {
         public void Dispose()
         {

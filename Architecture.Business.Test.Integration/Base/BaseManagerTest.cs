@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Transactions;
 using Architecture.Business.Facade.Interface;
+using Architecture.Util;
 using Architecture.Util.Cache.Interface;
 using Architecture.Util.Ninject;
 using Architecture.Util.Ninject.Scope;
@@ -26,11 +27,8 @@ namespace Architecture.Business.Test.Integration.Base
         public override void TearDown()
         {
             base.TearDown();
-            var cs = GetCacheService();
-            cs.Clear();
-            cs.ClearPermament();
-            _scope.Dispose();
-            _scope = null;
+            GetCacheService().Dispose();
+            Extension.StandardDispose(ref _scope);
         }
 
         protected IBusinessLogicFacade GetBusinessLogicFacade()
@@ -56,10 +54,8 @@ namespace Architecture.Business.Test.Integration.Base
 
             public void Dispose()
             {
-                _transactionScope.Dispose();
-                _transactionScope = null;
-                _callContextScope.Dispose();
-                _callContextScope = null;
+                Extension.StandardDispose(ref _transactionScope);
+                Extension.StandardDispose(ref _callContextScope);
             }
         }
 

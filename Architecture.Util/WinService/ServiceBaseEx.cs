@@ -21,11 +21,5 @@ namespace Architecture.Util.WinService
             _appRunner.OnStop();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                _appRunner.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }
