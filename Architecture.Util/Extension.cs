@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Architecture.Util.Ninject.Scope;
+using Ninject.Activation;
 using Ninject.Syntax;
 
 namespace Architecture.Util
@@ -115,7 +116,12 @@ namespace Architecture.Util
 
         public static IBindingNamedWithOrOnSyntax<T> InCallContextScope<T>(this IBindingInSyntax<T> syntax)
         {
-            return syntax.InScope(context => CallContextScope.Current);
+            return syntax.InScope(GetScope);
+        }
+
+        private static ScopingObject GetScope(IContext context)
+        {
+            return CallContextScope.Current;
         }
 
         public static string GetPropertyName<T>(Expression<Func<T, object>> expr)

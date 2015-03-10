@@ -43,7 +43,7 @@ namespace Architecture.Util.WinService
             if (!args.Contains(ConsoleArgument))
                 return false;
             AttachConsole();
-            var a = Environment.GetCommandLineArgs().Where(name => name != ConsoleArgument).ToArray();
+            var a = Environment.GetCommandLineArgs().Where(WherePredicate).ToArray();
             using (var service = new T())
             {
                 service.OnStart(a);
@@ -54,6 +54,11 @@ namespace Architecture.Util.WinService
             }
             Console.ReadKey();
             return true;
+        }
+
+        private static bool WherePredicate(string name)
+        {
+            return name != ConsoleArgument;
         }
 
         private static bool ManageServiceIfRequested(string[] arguments)
