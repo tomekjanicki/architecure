@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 namespace Architecture.Util.Threading
@@ -40,6 +41,7 @@ namespace Architecture.Util.Threading
             return new ReaderWriterLockProxy(Type.UpgradeRead, @lock);
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         public void Dispose()
         {
             Extension.PublicDispose(() => Dispose(true), this);

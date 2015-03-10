@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Architecture.Repository.Command.Implementation;
 using Architecture.Repository.Command.Implementation.Base;
@@ -133,6 +134,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
             return new ConnectionWithTransaction(GetOpenConnection, GetOpenConnectionAsync, GetTransaction, IsActiveTransaction);
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         public void Dispose()
         {
             Extension.PublicDispose(() => Dispose(true), this);

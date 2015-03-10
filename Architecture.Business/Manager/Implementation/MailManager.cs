@@ -41,7 +41,8 @@ namespace Architecture.Business.Manager.Implementation
             {
                 CommandsUnitOfWork.MailCommand.UpdateTryCount(new UpdateTryCount { Id = item.Id, TryCount = item.TryCount + 1 });
                 CommandsUnitOfWork.SaveChanges();
-                _mailService.Send(item.MailDefinition.ConvertToMailMessage());
+                using (var mm = item.MailDefinition.ConvertToMailMessage())
+                    _mailService.Send(mm);
                 CommandsUnitOfWork.MailCommand.UpdateFinished(item.Id);
                 CommandsUnitOfWork.SaveChanges();
                 return true;

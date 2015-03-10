@@ -1,4 +1,5 @@
-﻿using Architecture.Util;
+﻿using System.Diagnostics.CodeAnalysis;
+using Architecture.Util;
 using Architecture.Util.Ninject;
 using Architecture.Util.Ninject.Scope;
 using Architecture.Util.WinService;
@@ -39,11 +40,13 @@ namespace Architecture.WinService
             _orderConfirmationReminderTimer.Stop();
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         public void Dispose()
         {
             Extension.PublicDispose(() => Dispose(true), this);
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_orderConfirmationReminderTimer"), SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_mailQueueTimer")]
         protected virtual void Dispose(bool disposing)
         {
             Extension.ProtectedDispose(ref _disposed, disposing, () =>

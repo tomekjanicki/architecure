@@ -3,6 +3,7 @@ using Architecture.Business.Exception.Base;
 
 namespace Architecture.Business.Exception
 {
+    [Serializable]
     public class ObjectNotFoundException : BaseBusinessLogicException
     {
         public ObjectNotFoundException(string key, Type objectType) : base(key, objectType)

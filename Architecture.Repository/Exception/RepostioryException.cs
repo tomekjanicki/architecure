@@ -1,7 +1,9 @@
-﻿using Architecture.Util.Exception;
+﻿using System;
+using Architecture.Util.Exception;
 
 namespace Architecture.Repository.Exception
 {
+    [Serializable]
     public class RepostioryException : BaseException
     {
 

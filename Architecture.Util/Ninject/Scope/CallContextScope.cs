@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Remoting.Messaging;
 
 namespace Architecture.Util.Ninject.Scope
@@ -6,6 +7,7 @@ namespace Architecture.Util.Ninject.Scope
     public sealed class CallContextScope: IDisposable
     {
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public CallContextScope()
         {
             CallContext.LogicalSetData(GetKey(), new ScopingObject());

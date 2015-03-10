@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -15,6 +16,7 @@ namespace Architecture.Util.Mail
         public string Content { get; set; }
         public string From { get; set; }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public MailMessage ConvertToMailMessage()
         {
             var message = new MailMessage { From = new MailAddress(From), IsBodyHtml = false };

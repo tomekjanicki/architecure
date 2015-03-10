@@ -1,4 +1,5 @@
-﻿using Architecture.Business.Facade.Implementation;
+﻿using System.Diagnostics.CodeAnalysis;
+using Architecture.Business.Facade.Implementation;
 using Architecture.Business.Facade.Interface;
 using Architecture.Repository.UnitOfWork.Implementation;
 using Architecture.Repository.UnitOfWork.Interface;
@@ -13,6 +14,7 @@ namespace Architecture.WinService
 {
     public static class Registration
     {
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static IKernel GetRegisteredKernel()
         {
             var kernel = new StandardKernel();

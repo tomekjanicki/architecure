@@ -1,5 +1,9 @@
-﻿namespace Architecture.Util.Exception
+﻿using System;
+using System.Runtime.Serialization;
+
+namespace Architecture.Util.Exception
 {
+    [Serializable]
     public abstract class BaseException : System.Exception
     {
         protected BaseException(string message) : base(message)
@@ -11,5 +15,11 @@
         {
             
         }
+
+        protected BaseException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            
+        }
+
     }
 }

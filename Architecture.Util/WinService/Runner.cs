@@ -4,7 +4,6 @@ using System.Configuration.Install;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.ServiceProcess;
 
 namespace Architecture.Util.WinService
@@ -36,7 +35,7 @@ namespace Architecture.Util.WinService
 
         private static void AttachConsole()
         {
-            AllocConsole();
+            NativeMethods.AllocConsole();
         }
 
         private static bool RunAsConsoleIfRequested<T>(IEnumerable<string> args) where T : IAppRunner, new()
@@ -83,8 +82,6 @@ namespace Architecture.Util.WinService
             return true;
         }
 
-        [DllImport("kernel32")]
-        private static extern bool AllocConsole();
 
     }
 }

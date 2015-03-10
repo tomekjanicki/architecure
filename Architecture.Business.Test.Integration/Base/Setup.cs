@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using Architecture.Business.Facade.Implementation;
 using Architecture.Business.Facade.Interface;
 using Architecture.Repository.UnitOfWork.Implementation;
@@ -16,6 +17,7 @@ namespace Architecture.Business.Test.Integration.Base
 {
     public static class Setup
     {
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         static Setup()
         {
             var kernel = new StandardKernel();
@@ -73,7 +75,7 @@ namespace Architecture.Business.Test.Integration.Base
         {
             var assembly = typeof(Setup).Assembly;
             var resourceName = string.Format("Architecture.Business.Test.Integration.Sql.{0}.sql", fileName);
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            var stream = assembly.GetManifestResourceStream(resourceName);
             {
                 if (stream != null)
                     using (var sr = new StreamReader(stream))

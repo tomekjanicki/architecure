@@ -1,4 +1,5 @@
-﻿using Architecture.Business.Facade.Interface;
+﻿using System.Diagnostics.CodeAnalysis;
+using Architecture.Business.Facade.Interface;
 using Architecture.Util;
 using Architecture.Util.Cache.Implementation;
 using Architecture.Util.Cache.Interface;
@@ -10,6 +11,7 @@ namespace Architecture.Web.Test.Unit.Api.Base
 {
     public static class IoC
     {
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         static IoC()
         {
             var kernel = new StandardKernel();

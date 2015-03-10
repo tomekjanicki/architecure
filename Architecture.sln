@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Architecture.File", "Architecture.File", "{9F7F8EB6-00D5-40F1-AB58-1A2E4A816B58}"
 	ProjectSection(SolutionItems) = preProject
 		Architecture.File\GlobalAssemblyInfo.cs = Architecture.File\GlobalAssemblyInfo.cs
+		Architecture.File\mrr.ruleset = Architecture.File\mrr.ruleset
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.Web", "Architecture.Web\Architecture.Web.csproj", "{C750FA78-53E2-4850-AE0F-5D2A005A411C}"

@@ -23,6 +23,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Architecture.File\mrr.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -83,6 +85,7 @@
     <Compile Include="Validation\DataAnnotationsValidator.cs" />
     <Compile Include="Validation\ModelStateAdapter.cs" />
     <Compile Include="WinService\IAppRunner.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="WinService\Runner.cs" />
     <Compile Include="WinService\ServiceBaseEx.cs">
       <SubType>Component</SubType>

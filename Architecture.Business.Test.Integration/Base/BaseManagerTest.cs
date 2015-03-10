@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Transactions;
 using Architecture.Business.Facade.Interface;
 using Architecture.Util;
@@ -52,6 +53,7 @@ namespace Architecture.Business.Test.Integration.Base
                 _transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew);                
             }
 
+            [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_transactionScope"), SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_callContextScope")]
             public void Dispose()
             {
                 Extension.StandardDispose(ref _transactionScope);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Caching;
 using Architecture.Util.Cache.Interface;
 using Architecture.Util.Threading;
@@ -103,11 +104,14 @@ namespace Architecture.Util.Cache.Implementation
                 _permamentCache.Clear();
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         public void Dispose()
         {
             Extension.PublicDispose(() => Dispose(true), this);
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_locker")]
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_permLocker")]
         protected virtual void Dispose(bool disposing)
         {
             Extension.ProtectedDispose(ref _disposed, disposing, () =>

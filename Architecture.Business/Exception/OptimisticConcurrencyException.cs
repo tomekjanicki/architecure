@@ -3,6 +3,7 @@ using Architecture.Business.Exception.Base;
 
 namespace Architecture.Business.Exception
 {
+    [Serializable]
     public class OptimisticConcurrencyException : BaseBusinessLogicException
     {
         public OptimisticConcurrencyException(string key, Type objectType) : base(key, objectType)
