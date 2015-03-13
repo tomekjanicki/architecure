@@ -2,7 +2,7 @@
 using Architecture.Util.Log4Net;
 using log4net;
 
-namespace Architecture.WinService.Job.Base
+namespace Architecture.Job.Base
 {
     public abstract class BaseJob
     {
@@ -10,7 +10,7 @@ namespace Architecture.WinService.Job.Base
 
         public abstract void DoWork();
 
-        public static void HandleException(Exception exception)
+        public virtual void HandleException(Exception exception)
         {
             Logger.Error(() => exception);
         }

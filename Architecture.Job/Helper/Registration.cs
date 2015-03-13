@@ -10,7 +10,7 @@ using Architecture.Util.Mail.Implementation;
 using Architecture.Util.Mail.Interface;
 using Ninject;
 
-namespace Architecture.WinService
+namespace Architecture.Job.Helper
 {
     public static class Registration
     {

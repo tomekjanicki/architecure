@@ -1,4 +1,5 @@
-﻿using Architecture.Util.Ninject;
+﻿using Architecture.Job.Helper;
+using Architecture.Util.Ninject;
 using Architecture.Util.WinService;
 
 namespace Architecture.WinService

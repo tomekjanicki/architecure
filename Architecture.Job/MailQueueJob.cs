@@ -1,10 +1,10 @@
 ﻿using System;
 using Architecture.Business.Facade.Interface;
+using Architecture.Job.Base;
 using Architecture.Util.Log4Net;
-using Architecture.WinService.Job.Base;
 using log4net;
 
-namespace Architecture.WinService.Job
+namespace Architecture.Job
 {
     public class MailQueueJob : BaseJob
     {

@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.ViewModel.Inte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.Util.Test", "Architecture.Util.Test\Architecture.Util.Test.csproj", "{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.Job", "Architecture.Job\Architecture.Job.csproj", "{C81A19FB-ECA8-44AC-A503-710852019722}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1199BBB0-9CC8-4753-BF67-AF46E9304CC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81A19FB-ECA8-44AC-A503-710852019722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81A19FB-ECA8-44AC-A503-710852019722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81A19FB-ECA8-44AC-A503-710852019722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81A19FB-ECA8-44AC-A503-710852019722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
