@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using Architecture.Business.Exception;
 using Architecture.Business.Facade.Interface;
@@ -18,7 +17,7 @@ namespace Architecture.Web.Code.Controller
 
         protected new virtual ClaimsPrincipal User
         {
-            get { return HttpContext.Current.User as ClaimsPrincipal; }
+            get { return base.User as ClaimsPrincipal; }
         }
 
         protected BaseApiController(IBusinessLogicFacade businessLogicFacade)
@@ -142,7 +141,7 @@ namespace Architecture.Web.Code.Controller
                 AddToModelState(res);
                 return BadRequest(ModelState);
             }
-            return Ok();           
+            return Ok();
         }
 
     }

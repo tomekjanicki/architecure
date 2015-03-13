@@ -14,7 +14,7 @@ namespace Architecture.Web.Code.Controller
 
         protected new virtual ClaimsPrincipal User
         {
-            get { return HttpContext.User as ClaimsPrincipal; }
+            get { return base.User as ClaimsPrincipal; }
         }
 
 

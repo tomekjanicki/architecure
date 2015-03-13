@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -29,9 +28,7 @@ namespace Architecture.Web
 
         private static void PostAuthenticate()
         {
-            var principal = new ClaimsTransformer().Authenticate(string.Empty, ClaimsPrincipal.Current);
-            Thread.CurrentPrincipal = principal;
-            HttpContext.Current.User = principal;
+            HttpContext.Current.User = new ClaimsTransformer().Authenticate(string.Empty, ClaimsPrincipal.Current);
         }
 
     }
