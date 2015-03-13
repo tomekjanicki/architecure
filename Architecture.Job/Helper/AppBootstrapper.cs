@@ -12,8 +12,13 @@ using Ninject;
 
 namespace Architecture.Job.Helper
 {
-    public static class Registration
+    public static class AppBootstrapper
     {
+        public static void ConfigureLog4Net()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+        }
+
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static IKernel GetRegisteredKernel()
         {

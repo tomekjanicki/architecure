@@ -8,7 +8,8 @@ namespace Architecture.WinService
     {
         static void Main()
         {
-            Factory.Init(Registration.GetRegisteredKernel());
+            AppBootstrapper.ConfigureLog4Net();
+            Factory.Init(AppBootstrapper.GetRegisteredKernel());
             Runner.Run<WorkerService, WorkerAppRunner>();
         }
     }

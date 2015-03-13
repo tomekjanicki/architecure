@@ -59,7 +59,7 @@
     <Compile Include="MailQueueJob.cs" />
     <Compile Include="OrderConfirmationReminderJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helper\Registration.cs" />
+    <Compile Include="Helper\AppBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
