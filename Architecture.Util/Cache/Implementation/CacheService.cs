@@ -118,7 +118,6 @@ namespace Architecture.Util.Cache.Implementation
                 }
                 StandardDispose(ref _locker);
                 StandardDispose(ref _permLocker);
-
             });
             base.Dispose(disposing);
         }
