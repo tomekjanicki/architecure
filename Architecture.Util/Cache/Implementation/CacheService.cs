@@ -7,7 +7,7 @@ using Architecture.Util.Threading;
 
 namespace Architecture.Util.Cache.Implementation
 {
-    public class CacheService : Disposable, ICacheService 
+    public class CacheService : Disposable, ICacheService
     {
         private ReaderWriterLocker _locker = new ReaderWriterLocker();
         private ReaderWriterLocker _permLocker = new ReaderWriterLocker();
@@ -46,7 +46,7 @@ namespace Architecture.Util.Cache.Implementation
                         }
                         else
                             MemoryCache.Default.Add(new CacheItem(fullKey, ob), new CacheItemPolicy { SlidingExpiration = timeToLive });
-                    }                    
+                    }
                 }
                 return data;
             }
@@ -110,10 +110,15 @@ namespace Architecture.Util.Cache.Implementation
         {
             ProtectedDispose(ref _disposed, disposing, () =>
             {
-                Clear();
-                ClearPermament();
+                using (_permLocker.AcquireWriter())
+                using (_locker.AcquireWriter())
+                {
+                    Clear();
+                    ClearPermament();
+                }
                 StandardDispose(ref _locker);
                 StandardDispose(ref _permLocker);
+
             });
             base.Dispose(disposing);
         }
