@@ -38,7 +38,8 @@ namespace Architecture.Util
                 return;
             if (disposing)
             {
-                disposingAction();
+                if (disposingAction != null)
+                    disposingAction();
                 disposed = true;
             }
         }
@@ -51,8 +52,13 @@ namespace Architecture.Util
 
         public static void EnsureNotDisposed<T>(bool disposed) where T : class
         {
+            EnsureNotDisposed(disposed, typeof(T));
+        }
+
+        public static void EnsureNotDisposed(bool disposed, Type type)
+        {
             if (disposed)
-                throw new ObjectDisposedException(typeof(T).FullName);
+                throw new ObjectDisposedException(type.FullName);
         }
 
         public static void EnsureArgumentIsInRange(bool notInRange, string errorMessage)

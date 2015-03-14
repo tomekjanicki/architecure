@@ -7,7 +7,7 @@ using Architecture.Util.WinService;
 namespace Architecture.WinService
 {
 
-    public class WorkerAppRunner : IAppRunner
+    public class WorkerAppRunner :  Disposable, IAppRunner
     {
         public WorkerAppRunner()
         {
@@ -33,25 +33,20 @@ namespace Architecture.WinService
             _orderConfirmationReminderTimer.Stop();
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
-        public void Dispose()
-        {
-            Extension.PublicDispose(() => Dispose(true), this);
-        }
-
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_orderConfirmationReminderTimer"), SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_mailQueueTimer")]
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            ProtectedDispose(ref _disposed, disposing, () =>
             {
-                Extension.StandardDispose(ref _mailQueueTimer);
-                Extension.StandardDispose(ref _orderConfirmationReminderTimer);
+                StandardDispose(ref _mailQueueTimer);
+                StandardDispose(ref _orderConfirmationReminderTimer);
             });
+            base.Dispose(disposing);
         }
 
         private void EnsureNotDisposed()
         {
-            Extension.EnsureNotDisposed<WorkerAppRunner>(_disposed);
+            EnsureNotDisposed(_disposed);
         }
 
     }

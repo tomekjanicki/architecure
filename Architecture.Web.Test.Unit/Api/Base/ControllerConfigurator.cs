@@ -1,16 +1,15 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
+using Architecture.Util;
 using Architecture.Util.Ninject;
-using Architecture.Web.Code;
 using Architecture.Web.Code.Controller;
+using Const = Architecture.Web.Code.Const;
 
 namespace Architecture.Web.Test.Unit.Api.Base
 {
-    public class ControllerConfigurator<TController>: IDisposable where TController : BaseApiController
+    public class ControllerConfigurator<TController>: Disposable where TController : BaseApiController
     {
         private readonly HttpMethod _method;
         private readonly string _key;
@@ -40,24 +39,19 @@ namespace Architecture.Web.Test.Unit.Api.Base
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Util.Extension.PublicDispose(() => Dispose(true), this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            Util.Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            ProtectedDispose(ref _disposed, disposing, () =>
             {
-                Util.Extension.StandardDispose(ref _controller);
-                Util.Extension.StandardDispose(ref _configuration);
+                StandardDispose(ref _controller);
+                StandardDispose(ref _configuration);
             });
+            base.Dispose(disposing);
         }
 
         private void EnsureNotDisposed()
         {
-            Util.Extension.EnsureNotDisposed<ControllerConfigurator<TController>>(_disposed);
+            EnsureNotDisposed(_disposed);
         }
     }
 }

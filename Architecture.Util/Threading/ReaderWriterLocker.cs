@@ -1,10 +1,9 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 namespace Architecture.Util.Threading
 {
-    public class ReaderWriterLocker : IDisposable
+    public class ReaderWriterLocker : Disposable
     {
         private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         private bool _disposed;
@@ -27,21 +26,16 @@ namespace Architecture.Util.Threading
             return ReaderWriterLockProxy.AcquireUpgradeableReader(_lock);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
-        public void Dispose()
-        {
-            Extension.PublicDispose(() => Dispose(true), this);
-        }
-
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_lock")]
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            Extension.ProtectedDispose(ref _disposed, disposing, () => Extension.StandardDispose(ref _lock));
+            ProtectedDispose(ref _disposed, disposing, () => StandardDispose(ref _lock));
+            base.Dispose(disposing);
         }
 
         private void EnsureNotDisposed()
         {
-            Extension.EnsureNotDisposed<ReaderWriterLocker>(_disposed);
+            EnsureNotDisposed(_disposed);
         }
     }
 }

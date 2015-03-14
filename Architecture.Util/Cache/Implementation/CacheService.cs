@@ -7,7 +7,7 @@ using Architecture.Util.Threading;
 
 namespace Architecture.Util.Cache.Implementation
 {
-    public class CacheService : ICacheService
+    public class CacheService : Disposable, ICacheService 
     {
         private ReaderWriterLocker _locker = new ReaderWriterLocker();
         private ReaderWriterLocker _permLocker = new ReaderWriterLocker();
@@ -104,28 +104,23 @@ namespace Architecture.Util.Cache.Implementation
                 _permamentCache.Clear();
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
-        public void Dispose()
-        {
-            Extension.PublicDispose(() => Dispose(true), this);
-        }
-
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_locker")]
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_permLocker")]
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            ProtectedDispose(ref _disposed, disposing, () =>
             {
                 Clear();
                 ClearPermament();
-                Extension.StandardDispose(ref _locker);
-                Extension.StandardDispose(ref _permLocker);
+                StandardDispose(ref _locker);
+                StandardDispose(ref _permLocker);
             });
+            base.Dispose(disposing);
         }
 
         private void EnsureNotDisposed()
         {
-            Extension.EnsureNotDisposed<CacheService>(_disposed);
+            EnsureNotDisposed(_disposed);
         }
     }
 }

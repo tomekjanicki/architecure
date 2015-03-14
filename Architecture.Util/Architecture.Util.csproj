@@ -66,6 +66,7 @@
     <Compile Include="Cache\Implementation\CacheService.cs" />
     <Compile Include="Cache\Interface\ICacheService.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="Disposable.cs" />
     <Compile Include="Exception\BaseException.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="Log4Net\Extension.cs" />

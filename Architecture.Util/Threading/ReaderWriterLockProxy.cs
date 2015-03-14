@@ -1,10 +1,8 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
+﻿using System.Threading;
 
 namespace Architecture.Util.Threading
 {
-    public class ReaderWriterLockProxy : IDisposable
+    public class ReaderWriterLockProxy : Disposable
     {
         private enum Type
         {
@@ -41,15 +39,10 @@ namespace Architecture.Util.Threading
             return new ReaderWriterLockProxy(Type.UpgradeRead, @lock);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
-        public void Dispose()
-        {
-            Extension.PublicDispose(() => Dispose(true), this);
-        }
 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            ProtectedDispose(ref _disposed, disposing, () =>
             {
                 switch (_lockType)
                 {
@@ -64,6 +57,7 @@ namespace Architecture.Util.Threading
                         break;
                 }
             });
+            base.Dispose(disposing);
         }
 
     }

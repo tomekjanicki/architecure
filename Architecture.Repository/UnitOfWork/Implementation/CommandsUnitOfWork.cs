@@ -1,7 +1,6 @@
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Architecture.Repository.Command.Implementation;
 using Architecture.Repository.Command.Implementation.Base;
@@ -12,19 +11,18 @@ using Architecture.Util;
 
 namespace Architecture.Repository.UnitOfWork.Implementation
 {
-    public class CommandsUnitOfWork : ICommandsUnitOfWork
+    public class CommandsUnitOfWork : Disposable, ICommandsUnitOfWork
     {
         private DbConnection _connection;
         private DbTransaction _transaction;
         private bool _transactionStarted;
+        private bool _disposed;
 
         private readonly Lazy<IOrderCommand> _lazyOrderCommand;
         private readonly Lazy<IProductCommand> _lazyProductCommand;
         private readonly Lazy<IMailCommand> _lazyMailCommand;
         private readonly Lazy<ICustomerCommand> _lazyCustomerCommand;
         private readonly Lazy<IUserCommand> _lazyUserCommand; 
-
-        private bool _disposed;
 
         public CommandsUnitOfWork()
         {
@@ -134,15 +132,9 @@ namespace Architecture.Repository.UnitOfWork.Implementation
             return new ConnectionWithTransaction(GetOpenConnection, GetOpenConnectionAsync, GetTransaction, IsActiveTransaction);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Extension.PublicDispose(() => Dispose(true), this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            Extension.ProtectedDispose(ref _disposed, disposing, () =>
+            ProtectedDispose(ref _disposed, disposing, () =>
             {
                 if (_transaction != null)
                 {
@@ -150,18 +142,20 @@ namespace Architecture.Repository.UnitOfWork.Implementation
                     _transaction = null;
                     _transactionStarted = false;
                 }
-                Extension.StandardDisposeWithAction(ref _connection, () =>
+                StandardDisposeWithAction(ref _connection, () =>
                 {
                     if (_connection.State == ConnectionState.Open)
                         _connection.Close();                    
                 });
             });
+            base.Dispose(disposing);
         }
 
         private void EnsureNotDisposed()
         {
-            Extension.EnsureNotDisposed<CommandsUnitOfWork>(_disposed);
+            EnsureNotDisposed(_disposed);
         }
+
 
     }
 }

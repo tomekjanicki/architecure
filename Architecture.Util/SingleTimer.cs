@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Architecture.Util
 {
-    public class SingleTimer : IDisposable
+    public class SingleTimer : Disposable
     {
         private readonly int _initialDelayInSeconds;
         private readonly int _intervalInSeconds;
@@ -80,21 +80,16 @@ namespace Architecture.Util
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
-        public void Dispose()
-        {
-            Extension.PublicDispose(() => Dispose(true), this);
-        }
-
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_timer")]
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            Extension.ProtectedDispose(ref _disposed, disposing, () => Extension.StandardDispose(ref _timer));
+            ProtectedDispose(ref _disposed, disposing, () => StandardDispose(ref _timer));
+            base.Dispose(disposing);
         }
 
         private void EnsureNotDisposed()
         {
-            Extension.EnsureNotDisposed<SingleTimer>(_disposed);
+            EnsureNotDisposed(_disposed);
         }
     }
 }
