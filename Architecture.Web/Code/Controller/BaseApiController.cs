@@ -95,7 +95,8 @@ namespace Architecture.Web.Code.Controller
             }
             catch (OptimisticConcurrencyException)
             {
-                return ResponseMessage(new HttpResponseMessage((HttpStatusCode)428));
+                using (var response = new HttpResponseMessage((HttpStatusCode) 428))
+                    return ResponseMessage(response);
             }
         }
 

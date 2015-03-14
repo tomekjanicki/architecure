@@ -111,6 +111,7 @@
     <Compile Include="Api\Base\BaseControllerTest.cs" />
     <Compile Include="Api\Base\Extension.cs" />
     <Compile Include="Api\Base\IoC.cs" />
+    <Compile Include="Api\Base\ControllerConfigurator.cs" />
     <Compile Include="Api\OrderControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

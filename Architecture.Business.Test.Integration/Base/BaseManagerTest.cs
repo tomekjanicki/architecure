@@ -10,6 +10,7 @@ using Architecture.Util.Test;
 
 namespace Architecture.Business.Test.Integration.Base
 {
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public abstract class BaseManagerTest : BaseTest
     {
         private Scope _scope;

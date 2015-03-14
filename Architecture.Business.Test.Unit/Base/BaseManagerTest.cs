@@ -1,4 +1,5 @@
-﻿using Architecture.Business.Facade.Interface;
+﻿using System.Diagnostics.CodeAnalysis;
+using Architecture.Business.Facade.Interface;
 using Architecture.Repository.UnitOfWork.Interface;
 using Architecture.Util.Cache.Interface;
 using Architecture.Util.Ninject;
@@ -7,6 +8,7 @@ using Architecture.Util.Test;
 
 namespace Architecture.Business.Test.Unit.Base
 {
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public abstract class BaseManagerTest : BaseTest
     {
         private CallContextScope _callContextScope;
