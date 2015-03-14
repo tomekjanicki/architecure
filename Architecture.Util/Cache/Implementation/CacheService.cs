@@ -34,21 +34,42 @@ namespace Architecture.Util.Cache.Implementation
                         return d;
                 }
                 var data = fetchFunc();
-                var ob = data == null && cacheNull ? (object)new Empty() : data;
-                if (ob != null)
-                {
-                    using (_locker.AcquireWriter())
-                    {
-                        if (absoluteExpiration)
-                        {
-                            var date = DateTime.Now.Add(timeToLive);
-                            MemoryCache.Default.Add(fullKey, ob, date);
-                        }
-                        else
-                            MemoryCache.Default.Add(new CacheItem(fullKey, ob), new CacheItemPolicy { SlidingExpiration = timeToLive });
-                    }
-                }
+                StoreValue(data, timeToLive, absoluteExpiration, cacheNull, fullKey);
                 return data;
+            }
+        }
+
+        public T Get<T>(string key) where T : class
+        {
+            EnsureNotDisposed();
+            var fullKey = Extension.GetFullKey(typeof(T), key);
+            using (_locker.AcquireUpgradeableReader())
+                return (T)MemoryCache.Default.Get(fullKey);
+        }
+
+        public void Add<T>(string key, T data, TimeSpan timeToLive, bool absoluteExpiration, bool cacheNull) where T : class
+        {
+            EnsureNotDisposed();
+            var fullKey = Extension.GetFullKey(typeof(T), key);
+            StoreValue(data, timeToLive, absoluteExpiration, cacheNull, fullKey);
+        }
+
+        private void StoreValue<T>(T data, TimeSpan timeToLive, bool absoluteExpiration, bool cacheNull, string fullKey) where T : class
+        {
+            EnsureNotDisposed();
+            var ob = data == null && cacheNull ? (object) new Empty() : data;
+            if (ob != null)
+            {
+                using (_locker.AcquireWriter())
+                {
+                    if (absoluteExpiration)
+                    {
+                        var date = DateTime.Now.Add(timeToLive);
+                        MemoryCache.Default.Add(fullKey, ob, date);
+                    }
+                    else
+                        MemoryCache.Default.Add(new CacheItem(fullKey, ob), new CacheItemPolicy {SlidingExpiration = timeToLive});
+                }
             }
         }
 
@@ -63,15 +84,41 @@ namespace Architecture.Util.Cache.Implementation
                 var data = fetchFunc();
                 using (_permLocker.AcquireWriter())
                 {
-                    if (!_permamentCache.ContainsKey(key))
+                    if (!_permamentCache.ContainsKey(fullKey))
                     {
-                        if (data != null && !cacheNull || cacheNull)
-                            _permamentCache[key] = data;
+                        StoreValue(data, cacheNull, fullKey);
                         return data;
                     }
                     return (T)_permamentCache[fullKey];
                 }
             }
+        }
+
+        public T GetPermament<T>(string key) where T : class
+        {
+            EnsureNotDisposed();
+            var fullKey = Extension.GetFullKey(typeof(T), key);
+            using (_permLocker.AcquireUpgradeableReader())
+            {
+                if (_permamentCache.ContainsKey(fullKey))
+                    return (T)_permamentCache[fullKey];
+            }
+            return null;
+        }
+
+        public void AddPermament<T>(string key, T data, bool cacheNull) where T : class
+        {
+            EnsureNotDisposed();
+            var fullKey = Extension.GetFullKey(typeof(T), key);
+            using (_permLocker.AcquireWriter())
+                StoreValue(data, cacheNull, fullKey);
+        }
+
+        private void StoreValue<T>(T data, bool cacheNull, string fullKey) where T : class
+        {
+            EnsureNotDisposed();
+            if (data != null && !cacheNull || cacheNull)
+                _permamentCache[fullKey] = data;
         }
 
         public void Remove<T>(string key) where T : class
@@ -82,7 +129,7 @@ namespace Architecture.Util.Cache.Implementation
                 MemoryCache.Default.Remove(fullKey);
         }
 
-        public void RemovePermamant<T>(string key) where T : class
+        public void RemovePermament<T>(string key) where T : class
         {
             EnsureNotDisposed();
             var fullKey = Extension.GetFullKey(typeof(T), key);
