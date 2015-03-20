@@ -1,6 +1,6 @@
 ﻿namespace Architecture.Util
 {
-    public struct PageAndSortCriteria
+    public class PageAndSortCriteria
     {
 
         public PageAndSortCriteria(int pageSize, int skip, string sort)

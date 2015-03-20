@@ -1,6 +1,6 @@
 ﻿namespace Architecture.Util
 {
-    public struct Page
+    public class Page
     {
         public readonly int PageSize;
         public readonly int Skip;
