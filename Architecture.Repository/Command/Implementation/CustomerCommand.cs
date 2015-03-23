@@ -57,16 +57,14 @@ namespace Architecture.Repository.Command.Implementation
             return new Tuple<string, DynamicParameters>(where, dp);
         }
 
-        private static string GetTranslatedSort(string modelColumn)
+        private string GetTranslatedSort(string modelColumn)
         {
-            if (string.IsNullOrEmpty(modelColumn))
-                return "NAME ASC";
-            var arguments = modelColumn.Split(' ');
-            if (arguments.Length != 2)
-                return "NAME ASC";
-            var ascending = arguments[1].ToLowerInvariant() == "asc";
-            var column = arguments[0].ToUpperInvariant();
-            return string.Format("{0} {1}", column, ascending ? "ASC" : "DESC");
+            return GetTranslatedSort(modelColumn, string.Format("{0} ASC", Extension.GetPropertyName<FindCustomers>(p => p.Name)), new[]
+            {
+                Extension.GetPropertyName<FindCustomers>(p => p.Id),
+                Extension.GetPropertyName<FindCustomers>(p => p.Name),
+                Extension.GetPropertyName<FindCustomers>(p => p.Mail)
+            });
         }
 
     }

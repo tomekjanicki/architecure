@@ -107,5 +107,19 @@ namespace Architecture.Repository.Command.Implementation.Base
             }).NoAwait();
         }
 
+        protected string GetTranslatedSort(string modelColumn, string defaultSort, IEnumerable<string> allowedColumns)
+        {
+            if (string.IsNullOrEmpty(modelColumn))
+                return defaultSort.ToUpperInvariant();
+            var arguments = modelColumn.Split(' ');
+            if (arguments.Length != 2)
+                return defaultSort.ToUpperInvariant();
+            var ascending = arguments[1].ToUpperInvariant() == "ASC";
+            var column = arguments[0].ToUpperInvariant();
+            if (!allowedColumns.Select(c => c.ToUpperInvariant()).Contains(column))
+                return defaultSort.ToUpperInvariant();
+            return string.Format("{0} {1}", column, ascending ? "ASC" : "DESC");
+        }
+
     }
 }
