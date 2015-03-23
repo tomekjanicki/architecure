@@ -157,12 +157,8 @@ namespace Architecture.Util.Cache.Implementation
         {
             ProtectedDispose(ref _disposed, disposing, () =>
             {
-                using (_permLocker.AcquireWriter())
-                using (_locker.AcquireWriter())
-                {
-                    Clear();
-                    ClearPermament();
-                }
+                Clear();
+                ClearPermament();
                 StandardDispose(ref _locker);
                 StandardDispose(ref _permLocker);
             });
