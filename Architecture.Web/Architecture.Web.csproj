@@ -251,11 +251,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.3.0.debug.js" />
     <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\knockstrap.js" />
     <Content Include="Scripts\knockstrap.min.js.map">
       <DependentUpon>knockstrap.min.js</DependentUpon>
     </Content>
     <None Include="Scripts\linq-vsdoc.js" />
-    <Content Include="Scripts\knockstrap.js" />
     <Content Include="Scripts\knockstrap.min.js" />
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />

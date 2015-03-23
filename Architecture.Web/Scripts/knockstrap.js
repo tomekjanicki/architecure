@@ -1,4 +1,4 @@
-/*! knockstrap 1.2.0 | (c) 2014 Artem Stepanyuk |  http://www.opensource.org/licenses/mit-license */
+/*! knockstrap 1.2.1 | (c) 2014 Artem Stepanyuk |  http://www.opensource.org/licenses/mit-license */
 
 (function (moduleName, factory) {
     'use strict';
@@ -406,14 +406,14 @@
             $element.modal(options);
     
             $element.on('shown.bs.modal', function () {
-                if (typeof value.visible !== 'undefined') {
+                if (typeof value.visible !== 'undefined' && typeof value.visible === 'function' && !ko.isComputed(value.visible)) {
                     value.visible(true);
                 }
     
                 $(this).find("[autofocus]:first").focus();
             });
     
-            if (typeof value.visible !== 'undefined') {
+            if (typeof value.visible !== 'undefined' && typeof value.visible === 'function' && !ko.isComputed(value.visible)) {
                 $element.on('hidden.bs.modal', function() {
                     value.visible(false);
                 });
@@ -613,7 +613,9 @@
                 throw new Error('toggle binding should be used only with observable values');
             }
     
-            $(element).on('click', function () {
+            $(element).on('click', function (event) {
+                event.preventDefault();
+    
                 var previousValue = ko.unwrap(value);
                 value(!previousValue);
             });
