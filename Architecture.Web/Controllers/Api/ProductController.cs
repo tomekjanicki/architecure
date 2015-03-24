@@ -3,6 +3,7 @@ using System.Web.Http;
 using Architecture.Business.Facade.Interface;
 using Architecture.Util;
 using Architecture.ViewModel;
+using Architecture.Web.Code.Attribute;
 using Architecture.Web.Code.Controller;
 
 namespace Architecture.Web.Controllers.Api
@@ -25,6 +26,7 @@ namespace Architecture.Web.Controllers.Api
             return BusinessLogicFacade.ProductManager.FindProducts(code, name, sort);
         }
 
+        [ValidateWebApiAntiForgeryToken]
         public IHttpActionResult DeleteProduct(DeleteProduct deleteProduct)
         {
             return HandlePutOrDelete(() => BusinessLogicFacade.ProductManager.DeleteProduct(deleteProduct));

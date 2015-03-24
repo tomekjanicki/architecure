@@ -12,6 +12,7 @@ namespace Architecture.Web
     {
         protected void Application_Start()
         {
+            MiscConfig.Configure();
             ViewEngineConfig.RegisterViewEngine();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

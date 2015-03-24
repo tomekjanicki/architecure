@@ -4,6 +4,8 @@
     ViewBag.Title = "Index";
 }
 
+@Html.AntiForgeryToken()
+
 <br />
 
 <div data-bind="template: {name: 'criteriaWithGridTemplate'}"></div>

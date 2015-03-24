@@ -81,6 +81,7 @@ module Application.ViewModel.Product {
             this.refresh();
             this.confirmationVisible(false);
         }
+
         deleteOrder = (): void => {
             var p = new Delete();
             p.Id = this.confirmingItem.Id;

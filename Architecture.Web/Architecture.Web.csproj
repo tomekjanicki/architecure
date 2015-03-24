@@ -179,6 +179,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\MiscConfig.cs" />
     <Compile Include="App_Start\ModelValidatorProvidersConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Code\Attribute\SimulateDelayWebApiFilterAttribute.cs" />
     <Compile Include="Code\Attribute\CustomHandleMvcErrorAttribute.cs" />
     <Compile Include="Code\Attribute\CustomHandleWebApiErrorAttribute.cs" />
+    <Compile Include="Code\Attribute\ValidateWebApiAntiForgeryTokenAttribute.cs" />
     <Compile Include="Code\Attribute\WebApiResourceActionAuthorizeAttribute.cs" />
     <Compile Include="Code\Const.cs" />
     <Compile Include="Code\Controller\BaseApiController.cs" />

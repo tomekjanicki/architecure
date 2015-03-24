@@ -11,6 +11,14 @@ module Application.Common {
         s.url = url;
         s.type = method;
         s.data = params;
+        if (method !== "GET") {
+            var token = $("input[name='__RequestVerificationToken']").val();
+            if (token) {
+                s.headers = {
+                    "RequestVerificationToken": token
+                };
+            }
+        }
         $.ajax(s).done(done).fail(fail);
     }
 
