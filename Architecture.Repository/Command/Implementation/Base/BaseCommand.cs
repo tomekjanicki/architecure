@@ -121,5 +121,11 @@ namespace Architecture.Repository.Command.Implementation.Base
             return string.Format("{0} {1}", column, ascending ? "ASC" : "DESC");
         }
 
+        protected Tuple<string, Tuple<string, string>> GetLikeCaluse(string fieldName, string paramName, string value)
+        {
+            const string escapeChar = @"\";
+            return new Tuple<string, Tuple<string, string>>(string.Format(@"{0} LIKE @{1} ESCAPE '{2}'", fieldName, paramName, escapeChar), new Tuple<string, string>(paramName, value.ToLikeString(escapeChar)));
+        }
+
     }
 }

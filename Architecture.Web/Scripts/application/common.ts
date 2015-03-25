@@ -47,7 +47,7 @@ module Application.Common {
             return s;
         }
         static getLikeExpression = (field: string, value: string): string => {
-            return Util.formatString("[{0}] like \"%{1}%\"", field, value);
+            return Util.formatString("[{0}] contains \"{1}\"", field, value);
         }
         static validateSettings = (valid: boolean, notValidMessage: string): void => {
             if (!valid) {

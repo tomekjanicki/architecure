@@ -5,32 +5,32 @@ var Application;
         var Customer;
         (function (Customer) {
             "use strict";
-            var FindCustomerAsync = (function () {
-                function FindCustomerAsync() {
+            var FindCustomer = (function () {
+                function FindCustomer() {
                 }
-                return FindCustomerAsync;
+                return FindCustomer;
             })();
-            Customer.FindCustomerAsync = FindCustomerAsync;
-            var InsertCustomerAsync = (function () {
-                function InsertCustomerAsync() {
+            Customer.FindCustomer = FindCustomer;
+            var InsertCustomer = (function () {
+                function InsertCustomer() {
                 }
-                return InsertCustomerAsync;
+                return InsertCustomer;
             })();
-            Customer.InsertCustomerAsync = InsertCustomerAsync;
+            Customer.InsertCustomer = InsertCustomer;
             var ViewModel = (function () {
                 function ViewModel(insertCommand, findPagedQuery) {
                     var _this = this;
                     this.insertCommand = insertCommand;
                     this.findPagedQuery = findPagedQuery;
                     this.insertCustomer = function () {
-                        var insertCustomerAsync = new InsertCustomerAsync();
-                        insertCustomerAsync.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
-                        insertCustomerAsync.Name = "name";
-                        _this.insertCommand.execute(insertCustomerAsync, function () {
+                        var insertCustomer = new InsertCustomer();
+                        insertCustomer.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
+                        insertCustomer.Name = "name";
+                        _this.insertCommand.execute(insertCustomer, function () {
                             window.alert("OK");
                         }, function (data) {
                             window.alert(Application.Common.Util.formatString("Error status: {0}", data.status));
-                        }, 0 /* Post */);
+                        }, Application.Common.Method.Post);
                     };
                     this.fetchCustomers = function () {
                         _this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=", function (data) {

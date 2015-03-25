@@ -62,7 +62,8 @@ module Application.ViewModel.Product {
             return <IndexOption>this.option;
         }
 
-        private criteria = (): string => Common.Util.formatString("code={0}&name={1}", this.codeLocal, this.nameLocal);
+        private criteria = (): string => Common.Util.formatString("code={0}&name={1}", encodeURIComponent(this.codeLocal),
+            encodeURIComponent(this.nameLocal));
 
         private swapValues = (): void => {
             this.codeLocal = this.code();

@@ -53,24 +53,30 @@ namespace Architecture.Repository.Command.Implementation
             return QueryReturnsFirstOrDefault<int>("SELECT COUNT(*) FROM DBO.ORDERSDETAILS WHERE PRODUCTID = @PRODUCTID", new { PRODUCTID = id }) == 0;
         }
 
-        private static Tuple<string, DynamicParameters> GetWhereFragment(string code, string name, string optionalClause)
+        private Tuple<string, DynamicParameters> GetWhereFragment(string code, string name, string optionalClause)
         {
             var dp = new DynamicParameters();
             var criteria = new List<string>();
             if (!string.IsNullOrEmpty(code))
             {
-                criteria.Add("CODE LIKE @CODE");
-                dp.Add("CODE", code.ToLikeString());
+                var like = GetLikeCaluse("CODE", "CODE", code);
+                SetValues(criteria, like, dp);
             }
             if (!string.IsNullOrEmpty(name))
             {
-                criteria.Add("NAME LIKE @NAME");
-                dp.Add("NAME", name.ToLikeString());
+                var like = GetLikeCaluse("NAME", "NAME", name);
+                SetValues(criteria, like, dp);
             }
             if (!string.IsNullOrEmpty(optionalClause))
                 criteria.Add(optionalClause);
             var where = criteria.Count == 0 ? string.Empty : string.Format(" WHERE {0} ", string.Join(" AND ", criteria));
             return new Tuple<string, DynamicParameters>(where, dp);
+        }
+
+        private static void SetValues(ICollection<string> criteria, Tuple<string, Tuple<string, string>> like, DynamicParameters dp)
+        {
+            criteria.Add(like.Item1);
+            dp.Add(like.Item2.Item1, like.Item2.Item2);
         }
 
         private string GetTranslatedSort(string modelColumn)

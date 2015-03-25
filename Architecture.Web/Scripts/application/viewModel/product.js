@@ -63,7 +63,7 @@ var Application;
                     this.getOption = function () {
                         return _this.option;
                     };
-                    this.criteria = function () { return Application.Common.Util.formatString("code={0}&name={1}", _this.codeLocal, _this.nameLocal); };
+                    this.criteria = function () { return Application.Common.Util.formatString("code={0}&name={1}", encodeURIComponent(_this.codeLocal), encodeURIComponent(_this.nameLocal)); };
                     this.swapValues = function () {
                         _this.codeLocal = _this.code();
                         _this.nameLocal = _this.name();

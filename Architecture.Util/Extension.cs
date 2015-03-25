@@ -27,7 +27,7 @@ namespace Architecture.Util
             }
         }
 
-        public static void StandardDispose<T>(ref T obj) where T: class, IDisposable
+        public static void StandardDispose<T>(ref T obj) where T : class, IDisposable
         {
             StandardDisposeWithAction(ref obj, null);
         }
@@ -67,7 +67,7 @@ namespace Architecture.Util
                 throw new ArgumentOutOfRangeException(errorMessage);
         }
 
-        public static void EnsureIsNotNull<T>(T obj, string argument) where T: class 
+        public static void EnsureIsNotNull<T>(T obj, string argument) where T : class
         {
             if (obj == null)
                 throw new ArgumentNullException(argument);
@@ -85,9 +85,9 @@ namespace Architecture.Util
         {
             EnsureIsNotNull(css, "css");
             if (css.ProviderName == SqlClient)
-                return new SqlConnectionStringBuilder(css.ConnectionString) {InitialCatalog = "master"}.ToString();
+                return new SqlConnectionStringBuilder(css.ConnectionString) { InitialCatalog = "master" }.ToString();
             throw new NotImplementedException();
-            
+
         }
         public static string GetDatabaseName(string key)
         {
@@ -107,7 +107,7 @@ namespace Architecture.Util
             var connection = factory.CreateConnection();
             Debug.Assert(connection != null, "_connection != null");
             connection.ConnectionString = switchToMaster ? GetConnectionStringWithMasterDb(connectionString) : connectionString.ConnectionString;
-            return connection;            
+            return connection;
         }
 
         public static string GetFullKey(Type type, string key)
@@ -115,8 +115,12 @@ namespace Architecture.Util
             return string.Format("{0}_{1}", type.FullName, key);
         }
 
-        public static string ToLikeString(this string input)
+        public static string ToLikeString(this string input, string escapeChar)
         {
+            input = input.Replace(escapeChar, string.Format("{0}{0}", escapeChar));
+            input = input.Replace("%", string.Format("{0}%", escapeChar));
+            input = input.Replace("_", string.Format("{0}_", escapeChar));
+            input = input.Replace("[", string.Format("{0}[", escapeChar));
             return string.Format("%{0}%", input);
         }
 
@@ -174,7 +178,7 @@ namespace Architecture.Util
                 handler(sender, func());
         }
 
-        public static void RaiseEvent<T>(EventHandler<T> handler, object sender, Func<T> func) where T: EventArgs
+        public static void RaiseEvent<T>(EventHandler<T> handler, object sender, Func<T> func) where T : EventArgs
         {
             EnsureIsNotNull(sender, "sender");
             EnsureIsNotNull(func, "func");

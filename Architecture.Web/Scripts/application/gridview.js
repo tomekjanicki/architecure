@@ -123,11 +123,11 @@ var Application;
                     var params;
                     if (_this.option.pagingEnabled) {
                         var skip = _this.currentPage() * _this.pageSize();
-                        params = Application.Common.Util.formatString("{4}={0}&{5}={1}&{6}={2}{3}", _this.pageSize().toString(), skip.toString(), _this.sort(), criteria, _this.option.pageSizeArgumentName, _this.option.skipArgumentName, _this.option.sortArgumentName);
+                        params = Application.Common.Util.formatString("{4}={0}&{5}={1}&{6}={2}{3}", _this.pageSize().toString(), skip.toString(), encodeURIComponent(_this.sort()), criteria, _this.option.pageSizeArgumentName, _this.option.skipArgumentName, _this.option.sortArgumentName);
                         _this.option.pagedQuery.fetch(params, _this.handlePagedData, _this.handleError);
                     }
                     else {
-                        params = Application.Common.Util.formatString("{2}={0}{1}", _this.sort(), criteria, _this.option.sortArgumentName);
+                        params = Application.Common.Util.formatString("{2}={0}{1}", encodeURIComponent(_this.sort()), criteria, _this.option.sortArgumentName);
                         _this.option.query.fetch(params, _this.handleData, _this.handleError);
                     }
                 };

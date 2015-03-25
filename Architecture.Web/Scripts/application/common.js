@@ -52,7 +52,7 @@ var Application;
                 return s;
             };
             Util.getLikeExpression = function (field, value) {
-                return Util.formatString("[{0}] like \"%{1}%\"", field, value);
+                return Util.formatString("[{0}] contains \"{1}\"", field, value);
             };
             Util.validateSettings = function (valid, notValidMessage) {
                 if (!valid) {

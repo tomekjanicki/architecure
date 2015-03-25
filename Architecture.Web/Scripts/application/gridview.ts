@@ -131,11 +131,12 @@ module Application.GridView {
             if (this.option.pagingEnabled) {
                 var skip = this.currentPage() * this.pageSize();
                 params = Common.Util.formatString("{4}={0}&{5}={1}&{6}={2}{3}",
-                    this.pageSize().toString(), skip.toString(), this.sort(), criteria, this.option.pageSizeArgumentName,
+                    this.pageSize().toString(), skip.toString(), encodeURIComponent(this.sort()),
+                    criteria, this.option.pageSizeArgumentName,
                     this.option.skipArgumentName, this.option.sortArgumentName);
                 this.option.pagedQuery.fetch(params, this.handlePagedData, this.handleError);
             } else {
-                params = Common.Util.formatString("{2}={0}{1}", this.sort(), criteria, this.option.sortArgumentName);
+                params = Common.Util.formatString("{2}={0}{1}", encodeURIComponent(this.sort()), criteria, this.option.sortArgumentName);
                 this.option.query.fetch(params, this.handleData, this.handleError);
             }
         }

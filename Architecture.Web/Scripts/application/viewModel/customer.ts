@@ -1,7 +1,7 @@
 ﻿module Application.ViewModel.Customer {
     "use strict";
 
-    export class FindCustomerAsync {
+    export class FindCustomer {
         // reSharper disable InconsistentNaming
         Id: number;
         Name: string;
@@ -9,7 +9,7 @@
         // reSharper restore InconsistentNaming
     }
 
-    export class InsertCustomerAsync {
+    export class InsertCustomer {
         // reSharper disable InconsistentNaming
         Name: string;
         Mail: string;
@@ -18,30 +18,30 @@
 
     export class ViewModel {
 
-        constructor(private insertCommand: Common.ICommand<InsertCustomerAsync, any, any>,
-            private findPagedQuery: Common.IPagedQuery<FindCustomerAsync, any>) {
+        constructor(private insertCommand: Common.ICommand<InsertCustomer, any, any>,
+            private findPagedQuery: Common.IPagedQuery<FindCustomer, any>) {
         }
 
         insertCustomer = (): void => {
-            var insertCustomerAsync = new InsertCustomerAsync();
-            insertCustomerAsync.Mail = Common.Util.formatString("{0}@example.com", Common.Guid.newGuid());
-            insertCustomerAsync.Name = "name";
-            this.insertCommand.execute(insertCustomerAsync,() => {
+            var insertCustomer = new InsertCustomer();
+            insertCustomer.Mail = Common.Util.formatString("{0}@example.com", Common.Guid.newGuid());
+            insertCustomer.Name = "name";
+            this.insertCommand.execute(insertCustomer,() => {
                 window.alert("OK");
             },(data: any) => {
                     window.alert(Common.Util.formatString("Error status: {0}", data.status));
                 }, Common.Method.Post);
         }
         fetchCustomers = (): void => {
-            this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=", (data: Common.Paged<FindCustomerAsync>) => {
+            this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=", (data: Common.Paged<FindCustomer>) => {
                 window.alert(data.Count);
             },() => {
                     window.alert("Error");
                 });
         }
 
-        static getInitializedViewModel(pagedQuery: Common.IPagedQuery<FindCustomerAsync, any>,
-            insertCommand: Common.ICommand<InsertCustomerAsync, any, any>): ViewModel {
+        static getInitializedViewModel(pagedQuery: Common.IPagedQuery<FindCustomer, any>,
+            insertCommand: Common.ICommand<InsertCustomer, any, any>): ViewModel {
             var vm = new ViewModel(insertCommand, pagedQuery);
             return vm;
         }
