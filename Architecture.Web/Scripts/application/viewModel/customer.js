@@ -30,7 +30,7 @@ var Application;
                             window.alert("OK");
                         }, function (data) {
                             window.alert(Application.Common.Util.formatString("Error status: {0}", data.status));
-                        }, Application.Common.Method.Post);
+                        }, 0 /* Post */);
                     };
                     this.fetchCustomers = function () {
                         _this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=", function (data) {

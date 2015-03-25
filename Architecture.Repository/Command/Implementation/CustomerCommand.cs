@@ -49,18 +49,8 @@ namespace Architecture.Repository.Command.Implementation
             var dp = new DynamicParameters();
             var criteria = new List<string>();
             if (!string.IsNullOrEmpty(name))
-            {
-                var like = GetLikeCaluse("NAME", "NAME", name);
-                SetValues(criteria, like, dp);
-            }
-            var where = criteria.Count == 0 ? string.Empty : string.Format(" WHERE {0} ", string.Join(" AND ", criteria));
-            return new Tuple<string, DynamicParameters>(where, dp);
-        }
-
-        private static void SetValues(ICollection<string> criteria, Tuple<string, Tuple<string, string>> like, DynamicParameters dp)
-        {
-            criteria.Add(like.Item1);
-            dp.Add(like.Item2.Item1, like.Item2.Item2);
+                SetValues(criteria, GetLikeCaluse("NAME", "NAME", name), dp);
+            return GetWhereStringWithParams(criteria, dp);
         }
 
         private string GetTranslatedSort(string modelColumn)

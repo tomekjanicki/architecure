@@ -127,5 +127,17 @@ namespace Architecture.Repository.Command.Implementation.Base
             return new Tuple<string, Tuple<string, string>>(string.Format(@"{0} LIKE @{1} ESCAPE '{2}'", fieldName, paramName, escapeChar), new Tuple<string, string>(paramName, value.ToLikeString(escapeChar)));
         }
 
+        protected void SetValues(ICollection<string> criteria, Tuple<string, Tuple<string, string>> like, DynamicParameters dp)
+        {
+            criteria.Add(like.Item1);
+            dp.Add(like.Item2.Item1, like.Item2.Item2);
+        }
+
+        protected Tuple<string, DynamicParameters> GetWhereStringWithParams(IReadOnlyCollection<string> criteria, DynamicParameters dp)
+        {
+            var where = criteria.Count == 0 ? string.Empty : string.Format(" WHERE {0} ", string.Join(" AND ", criteria));
+            return new Tuple<string, DynamicParameters>(@where, dp);
+        }
+
     }
 }
