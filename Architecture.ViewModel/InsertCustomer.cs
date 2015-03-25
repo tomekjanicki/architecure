@@ -9,6 +9,7 @@ namespace Architecture.ViewModel
         public string Name { get; set; }
         [Required]
         [MaxLength(100)]
+        [RegularExpression(Const.MailRegularExpression)]
         public string Mail { get; set; }
         
     }

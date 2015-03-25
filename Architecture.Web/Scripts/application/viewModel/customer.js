@@ -25,7 +25,7 @@ var Application;
                     this.insertCustomer = function () {
                         var insertCustomer = new InsertCustomer();
                         insertCustomer.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
-                        insertCustomer.Name = "name";
+                        insertCustomer.Name = "<script>window.alert('bla');</script>";
                         _this.insertCommand.execute(insertCustomer, function () {
                             window.alert("OK");
                         }, function (data) {
