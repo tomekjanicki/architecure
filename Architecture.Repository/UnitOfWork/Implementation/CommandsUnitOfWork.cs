@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.Common;
+using System.Threading;
 using System.Threading.Tasks;
 using Architecture.Repository.Command.Implementation;
 using Architecture.Repository.Command.Implementation.Base;
@@ -17,13 +18,14 @@ namespace Architecture.Repository.UnitOfWork.Implementation
         private DbTransaction _transaction;
         private bool _transactionStarted;
         private bool _disposed;
+        private CancellationTokenSource _disposeCts = new CancellationTokenSource();
 
         private readonly Lazy<IOrderCommand> _lazyOrderCommand;
         private readonly Lazy<IProductCommand> _lazyProductCommand;
         private readonly Lazy<IMailCommand> _lazyMailCommand;
         private readonly Lazy<ICustomerCommand> _lazyCustomerCommand;
-        private readonly Lazy<IUserCommand> _lazyUserCommand; 
-
+        private readonly Lazy<IUserCommand> _lazyUserCommand;
+        
         public CommandsUnitOfWork()
         {
             _connection = Handler.HandleFunction(() => Extension.GetConnection("Main", false));
@@ -46,7 +48,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
         {
             EnsureNotDisposed();
             if (_connection.State != ConnectionState.Open)
-                await _connection.OpenAsync().NoAwait();
+                await _connection.OpenAsync(_disposeCts.Token).NoAwait();
             return _connection;
         }
 
@@ -112,7 +114,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
             }
         }
 
-        public void SaveChanges()
+        public virtual void SaveChanges()
         {
             EnsureNotDisposed();
             Handler.HandleAction(() =>
@@ -121,6 +123,7 @@ namespace Architecture.Repository.UnitOfWork.Implementation
                 {
                     _transaction.Commit();
                     _transactionStarted = false;
+                    _transaction.Dispose();
                     _transaction = null;
                 }                
             });
@@ -136,17 +139,17 @@ namespace Architecture.Repository.UnitOfWork.Implementation
         {
             ProtectedDispose(ref _disposed, disposing, () =>
             {
-                if (_transaction != null)
+                StandardDisposeWithAction(ref _transaction, () =>
                 {
                     _transaction.Rollback();
-                    _transaction = null;
                     _transactionStarted = false;
-                }
+                });
+                StandardDisposeWithAction(ref _disposeCts, () => _disposeCts.Cancel());                
                 StandardDisposeWithAction(ref _connection, () =>
                 {
                     if (_connection.State == ConnectionState.Open)
                         _connection.Close();                    
-                });
+                });                
             });
             base.Dispose(disposing);
         }
@@ -155,7 +158,6 @@ namespace Architecture.Repository.UnitOfWork.Implementation
         {
             EnsureNotDisposed(_disposed);
         }
-
 
     }
 }

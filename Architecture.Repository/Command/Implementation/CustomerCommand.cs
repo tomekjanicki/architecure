@@ -49,7 +49,7 @@ namespace Architecture.Repository.Command.Implementation
             var dp = new DynamicParameters();
             var criteria = new List<string>();
             if (!string.IsNullOrEmpty(name))
-                SetValues(criteria, GetLikeCaluse("NAME", "NAME", name), dp);
+                SetValues(criteria, dp, GetLikeCaluse("NAME", "NAME", name));
             return GetWhereStringWithParams(criteria, dp);
         }
 

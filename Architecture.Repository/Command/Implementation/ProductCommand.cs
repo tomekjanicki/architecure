@@ -32,7 +32,6 @@ namespace Architecture.Repository.Command.Implementation
         public IEnumerable<FindProducts> FindProducts(string code, string name, string sort)
         {
             var whereFragment = GetWhereFragment(code, name, "ID < 1000");
-
             var sortFragment = GetSort(GetTranslatedSort(sort));
             var dataQuery = string.Format(SelectProductQuery, whereFragment.Item1, sortFragment);
             return QueryReturnsEnumerable<FindProducts>(dataQuery, whereFragment.Item2);
@@ -58,9 +57,9 @@ namespace Architecture.Repository.Command.Implementation
             var dp = new DynamicParameters();
             var criteria = new List<string>();
             if (!string.IsNullOrEmpty(code))
-                SetValues(criteria, GetLikeCaluse("CODE", "CODE", code), dp);
+                SetValues(criteria, dp, GetLikeCaluse("CODE", "CODE", code));
             if (!string.IsNullOrEmpty(name))
-                SetValues(criteria, GetLikeCaluse("NAME", "NAME", name), dp);
+                SetValues(criteria, dp, GetLikeCaluse("NAME", "NAME", name));
             if (!string.IsNullOrEmpty(optionalClause))
                 criteria.Add(optionalClause);
             return GetWhereStringWithParams(criteria, dp);

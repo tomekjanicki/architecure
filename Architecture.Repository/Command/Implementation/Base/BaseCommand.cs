@@ -127,7 +127,7 @@ namespace Architecture.Repository.Command.Implementation.Base
             return new Tuple<string, Tuple<string, string>>(string.Format(@"{0} LIKE @{1} ESCAPE '{2}'", fieldName, paramName, escapeChar), new Tuple<string, string>(paramName, value.ToLikeString(escapeChar)));
         }
 
-        protected void SetValues(ICollection<string> criteria, Tuple<string, Tuple<string, string>> like, DynamicParameters dp)
+        protected void SetValues(ICollection<string> criteria, DynamicParameters dp, Tuple<string, Tuple<string, string>> like)
         {
             criteria.Add(like.Item1);
             dp.Add(like.Item2.Item1, like.Item2.Item2);
