@@ -121,10 +121,11 @@ namespace Architecture.Repository.UnitOfWork.Implementation
             {
                 if (_transactionStarted)
                 {
-                    _transaction.Commit();
-                    _transactionStarted = false;
-                    _transaction.Dispose();
-                    _transaction = null;
+                    StandardDisposeWithAction(ref _transaction, () =>
+                    {
+                        _transaction.Commit();
+                        _transactionStarted = false;                        
+                    });
                 }                
             });
         }
