@@ -44,7 +44,10 @@ namespace Architecture.Util
         {
             unchecked
             {
-                return (PageSize*397) ^ Skip;
+                var hash = 17;
+                hash = hash * 23 + PageSize.GetHashCode();
+                hash = hash * 23 + Skip.GetHashCode();
+                return hash;
             }
         }
 

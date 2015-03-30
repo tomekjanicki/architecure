@@ -42,10 +42,11 @@ namespace Architecture.Util
         {
             unchecked
             {
-                var hashCode = PageSize;
-                hashCode = (hashCode*397) ^ Skip;
-                hashCode = (hashCode*397) ^ (Sort != null ? Sort.GetHashCode() : 0);
-                return hashCode;
+                var hash = 17;
+                hash = hash * 23 + PageSize.GetHashCode();
+                hash = hash * 23 + Skip.GetHashCode();
+                hash = hash * 23 + (Sort != null ? Sort.GetHashCode() : 0);
+                return hash;
             }
         }
 
