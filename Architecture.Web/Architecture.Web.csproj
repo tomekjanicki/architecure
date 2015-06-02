@@ -343,6 +343,7 @@
     <TypeScriptCompile Include="Scripts\typings\knockstrap\knockstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\linq\linq.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\linq\linq.jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\moment\moment-node.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\numeraljs\numeraljs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\qunit\qunit.d.ts" />
