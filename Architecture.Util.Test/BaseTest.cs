@@ -36,13 +36,13 @@ namespace Architecture.Util.Test
 
         protected static async Task<T> Delayed<T>(int miliseconds, T result)
         {
-            await Task.Delay(miliseconds);
+            await Task.Delay(miliseconds).NoAwait();
             return result;
         }
 
         protected static async Task<T> Delayed<T>(T result)
         {
-            return await Delayed(10, result);
+            return await Delayed(10, result).NoAwait();
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Architecture.Util;
 using Architecture.Util.Exception;
 
 namespace Architecture.Repository.Exception
@@ -27,12 +28,12 @@ namespace Architecture.Repository.Exception
 
         public static async Task HandleActionAsync(Func<Task> actionFunc)
         {
-            await HandlerHelper.HandleActionAsync(actionFunc);
+            await HandlerHelper.HandleActionAsync(actionFunc).NoAwait();
         }
 
         public static async Task<T> HandleFunctionAsync<T>(Func<Task<T>> function)
         {
-            return await HandlerHelper.HandleFunctionAsync(function);
+            return await HandlerHelper.HandleFunctionAsync(function).NoAwait();
         }
 
 

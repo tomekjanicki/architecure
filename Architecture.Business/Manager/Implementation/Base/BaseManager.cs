@@ -108,7 +108,7 @@ namespace Architecture.Business.Manager.Implementation.Base
 
         protected async Task<T> ReturnDataWhenFoundOrThrowNotFoundExceptionAsync<T>(Func<Task<T>> dataFunc, string key, Type exceptionType) where T : class
         {
-            var data = await dataFunc();
+            var data = await dataFunc().NoAwait();
             return ReturnDataWhenFoundOrThrowNotFoundExceptionCommon(key, exceptionType, data);
         }
 

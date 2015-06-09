@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Architecture.Business.Exception;
 using Architecture.Business.Facade.Interface;
+using Architecture.Util;
 using Microsoft.Ajax.Utilities;
 
 namespace Architecture.Web.Code.Controller
@@ -41,7 +42,7 @@ namespace Architecture.Web.Code.Controller
         {
             try
             {
-                var res = await func();
+                var res = await func().NoAwait();
                 return Ok(res);
             }
             catch (ObjectNotFoundException)
@@ -71,7 +72,7 @@ namespace Architecture.Web.Code.Controller
                 return BadRequest(ModelState);
             try
             {
-                var res = await func();
+                var res = await func().NoAwait();
                 return HandlePostCommon(res, t);
             }
             catch (ObjectNotFoundException)
@@ -106,7 +107,7 @@ namespace Architecture.Web.Code.Controller
                 return BadRequest(ModelState);
             try
             {
-                var res = await function();
+                var res = await function().NoAwait();
                 return HandlePutOrDeleteCommon(res);
             }
             catch (ObjectNotFoundException)
