@@ -123,9 +123,46 @@ namespace Architecture.Repository.Command.Implementation.Base
 
         protected Tuple<string, Tuple<string, string>> GetLikeCaluse(string fieldName, string paramName, string value)
         {
-            const string escapeChar = @"\";
-            return new Tuple<string, Tuple<string, string>>(string.Format(@"{0} LIKE @{1} ESCAPE '{2}'", fieldName, paramName, escapeChar), new Tuple<string, string>(paramName, value.ToLikeString(escapeChar)));
+            return GetLikeCaluseInternal(fieldName, paramName, value, LikeType.Full);
         }
+
+        protected Tuple<string, Tuple<string, string>> GetLikeLeftCaluse(string fieldName, string paramName, string value)
+        {
+            return GetLikeCaluseInternal(fieldName, paramName, value, LikeType.Left);
+        }
+
+        protected Tuple<string, Tuple<string, string>> GetLikeRightCaluse(string fieldName, string paramName, string value)
+        {
+            return GetLikeCaluseInternal(fieldName, paramName, value, LikeType.Right);
+        }
+
+        private enum LikeType
+        {
+            Full,
+            Left,
+            Right
+        }
+
+        private static Tuple<string, Tuple<string, string>> GetLikeCaluseInternal(string fieldName, string paramName, string value, LikeType likeType)
+        {
+            const string escapeChar = @"\";
+            return new Tuple<string, Tuple<string, string>>(string.Format(@"{0} LIKE @{1} ESCAPE '{2}'", fieldName, paramName, escapeChar), new Tuple<string, string>(paramName, ToLikeString(value, likeType, escapeChar)));
+        }
+
+        private static string ToLikeString(string input, LikeType likeType, string escapeChar)
+        {
+            return 
+                likeType == LikeType.Right
+                ? 
+                input.ToLikeRightString(escapeChar)
+                : 
+                    likeType == LikeType.Left 
+                    ? 
+                    input.ToLikeLeftString(escapeChar) 
+                    : 
+                    input.ToLikeString(escapeChar);
+        }
+
 
         protected void SetValues(ICollection<string> criteria, DynamicParameters dp, Tuple<string, Tuple<string, string>> like)
         {

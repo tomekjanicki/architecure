@@ -117,12 +117,28 @@ namespace Architecture.Util
 
         public static string ToLikeString(this string input, string escapeChar)
         {
+            return input == null ? null : string.Format("%{0}%", input.ToLikeStringInternal(escapeChar));
+        }
+
+        public static string ToLikeLeftString(this string input, string escapeChar)
+        {
+            return input == null ? null : string.Format("%{0}", input.ToLikeStringInternal(escapeChar));
+        }
+
+        public static string ToLikeRightString(this string input, string escapeChar)
+        {
+            return input == null ? null : string.Format("{0}%", input.ToLikeStringInternal(escapeChar));
+        }
+
+        private static string ToLikeStringInternal(this string input, string escapeChar)
+        {
             input = input.Replace(escapeChar, string.Format("{0}{0}", escapeChar));
             input = input.Replace("%", string.Format("{0}%", escapeChar));
             input = input.Replace("_", string.Format("{0}_", escapeChar));
             input = input.Replace("[", string.Format("{0}[", escapeChar));
-            return string.Format("%{0}%", input);
+            return input;
         }
+
 
         public static IBindingNamedWithOrOnSyntax<T> InCallContextScope<T>(this IBindingInSyntax<T> syntax)
         {
