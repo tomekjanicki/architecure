@@ -24,7 +24,7 @@
 
         public const string DefaultApiNameString = "DefaultApi";
         public const string DefaultApiString = @"api";
-        public const string DefaultApiRouteTemplateString = DefaultApiString + @"/{controller}/{id}";
+        public const string DefaultApiRouteTemplateString = DefaultApiString + @"/{controller}/{action}/{id}";
 
         public const string DefaultRouteTemplateString = @"{controller}/{action}/{id}";
         public const string DefaultNameString = "Default";

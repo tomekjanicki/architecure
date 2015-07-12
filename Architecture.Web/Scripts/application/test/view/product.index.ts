@@ -8,10 +8,10 @@ module Application.Test.View.Product.Index {
     "use strict";
 
     function getJson(count: number): any {
-        var jsonString = "{ \"Count\": " + count + ", \"Items\": [ " +
-            "{ \"Id\": 1, \"Code\": \"C1\", \"Name\": \"N1\", \"Price\": 12.22 }, " +
-            "{ \"Id\": 1, \"Code\": \"C1\", \"Name\": \"N1\", \"Price\": 12.22 }, " +
-            "{ \"Id\": 1, \"Code\": \"C1\", \"Name\": \"N1\", \"Price\": 12.22 } " +
+        var jsonString = "{ \"count\": " + count + ", \"items\": [ " +
+            "{ \"id\": 1, \"code\": \"C1\", \"name\": \"N1\", \"price\": 12.22 }, " +
+            "{ \"id\": 1, \"code\": \"C1\", \"name\": \"N1\", \"price\": 12.22 }, " +
+            "{ \"id\": 1, \"code\": \"C1\", \"name\": \"N1\", \"price\": 12.22 } " +
             "] }";
         return $.parseJSON(jsonString);
     }

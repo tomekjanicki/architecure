@@ -7,8 +7,8 @@ var Application;
             var Index;
             (function (Index) {
                 "use strict";
-                var pagedQuery = new Application.Common.PagedQuery("/api/customer");
-                var insertCommand = new Application.Common.Command("/api/customer");
+                var pagedQuery = new Application.Common.PagedQuery("/api/customer/findcustomers");
+                var insertCommand = new Application.Common.Command("/api/customer/postcustomer");
                 var vm = Application.ViewModel.Customer.ViewModel.getInitializedViewModel(pagedQuery, insertCommand);
                 ko.applyBindings(vm);
             })(Index = Customer.Index || (Customer.Index = {}));

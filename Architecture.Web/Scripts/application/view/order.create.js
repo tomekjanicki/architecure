@@ -8,7 +8,7 @@ var Application;
             var Create;
             (function (Create) {
                 "use strict";
-                var command = new Application.Common.Command("/api/order");
+                var command = new Application.Common.Command("/api/order/postorder");
                 var vm = Application.ViewModel.Order.CreateViewModel.getInitializedViewModel(command);
                 ko.applyBindings(vm);
             })(Create = Order.Create || (Order.Create = {}));

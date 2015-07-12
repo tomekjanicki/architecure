@@ -24,8 +24,8 @@ var Application;
                     this.findPagedQuery = findPagedQuery;
                     this.insertCustomer = function () {
                         var insertCustomer = new InsertCustomer();
-                        insertCustomer.Mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
-                        insertCustomer.Name = "<script>window.alert('bla');</script>";
+                        insertCustomer.mail = Application.Common.Util.formatString("{0}@example.com", Application.Common.Guid.newGuid());
+                        insertCustomer.name = "<script>window.alert('bla');</script>";
                         _this.insertCommand.execute(insertCustomer, function () {
                             window.alert("OK");
                         }, function (data) {
@@ -34,7 +34,7 @@ var Application;
                     };
                     this.fetchCustomers = function () {
                         _this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=", function (data) {
-                            window.alert(data.Count);
+                            window.alert(data.count);
                         }, function () {
                             window.alert("Error");
                         });

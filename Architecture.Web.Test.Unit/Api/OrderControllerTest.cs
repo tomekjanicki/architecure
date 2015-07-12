@@ -17,7 +17,7 @@ namespace Architecture.Web.Test.Unit.Api
         [Test]
         public void PostOrder_ValidArguments_ReturnsCreatedContentResult()
         {
-            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Post, "order"))
+            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Post, "order", "postorder"))
             {
                 const int id = 1;
                 var controller = configurator.GetConfigured();
@@ -35,7 +35,7 @@ namespace Architecture.Web.Test.Unit.Api
         [Test]
         public void PostOrder_InvalidArguments_ReturnsInvalidModelStateResult()
         {
-            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Post, "order"))
+            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Post, "order", "postorder"))
             {
                 var controller = configurator.GetConfigured();
                 var insertOrder = new InsertOrder();
@@ -50,7 +50,7 @@ namespace Architecture.Web.Test.Unit.Api
         [Test]
         public void PutOrder_ValidArguments_ReturnsOkResult()
         {
-            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Put, "order"))
+            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Put, "order", "putorder"))
             {
                 var controller = configurator.GetConfigured();
                 var updateOrder = new UpdateOrder();
@@ -66,7 +66,7 @@ namespace Architecture.Web.Test.Unit.Api
         [Test]
         public void PutOrder_InvalidArguments_ReturnsNotFoundResult()
         {
-            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Put, "order"))
+            using (var configurator = new ControllerConfigurator<OrderController>(HttpMethod.Put, "order", "putorder"))
             {
                 var controller = configurator.GetConfigured();
                 var updateOrder = new UpdateOrder();

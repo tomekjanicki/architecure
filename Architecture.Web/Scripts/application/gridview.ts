@@ -222,9 +222,9 @@ module Application.GridView {
         }
 
         private handlePagedData = (data: Common.Paged<TModel>): void => {
-            this.itemCount(data.Count);
+            this.itemCount(data.count);
             this.pageCount(this.calculateTotalPages());
-            this.items(data.Items);
+            this.items(data.items);
             this.setButtons();
         }
 

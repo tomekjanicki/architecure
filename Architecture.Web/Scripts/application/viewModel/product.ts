@@ -10,23 +10,19 @@ module Application.ViewModel.Product {
     }
 
     export class Index {
-        // reSharper disable InconsistentNaming
-        Id: number;
-        Code: string;
-        Name: string;
-        Price: number;
-        Date: Date;
-        Version: string;
-        CanDelete: boolean;
-        // reSharper restore InconsistentNaming
+        id: number;
+        code: string;
+        name: string;
+        price: number;
+        date: Date;
+        version: string;
+        canDelete: boolean;
 
     }
 
     export class Delete {
-        // reSharper disable InconsistentNaming
-        Id: number;
-        Version: number[];
-        // reSharper restore InconsistentNaming
+        id: number;
+        version: number[];
     }
 
     export class IndexViewModel extends GridView.BaseGridView<Index> {
@@ -85,8 +81,8 @@ module Application.ViewModel.Product {
 
         deleteOrder = (): void => {
             var p = new Delete();
-            p.Id = this.confirmingItem.Id;
-            p.Version = Common.Util.unpackFromString(this.confirmingItem.Version);
+            p.id = this.confirmingItem.id;
+            p.version = Common.Util.unpackFromString(this.confirmingItem.version);
             var option = this.getOption();
             option.deleteCommand.execute(p, this.successDelete, option.errorHandlerCallback, Common.Method.Delete);
         }
@@ -102,13 +98,13 @@ module Application.ViewModel.Product {
             o.query = query;
             o.deleteCommand = deleteCommand;
             o.filterPanelCriteriaTemplateName = "criteriaTemplate";
-            o.columns.push(new GridView.Column("Id", "Id", "Id", "", "", ""));
-            o.columns.push(new GridView.Column("Code", "Code", "Code", "", "", ""));
-            o.columns.push(new GridView.Column("Name", "Name", "Name", "", "", ""));
-            o.columns.push(new GridView.Column("Price", "Price", "Price", "$0,0.00", "", ""));
-            o.columns.push(new GridView.Column("Date", "Date", "", "YYYY-MM-DD", "", ""));
+            o.columns.push(new GridView.Column("Id", "id", "id", "", "", ""));
+            o.columns.push(new GridView.Column("Code", "code", "code", "", "", ""));
+            o.columns.push(new GridView.Column("Name", "name", "name", "", "", ""));
+            o.columns.push(new GridView.Column("Price", "price", "price", "$0,0.00", "", ""));
+            o.columns.push(new GridView.Column("Date", "date", "", "YYYY-MM-DD", "", ""));
             o.columns.push(new GridView.Column("", "", "", "",
-                "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.Id }\" class=\"btn btn-default\" " +
+                "<a data-bind=\"attr: { href: '\\\\product\\\\edit\\\\' + item.id }\" class=\"btn btn-default\" " +
                 "title=\"Edit product\" data-blockui=\"\">Edit</a>", ""));
             o.columns.push(new GridView.Column("", "", "", "", "", "deleteProduct"));
             o.errorHandlerCallback = (data: any) => window.alert(data.status);

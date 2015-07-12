@@ -28,7 +28,7 @@
 </script>
 
 <script id="deleteProduct" type="text/html">
-    <!-- ko if: CanDelete -->
+    <!-- ko if: canDelete -->
     <button data-bind="click: $parents[2].showConfirmation" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete product">Delete</button>
     <!-- /ko -->
 </script>
@@ -37,7 +37,7 @@
 <script type="text/html" id="modalTemplate">
     <!-- ko if:  $root.confirmationVisible -->
     Are you sure to delete product with Id =
-    <span data-bind="text: $root.confirmingItem.Id"></span>?
+    <span data-bind="text: $root.confirmingItem.id"></span>?
     <!-- /ko -->
 </script>
 

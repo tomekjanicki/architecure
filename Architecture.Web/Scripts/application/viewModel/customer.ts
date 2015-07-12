@@ -2,18 +2,14 @@
     "use strict";
 
     export class FindCustomer {
-        // reSharper disable InconsistentNaming
-        Id: number;
-        Name: string;
-        Mail: string;
-        // reSharper restore InconsistentNaming
+        id: number;
+        name: string;
+        mail: string;
     }
 
     export class InsertCustomer {
-        // reSharper disable InconsistentNaming
-        Name: string;
-        Mail: string;
-        // reSharper restore InconsistentNaming 
+        name: string;
+        mail: string;
     }
 
     export class ViewModel {
@@ -24,8 +20,8 @@
 
         insertCustomer = (): void => {
             var insertCustomer = new InsertCustomer();
-            insertCustomer.Mail = Common.Util.formatString("{0}@example.com", Common.Guid.newGuid());
-            insertCustomer.Name = "<script>window.alert('bla');</script>";
+            insertCustomer.mail = Common.Util.formatString("{0}@example.com", Common.Guid.newGuid());
+            insertCustomer.name = "<script>window.alert('bla');</script>";
             this.insertCommand.execute(insertCustomer,() => {
                 window.alert("OK");
             },(data: any) => {
@@ -34,7 +30,7 @@
         }
         fetchCustomers = (): void => {
             this.findPagedQuery.fetch("pageSize=10&skip=0&sort=&name=", (data: Common.Paged<FindCustomer>) => {
-                window.alert(data.Count);
+                window.alert(data.count);
             },() => {
                     window.alert("Error");
                 });

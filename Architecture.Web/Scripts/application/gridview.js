@@ -213,9 +213,9 @@ var Application;
                     }
                 };
                 this.handlePagedData = function (data) {
-                    _this.itemCount(data.Count);
+                    _this.itemCount(data.count);
                     _this.pageCount(_this.calculateTotalPages());
-                    _this.items(data.Items);
+                    _this.items(data.items);
                     _this.setButtons();
                 };
                 this.handleError = function (data) { return _this.option.errorHandlerCallback(data); };

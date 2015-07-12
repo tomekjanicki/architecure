@@ -8,22 +8,20 @@ var Application;
             "use strict";
             var CreateOrder = (function () {
                 function CreateOrder() {
-                    // reSharper disable InconsistentNaming
-                    this.CustomerId = ko.observable(null);
-                    this.CustomerName = ko.observable("bla");
-                    this.Date = ko.observable(null);
-                    this.OrderDetails = ko.observableArray([]);
+                    this.customerId = ko.observable(null);
+                    this.customerName = ko.observable("bla");
+                    this.date = ko.observable(null);
+                    this.orderDetails = ko.observableArray([]);
                 }
                 return CreateOrder;
             })();
             Order.CreateOrder = CreateOrder;
             var CreateOrderDetail = (function () {
                 function CreateOrderDetail() {
-                    // reSharper disable InconsistentNaming
-                    this.ProductId = ko.observable(null);
-                    this.ProductCode = ko.observable("");
-                    this.ProductName = ko.observable("");
-                    this.Quantity = ko.observable(null);
+                    this.productId = ko.observable(null);
+                    this.productCode = ko.observable("");
+                    this.productName = ko.observable("");
+                    this.quantity = ko.observable(null);
                 }
                 return CreateOrderDetail;
             })();
@@ -44,15 +42,15 @@ var Application;
                     }, 0 /* Post */);
                 };
                 CreateViewModel.prototype.initCreateOrder = function () {
-                    this.createOrder().CustomerId(5);
-                    this.createOrder().CustomerName("CustomerName");
-                    this.createOrder().Date(new Date(2014, 1, 1));
+                    this.createOrder().customerId(2);
+                    this.createOrder().customerName("CustomerName");
+                    this.createOrder().date(new Date(2014, 1, 1));
                     var od1 = new CreateOrderDetail();
-                    od1.ProductId(7);
-                    od1.ProductCode("ProductCode");
-                    od1.ProductName("ProductName");
-                    od1.Quantity(3);
-                    this.createOrder().OrderDetails([od1]);
+                    od1.productId(1003);
+                    od1.productCode("ProductCode");
+                    od1.productName("ProductName");
+                    od1.quantity(3);
+                    this.createOrder().orderDetails([od1]);
                 };
                 CreateViewModel.getInitializedViewModel = function (command) {
                     return new CreateViewModel(command);

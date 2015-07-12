@@ -79,10 +79,8 @@ module Application.Common {
     }
 
     export class Paged<T> {
-        // reSharper disable InconsistentNaming
-        Items: T[];
-        Count: number;
-        // reSharper enable InconsistentNaming
+        items: T[];
+        count: number;
     }
 
     export interface IQuery<TDone, TFail> {
