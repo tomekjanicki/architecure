@@ -33,7 +33,7 @@ namespace Architecture.Web.Controllers.Api
         /// <param name="sort">Sort expression in the format "field | [asc|desc]". Avaliable fields: id, code, name, price, date. When null or empty default sort is applied.</param>
         /// <returns></returns>
         [HttpGet]
-        public Paged<FindProducts> FindProductsPaged(string code, string name, int pageSize, int skip, string sort)
+        public Paged<FindProducts> FindProductsPaged(int pageSize, int skip, string code = null, string name = null, string sort = null)
         {
             return BusinessLogicFacade.ProductManager.FindProducts(code, name, new PageAndSortCriteria(pageSize, skip, sort));
         }
@@ -46,7 +46,7 @@ namespace Architecture.Web.Controllers.Api
         /// <param name="sort"></param>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<FindProducts> FindProducts(string code, string name, string sort)
+        public IEnumerable<FindProducts> FindProducts(string code = null, string name = null, string sort = null)
         {
             return BusinessLogicFacade.ProductManager.FindProducts(code, name, sort);
         }

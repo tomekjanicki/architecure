@@ -15,7 +15,7 @@ namespace Architecture.Web.Controllers.Api
         }
 
         [HttpGet]
-        public Paged<FindCustomers> FindCustomers(string name, int pageSize, int skip, string sort)
+        public Paged<FindCustomers> FindCustomers(int pageSize, int skip, string name = null, string sort = null)
         {
             return BusinessLogicFacade.CustomerManager.FindCustomers(name, new PageAndSortCriteria(pageSize, skip, sort));
         }

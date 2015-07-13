@@ -16,7 +16,7 @@ namespace Architecture.Web.Controllers.Api
         }
 
         [HttpGet]
-        public Paged<FindOrders> FindOrders(string customerName, DateTime? from, DateTime? to, int pageSize, int skip, string sort)
+        public Paged<FindOrders> FindOrders(int pageSize, int skip, string customerName = null, DateTime? from = null, DateTime? to = null, string sort = null)
         {           
             return BusinessLogicFacade.OrderManager.FindOrders(customerName, from, to, new PageAndSortCriteria(pageSize, skip, sort));
         }
@@ -26,7 +26,7 @@ namespace Architecture.Web.Controllers.Api
             return HandleGet(() => BusinessLogicFacade.OrderManager.GetOrder(orderId));
         }
 
-        public IHttpActionResult GetOrderDetail(int orderId, string productCode, string productName, int pageSize, int skip, string sort)
+        public IHttpActionResult GetOrderDetail(int orderId, int pageSize, int skip, string productCode = null, string productName = null, string sort = null)
         {
             return HandleGet(() => BusinessLogicFacade.OrderManager.GetOrderDetail(orderId, productCode, productName, new PageAndSortCriteria(pageSize, skip, sort)));
         }
